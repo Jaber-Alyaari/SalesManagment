@@ -1,0 +1,156 @@
+﻿@{
+    Layout = "_CashierLayout";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3><i class="fa fa-shopping-cart"></i> انشاء فاتورة</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                    <!-- <div class="x_title">
+                       <h2>Order Information</h2>
+                       <div class="clearfix"></div>
+                     </div>-->
+                    <div class="x_content" style="font-size: medium;">
+                        <!-- <div class="col-md-3 col-sm-3  profile_left">
+                          <ul class="list-unstyled user_data">
+                            <li><i class="fa fa-map-marker"></i> San Francisco, California, USA
+                            </li>
+
+                            <li>
+                              <i class="fa fa-phone"></i> +6399812765251
+                            </li>
+                            <li>
+                              <i class="fa fa-envelope"></i> cashier@gmail.com
+                            </li>
+                            <li>
+                              <i class="fa fa-globe"></i> pharmacare.com.ph
+                            </li>
+                          </ul>
+                        </div>-->
+                        <div class="col-md-9 col-sm-9  profile_left" style="float: right;">
+                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                        نوع الفاتورة : <span class="required"></span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 ">
+                                        <select class="form-control">
+                                            <option>شراء </option>
+                                            <option> بيع </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                        نوع الدفع : <span class="required"></span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 ">
+                                        <select class="form-control">
+                                            <option> نقد </option>
+                                            <option> اجل </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12 col-sm-12 ">
+                            <table class="table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>المنتج</th>
+                                        <th>الكميه</th>
+                                        <th>الوحدة</th>
+                                        <th>السعر <span class="required">($)</span></th>
+                                        <th>الاجمالي</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <select class="form-control">
+                                                <option>فول</option>
+                                                <option> بزاليا</option>
+                                                <option>فاصوليا ناشف </option>
+                                                <option>فاصوليا رطب </option>
+                                                <option> روتي</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" required="required" class="form-control" placeholder=" ادخل الكميه"></td>
+                                        <td><input type="text" required="required" class="form-control" placeholder="النفر"></td>
+                                        <td><input type="text" required="required" class="form-control" placeholder="سعر النفر"></td>
+                                        <td><input type="text" required="required" class="form-control" placeholder=" الاجمالي" readonly></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <a href="#" class="btn btn-sm btn-success text-white"><i class="fa fa-plus"></i>  حفـــظ</a>
+                            </ul>
+                            <ul class="nav navbar-left panel_toolbox">
+                                <a href="#" class="btn btn-sm btn-danger text-white"><i class="fa fa-trash"></i> حـــذف</a>
+                            </ul>
+                            <ul class="nav navbar-left panel_toolbox">
+                                <button type="submit" class="btn btn-success">حفـــظ وطباعة </button>
+                            </ul><br><br><br>
+                        </div>
+
+
+                        <!-- <div class="item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align" >Sub Total <span class="required">($)</span>
+                          </label>
+                          <div class="col-md-8 col-sm-8 ">
+                            <input type="text" required="required" class="form-control"  readonly placeholder="0.00">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align" >Discount <span class="required">($)</span>
+                          </label>
+                          <div class="col-md-8 col-sm-8 ">
+                            <input type="text" required="required" class="form-control" placeholder="0.00" readonly style="border:none">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align" >Tax <span class="required">($)</span>
+                          </label>
+                          <div class="col-md-8 col-sm-8 ">
+                            <input type="text" required="required" class="form-control" placeholder="0.00">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align" >Tax Amount <span class="required">($)</span>
+                          </label>
+                          <div class="col-md-8 col-sm-8 ">
+                            <input type="text" required="required" class="form-control" placeholder="0.00" readonly style="border:none">
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="col-form-label col-md-3 col-sm-3 label-align" >Grand Total <span class="required">($)</span>
+                          </label>
+                          <div class="col-md-8 col-sm-8 ">
+                            <input type="text" required="required" class="form-control" placeholder="0.00" readonly style="border:none">
+                          </div>
+                        </div> -->
+                        <!-- <div class="form-group">
+                              <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="submit" class="btn btn-success">Submit Order</button>
+                              </div>
+                            </div>
+                        </form> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
