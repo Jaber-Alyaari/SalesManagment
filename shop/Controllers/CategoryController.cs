@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using shop.Data;
 using shop.Models;
 using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
 

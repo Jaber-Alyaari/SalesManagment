@@ -24,6 +24,7 @@ namespace shop.Models
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
         public virtual DbSet<Journal> Journals { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<View1> View1s { get; set; } = null!;
 
@@ -50,6 +51,11 @@ namespace shop.Models
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK_Accounts_Group");
 
+                entity.HasOne(d => d.Supplier)
+                    .WithMany(p => p.Accounts)
+                    .HasForeignKey(d => d.SupplierId)
+                    .HasConstraintName("FK_Accounts_Suppliers");
+
                 entity.HasOne(d => d.UserAddsNavigation)
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.UserAdds)
@@ -62,6 +68,11 @@ namespace shop.Models
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Bills_Customers");
+
+                entity.HasOne(d => d.Supplier)
+                    .WithMany(p => p.Invoices)
+                    .HasForeignKey(d => d.SupplierId)
+                    .HasConstraintName("FK_Invoice_Suppliers");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Invoices)

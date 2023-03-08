@@ -26,10 +26,15 @@ namespace shop.Models
         public string? Remarks { get; set; }
         [Column("User_ID")]
         public long? UserId { get; set; }
+        [Column("SupplierID")]
+        public long? SupplierId { get; set; }
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Invoices")]
         public virtual Customer? Customer { get; set; }
+        [ForeignKey("SupplierId")]
+        [InverseProperty("Invoices")]
+        public virtual Supplier? Supplier { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("Invoices")]
         public virtual User? User { get; set; }

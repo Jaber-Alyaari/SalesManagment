@@ -1951,9 +1951,12 @@ table.jambo_table tbody tr.selected td{
     font-size:14px;
     background-color:white
 }
-.dataTables_info{
-    width:60%;
-    float:left
+.table {
+    text-align: right;
+}
+.dataTables_info {
+    width: 60%;
+    float: left
 }
 .dataTables_paginate{
     float:right;

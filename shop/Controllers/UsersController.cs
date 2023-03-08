@@ -53,7 +53,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -115,28 +115,28 @@ namespace shop.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null || _context.Users == null)
-            {
-                return NotFound();
-            }
+        //// GET: Users/Delete/5
+        //public async Task<IActionResult> Delete(long? id)
+        //{
+        //    if (id == null || _context.Users == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //    var user = await _context.Users
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(user);
-        }
+        //    return View(user);
+        //}
 
         // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delate(long id)
         {
             if (_context.Users == null)
             {

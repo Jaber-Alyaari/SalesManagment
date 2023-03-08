@@ -22,6 +22,8 @@ namespace shop.Models
         public long? GroupId { get; set; }
         [Column("CustomerID")]
         public long? CustomerId { get; set; }
+        [Column("SupplierID")]
+        public long? SupplierId { get; set; }
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Accounts")]
@@ -29,6 +31,9 @@ namespace shop.Models
         [ForeignKey("GroupId")]
         [InverseProperty("Accounts")]
         public virtual AccountGroup? Group { get; set; }
+        [ForeignKey("SupplierId")]
+        [InverseProperty("Accounts")]
+        public virtual Supplier? Supplier { get; set; }
         [ForeignKey("UserAdds")]
         [InverseProperty("Accounts")]
         public virtual User? UserAddsNavigation { get; set; }

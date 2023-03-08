@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
 {
-    public partial class User
+    public partial class Supplier
     {
-        public User()
+        public Supplier()
         {
             Accounts = new HashSet<Account>();
             Invoices = new HashSet<Invoice>();
@@ -23,16 +23,13 @@ namespace shop.Models
         public string? Phone { get; set; }
         [StringLength(50)]
         public string? Email { get; set; }
-        public bool? StateAcount { get; set; }
         [StringLength(50)]
-        public string? UserName { get; set; }
-        [StringLength(50)]
-        public string? Password { get; set; }
-        public bool? IsAdmin { get; set; }
+        public string? Address { get; set; }
+        public bool? State { get; set; }
 
-        [InverseProperty("UserAddsNavigation")]
+        [InverseProperty("Supplier")]
         public virtual ICollection<Account> Accounts { get; set; }
-        [InverseProperty("User")]
+        [InverseProperty("Supplier")]
         public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

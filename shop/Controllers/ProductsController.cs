@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using shop.Data;
 using shop.Models;
 using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
 
@@ -49,7 +48,7 @@ namespace shop.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id");
+            //ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
@@ -58,7 +57,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Unit,CatId,SupplierID")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +65,7 @@ namespace shop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.Id);
+            //ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.Id);
             return View(product);
         }
 

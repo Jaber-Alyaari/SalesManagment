@@ -17,8 +17,12 @@ namespace shop.Models
         [Column("ID")]
         public long Id { get; set; }
         [StringLength(50)]
-        public string? Name { get; set; }
-        public int? Price { get; set; }
+        [Required(ErrorMessage ="يجب ادخال اسم المنتج")]
+        [DataType(DataType.Currency,ErrorMessage ="يجب ان يكون الاسم احرف فقط")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "يجب ادخال سعر المنتج")]
+
+        public int Price { get; set; }
         public int? Quantity { get; set; }
         [StringLength(50)]
         public string? Unit { get; set; }

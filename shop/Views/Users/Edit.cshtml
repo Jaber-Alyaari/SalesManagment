@@ -5,8 +5,7 @@
 
     ViewData["Title"] = "Edit";
 }
-
-
+ 
 
 <div class="right_col" role="main">
     <div class="">
@@ -33,9 +32,9 @@
                                     <img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" style="border-radius:10px">
                                 </div>
                             </div>
-                            <h3>Anne Smith</h3>
+                            <h3>@Html.DisplayFor(Model=>Model.Name)</h3>
 
-                            <ul class="list-unstyled user_data">
+                       @*     <ul class="list-unstyled user_data">
                                 <li>
                                     <i class="fa fa-map-marker user-profile-icon"></i> San Francisco, California, USA
                                 </li>
@@ -48,10 +47,11 @@
                                     <i class="fa fa-external-link user-profile-icon"></i>
                                     <a href="#" target="_blank">www.facebook.com</a>
                                 </li>
-                            </ul>
+                            </ul>*@
                         </div>
                         <div class="col-md-9 col-sm-9  profile_left">
-                            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                            <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                <input type="hidden" asp-for="Id" />
 
                                 <div class="item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align"><strong><i class="fa fa-user"></i> المعلومات الشخصية  </strong></label>
@@ -60,23 +60,23 @@
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">
                                         الاسم الكامل <span class="required">*</span>
                                     </label>
-                                    <div class="col-md-4 col-sm-4 ">
-                                        <input type="text" required="required" class="form-control" placeholder="الأسم الأول ">
+                                    <div class="col-md-8 col-sm-8 ">
+                                        <input asp-for="Name" type="text" required="required" class="form-control" placeholder="الأســــــم  ">
                                     </div>
-                                    <div class="col-md-4 col-sm-4 ">
+                                    @*<div class="col-md-4 col-sm-4 ">
                                         <input type="text" required="required" class="form-control" placeholder="الأسم الثاني ">
-                                    </div>
+                                    </div>*@
                                 </div>
                                 <div class="item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">الأيميل</label>
                                     <div class="col-md-8 col-sm-8 ">
-                                        <input class="form-control" type="text" placeholder="support@gmail.com">
+                                        <input asp-for="Email" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">الهاتف</label>
                                     <div class="col-md-8 col-sm-8 ">
-                                        <input class="form-control" type="text" placeholder="09486087489">
+                                        <input asp-for="Phone" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="item form-group">
@@ -86,20 +86,48 @@
                                 <div class="item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">اسم المستخدم</label>
                                     <div class="col-md-8 col-sm-8 ">
-                                        <input class="form-control" type="text" placeholder="اسم المستخدم">
+                                        <input asp-for="UserName" class="form-control" type="text" placeholder="اسم المستخدم">
                                     </div>
                                 </div>
                                 <div class="item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3 label-align">كلمة السر</label>
                                     <div class="col-md-8 col-sm-8 ">
-                                        <input class="form-control" type="text" placeholder="************">
+                                        <input asp-for="Password" class="form-control" type="text" placeholder="************">
                                     </div>
                                 </div>
+
+                                @*if Admin*@
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"><strong><i class="fa fa-key"></i> حالــــة الحســــــــاب</strong></label>
+                                </div>
+                               
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align">تنشيط الحساب </label>
+
+                                    <div class="col-md-8 col-sm-8 offset-md-2">
+                                        <select asp-for="StateAcount" class="form-control has-feedback-left">
+                                            <option >@Boolean.FalseString</option>
+                                            <option >@Boolean.TrueString</option>
+                                        </select>
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div> <div class="item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3 label-align"> تشغيل كمسؤل</label>
+
+                                    <div class="col-md-8 col-sm-8 offset-md-2">
+                                        <select asp-for="IsAdmin"  class="form-control has-feedback-left" >
+                                            <option>@Boolean.TrueString</option>
+                                            <option>@Boolean.FalseString</option>
+                                        </select>
+                                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+
                                 <div class="ln_solid"></div>
                                 <div class="item form-group">
                                     <div class="col-md-6 col-sm-6 offset-md-3">
-                                        <button type="submit" class="btn btn-success">حفــــــظ</button>
-                                        <button class="btn btn-primary" type="button">الغـــــاء</button>
+                                        <button type="submit" class="btn btn-success" style="float:right">حفــــــظ</button>
+                                        <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
                                     </div>
                                 </div>
 
@@ -159,5 +187,6 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+    *@
