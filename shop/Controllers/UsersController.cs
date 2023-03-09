@@ -9,6 +9,7 @@ using shop.Models;
 using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
 namespace shop.Controllers
 {
+
     public class UsersController : Controller
     {
         private readonly SalesManagerDBContext _context;
@@ -18,11 +19,15 @@ namespace shop.Controllers
             _context = context;
         }
 
+
+
         // GET: Users
         public async Task<IActionResult> Index()
         {
               return View(await _context.Users.ToListAsync());
         }
+
+
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -48,9 +53,7 @@ namespace shop.Controllers
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
@@ -101,9 +104,6 @@ namespace shop.Controllers
             return View(usr);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
@@ -183,9 +183,9 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(long id)
+        private bool  UserExists(long id)
         {
-          return _context.Users.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

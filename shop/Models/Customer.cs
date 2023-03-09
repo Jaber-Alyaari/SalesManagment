@@ -25,8 +25,6 @@ namespace shop.Models
         public string? Email { get; set; }
         [StringLength(50)]
         public string? Address { get; set; }
-        public bool? State { get; set; }
-
         [InverseProperty("Customer")]
         public virtual ICollection<Account> Accounts { get; set; }
         [InverseProperty("Customer")]

@@ -17,6 +17,7 @@ namespace shop.Models
         public long AccountNumber { get; set; }
         [Column(TypeName = "date")]
         public DateTime? CreateDate { get; set; }
+        public bool? State { get; set; }
         public long? UserAdds { get; set; }
         [Column("GroupID")]
         public long? GroupId { get; set; }
@@ -39,5 +40,6 @@ namespace shop.Models
         public virtual User? UserAddsNavigation { get; set; }
         [InverseProperty("AccountNumberNavigation")]
         public virtual ICollection<Journal> Journals { get; set; }
+
     }
 }

@@ -18,6 +18,7 @@ namespace shop.Models
         [Column("ID")]
         public long Id { get; set; }
         [StringLength(50)]
+        [Required(ErrorMessage ="يجب ان لايكون الاسم فارغا")]
         public string? Name { get; set; }
         [StringLength(50)]
         public string? Description { get; set; }

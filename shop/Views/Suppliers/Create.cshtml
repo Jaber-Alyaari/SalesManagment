@@ -57,6 +57,14 @@
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
+                                    <input asp-for="Address" class="form-control has-feedback-left" placeholder=" الموقع ">
+                                    <span asp-validation-for="Address" class="right text-danger"></span>
+
+                                    <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <div class="col-md-8 col-sm-8 offset-md-2">
                                     <input asp-for="Email" class="form-control has-feedback-left" placeholder="الايميل">
                                     <span asp-validation-for="Email" class="right text-danger"></span>
 
@@ -88,7 +96,7 @@
                                 <label class="col-form-label col-md-2 col-sm-2       label-align"> تنششيط الحساب</label>
 
                                 <div class="col-md-2 col-sm-2 offset-md-2">
-                                    <select asp-for="State" class="form-control has-feedback-left">
+                                    <select name="State" class="form-control has-feedback-left">
                                         <option value="@Boolean.FalseString">تعطيـــــــــل </option>
                                         <option value="@Boolean.TrueString">تفعيـــــــــل</option>
                                     </select>

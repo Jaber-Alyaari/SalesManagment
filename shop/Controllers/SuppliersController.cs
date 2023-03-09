@@ -21,7 +21,8 @@ namespace shop.Controllers
         // GET: Suppliers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Suppliers.ToListAsync());
+            
+              return View(await _context.Suppliers.Include(A => A.Accounts).ToListAsync());
         }
 
         // GET: Suppliers/Details/5
@@ -53,7 +54,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address,State")] Supplier supplier)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Supplier supplier,bool State)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +80,7 @@ namespace shop.Controllers
             return View(supplier);
         }
 
-        // GET: Suppliers/Edit/5
+
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Suppliers == null)
