@@ -15,15 +15,29 @@
                 <h4><i class="fa fa-shopping-cart"></i> اضافة منتج </h4>
             </div>
         </div>
+        
 
+
+      
         <div class="clearfix"></div>
 
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+            }
+            else{
+            <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+            }
+        }
         <div class="x_panel">
             <div class="x_title">
                 <h2> </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+               
                 <form asp-action="Create" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                     <div class="row">
                         <!-- <div class="col-md-4 col-sm-4">
@@ -31,7 +45,7 @@
                           <span class="fa fa-medkit form-control-feedback left" aria-hidden="true"></span>
                         </div> -->
                         <div class="col-md-4 col-sm-4">
-                            <select class="form-control">
+                            <select asp-for="CatId" class="form-control">
                                 @if(Cats != null)
                                 {
                                     <option value=@null>بدون صنـــــــف </option>
@@ -44,7 +58,7 @@
                             
                         </div>
                         <div class="col-md-4 col-sm-4">
-                            <select class="form-control">
+                            <select  class="form-control">
                                 @if (Sups != null)
                                 {
                                     <option value=@null> بدون مــــورد </option>

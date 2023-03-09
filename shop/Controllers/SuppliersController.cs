@@ -6,62 +6,62 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
-using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
+
 namespace shop.Controllers
 {
-    public class UsersController : Controller
+    public class SuppliersController : Controller
     {
         private readonly SalesManagerDBContext _context;
 
-        public UsersController(SalesManagerDBContext context)
+        public SuppliersController(SalesManagerDBContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Suppliers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Users.ToListAsync());
+              return View(await _context.Suppliers.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var supplier = await _context.Suppliers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(supplier);
         }
 
-        // GET: Users/Create
+        // GET: Suppliers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Suppliers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address,State")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(user);
+                    _context.Add(supplier);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "  تمت اضافة   المستخدم   ";
+                    TempData["Message"] = "  تمت اضافة   المورد   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
 
@@ -69,48 +69,48 @@ namespace shop.Controllers
                 }
                 catch
                 {
-                    TempData["Message"] = "  لم يتم اضافة المستخدم  !!!!!!!! ";
+                    TempData["Message"] = "  لم يتم اضافة المورد  !!!!!!!! ";
                     TempData["MessageState"] = "0";
-                    return View(user);
+                    return View(supplier);
                 }
             }
-            TempData["Message"] = "   لم يتم اضافة المستخدم تحقق من المدخلات !!!!!!!! ";
+            TempData["Message"] = "   لم يتم اضافة المورد تحقق من المدخلات !!!!!!!! ";
             TempData["MessageState"] = "0";
-            return View(user);
+            return View(supplier);
         }
 
-        // GET: Users/Edit/5
+        // GET: Suppliers/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Suppliers == null)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
 
             }
 
-            var usr = await _context.Users.FindAsync(id);
-            if (usr == null)
+            var sup = await _context.Suppliers.FindAsync(id);
+            if (sup == null)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
 
             }
-            return View(usr);
+            return View(sup);
         }
 
-        // POST: Users/Edit/5
+        // POST: Suppliers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address,State")] Supplier supplier)
         {
-            if (id != user.Id)
+            if (id != supplier.Id)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
             }
@@ -119,53 +119,32 @@ namespace shop.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(supplier);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "  تم تعديل  المستخدم  بنجاح   ";
+                    TempData["Message"] = "  تم تعديل  المورد  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                    TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
                     TempData["MessageState"] = "0";
                     return RedirectToAction(nameof(Index));
 
                 }
             }
-            return View(user);
+            return View(supplier);
         }
 
-        //// GET: Users/Delete/5
-        //public async Task<IActionResult> Delete(long? id)
-        //{
-        //    if (id == null || _context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _context.Users
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-        //}
-
-        // POST: Users/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-
+        // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var sup = await _context.Suppliers.FindAsync(id);
+            if (sup != null)
             {
                 try
                 {
-                    _context.Users.Remove(user);
+                    _context.Suppliers.Remove(sup);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "   ...  تم الحذف بنجاح  .... ";
                     TempData["MessageState"] = "1";
@@ -183,9 +162,28 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(long id)
+        // POST: Suppliers/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(long id)
+        //{
+        //    if (_context.Suppliers == null)
+        //    {
+        //        return Problem("Entity set 'SalesManagerDBContext.Suppliers'  is null.");
+        //    }
+        //    var supplier = await _context.Suppliers.FindAsync(id);
+        //    if (supplier != null)
+        //    {
+        //        _context.Suppliers.Remove(supplier);
+        //    }
+            
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        private bool SupplierExists(long id)
         {
-          return _context.Users.Any(e => e.Id == id);
+          return _context.Suppliers.Any(e => e.Id == id);
         }
     }
 }

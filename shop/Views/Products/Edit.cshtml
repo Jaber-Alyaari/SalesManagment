@@ -1,8 +1,10 @@
 ﻿@model shop.Models.Product
-
+@inject SalesManagerDBContext DB
 @{
     Layout = "_CashierLayout";
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
+    var Cats = DB.Categories.ToList();
+    var Sups = DB.Suppliers.ToList();
 }
 
 
@@ -15,6 +17,17 @@
         </div>
 
         <div class="clearfix"></div>
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+            }
+            else
+            {
+                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+            }
+        }
 
         <div class="x_panel">
             <div class="x_title">
@@ -26,21 +39,28 @@
                     <div class="row">
                         <input type="hidden" asp-for="Id"/>
                         <div class="col-md-4 col-sm-4">
-                            <select asp-for="CatId" class="form-control" asp-items="ViewBag.CatId"></select>
-                            @*<select class="form-control">
-                            <option>اختر الصنـــــــف </option>
-                            <option>المـــأكولات</option>
-                            <option>المشروبات</option>
-                            <option> غير </option>
-                            </select>*@
+                            <select asp-for="CatId" class="form-control">
+                                @if (Cats != null)
+                                {
+                                    <option value=@null>بدون صنـــــــف </option>
+                                    foreach (var Cat in Cats)
+                                    {
+                                        <option value="@Cat.Id">@Cat.Name  </option>
+                                    }
+                                }
+                            </select>
+
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <select class="form-control">
-                                <option> اختر المورد</option>
-                                <option>المورد 1</option>
-                                <option>المورد 2</option>
-                                <option>المورد 3</option>
-                                <option>المورد 4</option>
+                                @if (Sups != null)
+                                {
+                                    <option value=@null> بدون مــــورد </option>
+                                    foreach (var Sup in Sups)
+                                    {
+                                        <option value="@Sup.Id">@Sup.Name  </option>
+                                    }
+                                }
                             </select>
                         </div><br><br><br>
                         <div class="col-md-12 col-sm-12">

@@ -18,7 +18,7 @@ namespace shop.Models
         public long Id { get; set; }
         [StringLength(50)]
         [Required(ErrorMessage ="يجب ادخال اسم المنتج")]
-        [DataType(DataType.Currency,ErrorMessage ="يجب ان يكون الاسم احرف فقط")]
+        [DataType(DataType.Text,ErrorMessage ="يجب ان يكون الاسم احرف فث")]
         public string Name { get; set; }
         [Required(ErrorMessage = "يجب ادخال سعر المنتج")]
 

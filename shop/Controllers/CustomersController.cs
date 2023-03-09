@@ -6,62 +6,62 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
-using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
+
 namespace shop.Controllers
 {
-    public class UsersController : Controller
+    public class CustomersController : Controller
     {
         private readonly SalesManagerDBContext _context;
 
-        public UsersController(SalesManagerDBContext context)
+        public CustomersController(SalesManagerDBContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Users.ToListAsync());
+              return View(await _context.Customers.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Customers == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var customer = await _context.Customers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(customer);
         }
 
-        // GET: Users/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address,State")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(user);
+                    _context.Add(customer);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "  تمت اضافة   المستخدم   ";
+                    TempData["Message"] = "  تمت اضافة   الزبــون   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
 
@@ -69,48 +69,47 @@ namespace shop.Controllers
                 }
                 catch
                 {
-                    TempData["Message"] = "  لم يتم اضافة المستخدم  !!!!!!!! ";
+                    TempData["Message"] = "  لم يتم اضافة الزبــون  !!!!!!!! ";
                     TempData["MessageState"] = "0";
-                    return View(user);
+                    return View(customer);
                 }
             }
-            TempData["Message"] = "   لم يتم اضافة المستخدم تحقق من المدخلات !!!!!!!! ";
+            TempData["Message"] = "   لم يتم اضافة الزبــون تحقق من المدخلات !!!!!!!! ";
             TempData["MessageState"] = "0";
-            return View(user);
+            return View(customer);
         }
 
-        // GET: Users/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _context.Customers == null)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
 
             }
 
-            var usr = await _context.Users.FindAsync(id);
-            if (usr == null)
+            var cust = await _context.Customers.FindAsync(id);
+            if (cust == null)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
 
             }
-            return View(usr);
+            return View(cust);
         }
-
-        // POST: Users/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address,State")] Customer customer)
         {
-            if (id != user.Id)
+            if (id != customer.Id)
             {
-                TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
             }
@@ -119,53 +118,32 @@ namespace shop.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
-                    TempData["Message"] = "  تم تعديل  المستخدم  بنجاح   ";
+                    TempData["Message"] = "  تم تعديل  الزبــون  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
+                    TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
                     TempData["MessageState"] = "0";
                     return RedirectToAction(nameof(Index));
 
                 }
             }
-            return View(user);
+            return View(customer);
         }
 
-        //// GET: Users/Delete/5
-        //public async Task<IActionResult> Delete(long? id)
-        //{
-        //    if (id == null || _context.Users == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _context.Users
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-        //}
-
-        // POST: Users/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var cust = await _context.Customers.FindAsync(id);
+            if (cust != null)
             {
                 try
                 {
-                    _context.Users.Remove(user);
+                    _context.Customers.Remove(cust);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "   ...  تم الحذف بنجاح  .... ";
                     TempData["MessageState"] = "1";
@@ -183,9 +161,10 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(long id)
+
+        private bool CustomerExists(long id)
         {
-          return _context.Users.Any(e => e.Id == id);
+          return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

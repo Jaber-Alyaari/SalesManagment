@@ -11,15 +11,25 @@
                 <h3><i class="fa  fa-list"></i>  الأصنـــــــــــاف</h3>
             </div>
         </div>
-
+        
         <div class="clearfix"></div>
-
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+            }
+            else
+            {
+                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+            }
+        }
         <div class="row">
             <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>جميــع الأصنـــــــــــاف الموجودة</h2>
-                        <ul class="nav navbar-right panel_toolbox">
+@*                        <h2>جميــع الأصنـــــــــــاف الموجودة</h2>
+*@                        <ul class="nav navbar-right panel_toolbox">
                             <a asp-action="Create" class="btn btn-sm btn-info text-white"><i class="fa fa-plus"></i>اضافة صنــــف </a>
                         </ul>
                         <div class="clearfix"></div>
@@ -42,9 +52,12 @@
                                         <td>@item.Describtion</td>
 
                                     <td>
-                                        <a class="btn btn-sm btn-success text-white"><i class="fa fa-edit"></i> تعديل</a>
-                                        <a class="btn btn-sm btn-danger text-white"><i class="fa fa-trash"></i> حـــذف</a>
-                                    </td>
+                                            <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i> تفاصيل</a>
+                                            <a class="btn btn-sm btn-success text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i> تعديل</a>
+
+                                            <a asp-route-id="@item.Id" class="btn btn-sm btn-danger text-white" asp-action="Delete" onclick="return confirm('هل تريد الحذف بالفعل');"><i class="fa fa-trash"></i> حـــذف</a>
+
+                                     </td>
                                 </tr>
                                }
 

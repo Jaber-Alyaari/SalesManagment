@@ -1,4 +1,5 @@
-﻿
+﻿@model shop.Models.Category
+
 @{
     Layout = "_CashierLayout";
 }
@@ -19,23 +20,26 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                        <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input type="text" class="form-control has-feedback-left" placeholder=" اسم الصنــــف">
+                                    <input asp-for="Name" class="form-control has-feedback-left" placeholder=" اسم الصنــــف">
+                                    <span asp-validation-for="Name" class="right text-danger"></span>
                                     <span class="fa fa-medkit form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input type="text" class="form-control has-feedback-left" placeholder="العنــــوان">
+                                    <input asp-for="Describtion" class="form-control has-feedback-left" placeholder="الوصـــف">
+                                    <span asp-validation-for="Name" class="right text-danger"></span>
                                     <span class="fa fa-map form-control-feedback left" aria-hidden="true"></span>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <button type="submit" class="btn btn-success" style="float:right;">حفــــــــظ</button>
-                                    <button class="btn btn-primary" type="button" style="float:right;">الغـــــــاء</button>
+                                    <button type="submit" value="Edit" class="btn btn-success" style="float:right">حفــــــــظ</button>
+                                    <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
+
                                 </div>
                             </div>
                         </form>

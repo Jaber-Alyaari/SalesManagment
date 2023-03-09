@@ -1,15 +1,16 @@
-﻿@model shop.Models.User
+﻿@model shop.Models.Customer
 
 @{
     Layout = "_CashierLayout";
     ViewData["Title"] = "Create";
 }
 
+
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><i class="fa fa-user-plus"></i>  اضافة كاشيـــــــر</h3>
+                <h3><i class="fa fa-user-plus"></i>  اضافة زبون</h3>
             </div>
         </div>
 
@@ -36,12 +37,12 @@
 
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <label style="float:right"><i class="fa fa-user"></i> معلومــــات الكــــــــاشيـر </label>
+                                    <label style="float:right"><i class="fa fa-user"></i> معلومــــات المورد </label>
                                 </div>
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input asp-for="Name"  class="form-control has-feedback-left" placeholder="الاسم الكامل ">
+                                    <input asp-for="Name" class="form-control has-feedback-left" placeholder="الاسم الكامل ">
                                     <span asp-validation-for="Name" class="right text-danger"></span>
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
@@ -68,22 +69,16 @@
                                     <label style="float:right"><i class="fa fa-key"></i>  معلومــــات الحســــــــاب</label>
                                 </div>
                             </div>
-                            <div class="item form-group">
+                            @*<div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input asp-for="UserName"  class="form-control has-feedback-left" placeholder="اسم المستخدم">
+                                    <input asp-for="UserName" class="form-control has-feedback-left" placeholder="رقم الحساب">
                                     <span asp-validation-for="UserName" class="right text-danger"></span>
 
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
-                            </div>
+                            </div>*@
 
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input asp-for="Password"  class="form-control has-feedback-left" placeholder="************">
-                                    <span asp-validation-for="Password" class="right text-danger"></span>
-                                    <span class="fa fa-lock form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div>
+                           
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
                                     <label style="float:right"><i class="fa fa-key"></i>  حالــــة الحســــــــاب</label>
@@ -93,29 +88,18 @@
                                 <label class="col-form-label col-md-2 col-sm-2       label-align"> تنششيط الحساب</label>
 
                                 <div class="col-md-2 col-sm-2 offset-md-2">
-                                    <select asp-for="StateAcount" class="form-control has-feedback-left">
-                                        <option>@Boolean.FalseString</option>
-                                        <option>@Boolean.TrueString</option>
-                                     </select>
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div> <div class="item form-group">
-                                <label class="col-form-label col-md-2 col-sm-2 label-align"> تشغيل كمسؤل</label>
-
-                                <div class="col-md-2 col-sm-2 offset-md-2">
-                                    <select asp-for="IsAdmin" class="form-control has-feedback-left">
-                                        <option>@Boolean.TrueString</option>
-                                        <option>@Boolean.FalseString</option>
+                                    <select asp-for="State" class="form-control has-feedback-left">
+                                        <option value="@Boolean.FalseString">تعطيـــــــــل </option>
+                                        <option value="@Boolean.TrueString">تفعيـــــــــل</option>
                                     </select>
                                     <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                 </div>
-                            </div>
-
+                            
 
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 offset-md-2">
                                     <button style="float:right" type="submit" class="btn btn-success">حفــــــــظ</button>
-                                    <a asp-action="Index"  style="float:right" class="btn btn-primary"> الغـــــــاء</a>
+                                    <a asp-action="Index" style="float:right" class="btn btn-primary"> الغـــــــاء</a>
                                 </div>
                             </div>
                         </form>
@@ -125,3 +109,20 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

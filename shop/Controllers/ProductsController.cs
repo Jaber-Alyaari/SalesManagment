@@ -26,6 +26,9 @@ namespace shop.Controllers
             return View(await salesManagerDBContext.ToListAsync());
         }
 
+
+
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -52,39 +55,64 @@ namespace shop.Controllers
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+
+    
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Unit,CatId,SupplierID")] Product product)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "  تمت اضافة المنتج  بنجاح   ";
+                    TempData["MessageState"] ="1";
+                    return RedirectToAction(nameof(Index));
+                   
+
+                }
+                catch
+                {
+                    TempData["Message"] = "  لم يتم اضافة المنتج  !!!!!!!! ";
+                    TempData["MessageState"] = "0";
+                    return View(product);
+                }
             }
+            TempData["Message"] = "    لم يتم اضافة المنتج تحقق من المدخلات!!!!!!!! ";
+            TempData["MessageState"] = "0";
             //ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.Id);
             return View(product);
         }
+
+
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Products == null)
             {
-                return NotFound();
+                TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
+                return RedirectToAction(nameof(Index));
+
             }
 
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return NotFound();
+                TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
+                return RedirectToAction(nameof(Index));
+
             }
-            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.CatId);
             return View(product);
         }
+
+
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -95,7 +123,9 @@ namespace shop.Controllers
         {
             if (id != product.Id)
             {
-                return NotFound();
+                TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
+                return RedirectToAction(nameof(Index));
             }
 
             if (ModelState.IsValid)
@@ -104,23 +134,23 @@ namespace shop.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    TempData["Message"] = "  تم تعديل  المنتج  بنجاح   ";
+                    TempData["MessageState"] = "1";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+                    TempData["MessageState"] = "0";
+                    return RedirectToAction(nameof(Index));
+
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.CatId);
             return View(product);
         }
+
+
+
 
         // GET: Products/Delete/5
         //public async Task<IActionResult> Delete(long? id)
@@ -146,17 +176,27 @@ namespace shop.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(long id)
         {
-            if (_context.Products == null)
-            {
-                return Problem("Entity set 'SalesManagerDBContext.Products'  is null.");
-            }
+         
             var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                _context.Products.Remove(product);
+                try
+                {
+                    _context.Products.Remove(product);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "   ...  تم الحذف بنجاح  .... ";
+                    TempData["MessageState"] = "1";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                catch
+                {
+                    TempData["Message"] = "   لم يتم الحذف !!!!!!!! ";
+                    TempData["MessageState"] = "0";
+                }
+
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
-using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
 
 namespace shop.Controllers
 {
@@ -20,7 +19,7 @@ namespace shop.Controllers
         // GET: CategoryController    
         public IActionResult Index()
         {
-            List<Category> ss= _context.Categories.ToList();
+            List<Category>ss= _context.Categories.ToList();
             return View(ss);
         }
 
@@ -29,9 +28,9 @@ namespace shop.Controllers
         {
             return View();
         }
-        [HttpGet]
+        //[HttpGet]
         // GET: CategoryController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             return View();
         }
@@ -39,18 +38,30 @@ namespace shop.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Category cat)
+        public async Task<ActionResult>  Create(Category cat)
         {
-            try
+            if (ModelState.IsValid)
             {
-                _context.Categories.Add(cat);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(cat);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "  تمت اضافة الصنف  بنجاح   ";
+                    TempData["MessageState"] = "1";
+                    return RedirectToAction(nameof(Index));
+
+
+                }
+                catch
+                {
+                    TempData["Message"] = "  لم يتم اضافة الصنف   !!!!!!!!";
+                    TempData["MessageState"] = "0";
+                    return View(cat);
+                }
             }
-            catch
-            {
-                return View();
-            }
+            TempData["Message"] = "   لم يتم اضافة الصنف تحقق من المدخلات!!!!!!!! ";
+            TempData["MessageState"] = "0";
+            return View(cat);
         }
 
         // GET: CategoryController/Edit/5
@@ -75,24 +86,35 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task <ActionResult> Delete(long id)
         {
-            return View();
+            if (_context.Categories == null)
+            {
+                return Problem("Entity set 'SalesManagerDBContext.Products'  is null.");
+            }
+            var cat = await _context.Categories.FindAsync(id);
+            if (cat != null)
+            {
+                _context.Categories.Remove(cat);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: CategoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }
