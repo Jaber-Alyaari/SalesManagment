@@ -49,13 +49,14 @@
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Email)
-                                        </th>
+                                         </th>
+                                        
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Address)
+                                            @Html.DisplayNameFor(model => model.Accounts)
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.State)
-                                        </th>
+                                    <th>
+                                        حالة الحساب
+                                    </th>
                                         <th></th>
                                     </tr>
                                
@@ -75,12 +76,25 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Email)
                                             </td>
+                                            
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Address)
+                                            @foreach (var i in item.Accounts)
+                                                @Html.DisplayFor(modelItem =>i.AccountNumber)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.State)
-                                            </td>
+                                                @foreach (var i in item.Accounts)
+                                            {
+                                                if (i.State == true)
+                                                {
+                                                    @: مفعل
+                                                }
+                                                else
+                                                {
+                                                    @:غير مفعل
+                                                }
+                                            }
+
+                                        </td>
                                             <td>
 
 

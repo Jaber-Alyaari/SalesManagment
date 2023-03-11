@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace shop.Models
         [StringLength(50)]
         public string? Address { get; set; }
         [InverseProperty("Customer")]
+        [DisplayName("رقم الحساب")]
         public virtual ICollection<Account> Accounts { get; set; }
         [InverseProperty("Customer")]
         public virtual ICollection<Invoice> Invoices { get; set; }

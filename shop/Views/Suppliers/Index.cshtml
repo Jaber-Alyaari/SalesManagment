@@ -56,6 +56,9 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.Accounts)
                                         </th>
+                                       <th>
+                                        حالة الحساب
+                                      </th>
                                         <th></th>
                                     </tr>
                                
@@ -79,8 +82,22 @@
                                                 @Html.DisplayFor(modelItem => item.Address)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Accounts)
+                                            @foreach (var i in item.Accounts)
+                                                @Html.DisplayFor(modelItem =>i.AccountNumber)
                                             </td>
+                                            <td>
+                                            @foreach (var i in item.Accounts)
+                                        {
+                                            if (i.State == true)
+                                            {
+                                                @: مفعل
+                                            }
+                                            else
+                                            {
+                                                @:غير مفعل
+                                            }
+                                        }
+                                        </td>
                                             <td>
 
 

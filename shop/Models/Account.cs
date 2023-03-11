@@ -14,6 +14,7 @@ namespace shop.Models
         }
 
         [Key]
+        [Column("AccountNumber")]
         public long AccountNumber { get; set; }
         [Column(TypeName = "date")]
         public DateTime? CreateDate { get; set; }

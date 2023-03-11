@@ -21,8 +21,8 @@ namespace shop.Controllers
         // GET: Suppliers
         public async Task<IActionResult> Index()
         {
-            
-              return View(await _context.Suppliers.Include(A => A.Accounts).ToListAsync());
+            var AllSuppliers = _context.Suppliers.Include(A => A.Accounts);
+              return View(await AllSuppliers.ToListAsync());
         }
 
         // GET: Suppliers/Details/5
@@ -61,6 +61,13 @@ namespace shop.Controllers
                 try
                 {
                     _context.Add(supplier);
+                    await _context.SaveChangesAsync();
+
+                    Account account = new Account();
+                    var supplerid = _context.Suppliers.Max(A => A.Id);
+                    account.State = State;
+                    account.SupplierId = supplerid;
+                    _context.Accounts.Add(account);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة   المورد   ";
                     TempData["MessageState"] = "1";
@@ -107,7 +114,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address,State")] Supplier supplier)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address")] Supplier supplier,bool State)
         {
             if (id != supplier.Id)
             {
@@ -122,6 +129,16 @@ namespace shop.Controllers
                 {
                     _context.Update(supplier);
                     await _context.SaveChangesAsync();
+
+                    //to Edit account for this customer
+                    Account account = new Account();
+
+                    account = _context.Accounts.SingleOrDefault(A => A.SupplierId == supplier.Id);
+
+                    account.State = State;
+                    _context.Accounts.Update(account);
+                    await _context.SaveChangesAsync();
+
                     TempData["Message"] = "  تم تعديل  المورد  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));

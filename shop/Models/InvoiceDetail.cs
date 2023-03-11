@@ -16,6 +16,7 @@ namespace shop.Models
         [Column("ProductID")]
         public long? ProductId { get; set; }
         public int? Quantity { get; set; }
+        public int? TotalPrice { get; set; }
 
         [ForeignKey("InvoiceId")]
         [InverseProperty("InvoiceDetails")]

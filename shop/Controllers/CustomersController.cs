@@ -21,7 +21,8 @@ namespace shop.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Customers.ToListAsync());
+            var AllCustomer = _context.Customers.Include(A => A.Accounts);
+              return View(await AllCustomer.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -53,14 +54,24 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address,State")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Customer customer,bool State)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+
+
                     _context.Add(customer);
                     await _context.SaveChangesAsync();
+                    //to creat account for this customer
+                    Account account = new Account();
+                    var _customerid =_context.Customers.Max(A => A.Id);
+                    account.State= State;
+                    account.CustomerId = _customerid;
+                    _context.Accounts.Add(account);
+                    await _context.SaveChangesAsync();
+
                     TempData["Message"] = "  تمت اضافة   الزبــون   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
@@ -105,7 +116,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address,State")] Customer customer)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address")] Customer customer, bool State)
         {
             if (id != customer.Id)
             {
@@ -120,6 +131,16 @@ namespace shop.Controllers
                 {
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
+
+                    //to Edit account for this customer
+                    Account account = new Account();
+
+                    account = _context.Accounts.SingleOrDefault(A => A.CustomerId == customer.Id);
+
+                    account.State = State;
+                    _context.Accounts.Update(account);
+                    await _context.SaveChangesAsync();
+
                     TempData["Message"] = "  تم تعديل  الزبــون  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
