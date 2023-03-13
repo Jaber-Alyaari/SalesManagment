@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230312231201_addProductIDString")]
+    partial class addProductIDString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,8 +204,9 @@ namespace shop.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("InvoiceID");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ProductID");
 
                     b.Property<int>("Quantity")
@@ -267,12 +270,9 @@ namespace shop.Migrations
 
             modelBuilder.Entity("shop.Models.Product", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long?>("CatId")
                         .HasColumnType("bigint")

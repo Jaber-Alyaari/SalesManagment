@@ -121,7 +121,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
         {
-            if (id != product.Id)
+            if (id !=  product.Id)
             {
                 TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";

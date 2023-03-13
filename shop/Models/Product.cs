@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
@@ -13,7 +14,12 @@ namespace shop.Models
             InvoiceDetails = new HashSet<InvoiceDetail>();
         }
 
+        //[Remote("IsProductCodeValid", "Product", AdditionalFields = "Name", ErrorMessage = "Product Code Exists Already")]
         [Key]
+        [StringLength(6)]
+        public string Code { get; set; }
+
+        //[Key]
         [Column("ID")]
         public long Id { get; set; }
         [StringLength(50)]

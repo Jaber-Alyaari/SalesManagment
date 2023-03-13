@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230312220509_AddNewInvoiceDetails33")]
+    partial class AddNewInvoiceDetails33
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,7 +204,7 @@ namespace shop.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("InvoiceID");
 
-                    b.Property<long>("ProductId")
+                    b.Property<long?>("ProductId")
                         .HasColumnType("bigint")
                         .HasColumnName("ProductID");
 
@@ -460,8 +462,6 @@ namespace shop.Migrations
                     b.HasOne("shop.Models.Product", "Product")
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_BillDetails_Products");
 
                     b.Navigation("Invoice");

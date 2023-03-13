@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230312213844_AddNewInvoiceDetails22")]
+    partial class AddNewInvoiceDetails22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,7 +204,10 @@ namespace shop.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("InvoiceID");
 
-                    b.Property<long>("ProductId")
+                    b.Property<long?>("InvoiceId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProductId")
                         .HasColumnType("bigint")
                         .HasColumnName("ProductID");
 
@@ -212,6 +217,8 @@ namespace shop.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId");
+
+                    b.HasIndex("InvoiceId1");
 
                     b.HasIndex("ProductId");
 
@@ -457,11 +464,13 @@ namespace shop.Migrations
                         .HasForeignKey("InvoiceId")
                         .HasConstraintName("FK_BillDetails_Bills");
 
+                    b.HasOne("shop.Models.Invoice", null)
+                        .WithMany("PoDetails")
+                        .HasForeignKey("InvoiceId1");
+
                     b.HasOne("shop.Models.Product", "Product")
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_BillDetails_Products");
 
                     b.Navigation("Invoice");
@@ -514,6 +523,8 @@ namespace shop.Migrations
             modelBuilder.Entity("shop.Models.Invoice", b =>
                 {
                     b.Navigation("InvoiceDetails");
+
+                    b.Navigation("PoDetails");
                 });
 
             modelBuilder.Entity("shop.Models.Product", b =>
