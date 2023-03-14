@@ -57,7 +57,7 @@ namespace shop.Controllers
 
 
 
-    
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -70,9 +70,9 @@ namespace shop.Controllers
                     _context.Add(product);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة المنتج  بنجاح   ";
-                    TempData["MessageState"] ="1";
+                    TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
-                   
+
 
                 }
                 catch
@@ -121,7 +121,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
         {
-            if (id !=  product.Id)
+            if (id != product.Id)
             {
                 TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
                 TempData["MessageState"] = "0";
@@ -172,11 +172,11 @@ namespace shop.Controllers
         //}
 
         // POST: Products/Delete/5
-       // [HttpPost, ActionName("Delete")]
+        // [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(long id)
         {
-         
+
             var product = await _context.Products.FindAsync(id);
             if (product != null)
             {

@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<shop.Models.Invoice>
+﻿@model IEnumerable<shop.Models.Invoice>
 
 
 @{
@@ -18,7 +17,7 @@
     </div>
     <div class="col-2 justify-content-end">
         <p>
-            <a asp-action="Create" class="btn btn-success">فاتورة جديدة</a>
+            <a asp-action="SalseCreate" class="btn btn-success">فاتورة جديدة</a>
         </p>
     </div>
 </div>
@@ -57,7 +56,7 @@
 
 
             <th>
-                @Html.DisplayNameFor(model => model.Supplier)
+                @Html.DisplayNameFor(model => model.Customer)
             </th>
 
             <th>
@@ -68,18 +67,20 @@
             </th>
             <th>
                 الخصم
-@*                @Html.DisplayNameFor(model => model.DiscountPercent)
-*@            </th>
+                @*                @Html.DisplayNameFor(model => model.DiscountPercent)
+                *@
+            </th>
             <th>
                 العملة
-@*                @Html.DisplayNameFor(model => model.QuotationNo)
-*@            </th>
-           @* <th>
-                @Html.DisplayNameFor(model => model.QuotationDate)
+                @*                @Html.DisplayNameFor(model => model.QuotationNo)
+                *@
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.QuotationDate)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Remarks)
+            @Html.DisplayNameFor(model => model.Remarks)
             </th>*@
             <th></th>
         </tr>
@@ -87,7 +88,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            if (item.SupplierId == null)
+            if (item.CustomerId == null)
                 continue;
             <tr>
                 <td>
@@ -97,7 +98,7 @@
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Supplier.Name)
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
                 </td>
 
                 <td>
@@ -107,18 +108,20 @@
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
-@*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
-*@                </td>
-                <td>
-@*                    @Html.DisplayFor(modelItem => item.QuotationNo)
-*@                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.QuotationDate)
+                    @*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
+                *@
                 </td>
-
                 <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>*@
+                    @*                    @Html.DisplayFor(modelItem => item.QuotationNo)
+                *@
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.QuotationDate)
+            </td>
+
+            <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+            </td>*@
                 <td>
 
                     <div class="btn-group">
@@ -161,4 +164,5 @@
     }
 }
 
-  
+
+

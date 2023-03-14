@@ -9,23 +9,19 @@ namespace shop.Models
     [Table("Invoice")]
     public partial class Invoice
     {
- 
+        //public Invoice()
+        //{
+        //    InvoiceDetails = new HashSet<InvoiceDetail>();
+        //}
+        [Required]
+        [MaxLength(15)]
+        public string PoNumber { get; set; }
 
-
-         [Key]
+        [Key]
         [Column("ID")]
         public long Id { get; set; }
         [Column(TypeName = "date")]
-
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime? Date { get; set; } = DateTime.Now.Date;
-
-
-        [Required]
-        [MaxLength(15)]
-        public string? PoNumber { get; set; }
-
+        public DateTime? Date { get; set; } = DateTime.Now;
         public bool? IsSales { get; set; }
         [Column("Customer_ID")]
         public long? CustomerId { get; set; }
@@ -48,5 +44,7 @@ namespace shop.Models
         [InverseProperty("Invoice")]
         public virtual List<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
 
+        [NotMapped]
+        public decimal Total { get; set; }
     }
 }

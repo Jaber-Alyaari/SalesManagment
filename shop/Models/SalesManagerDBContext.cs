@@ -26,7 +26,6 @@ namespace shop.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<View1> View1s { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -62,6 +61,16 @@ namespace shop.Models
                     .HasConstraintName("FK_Accounts_User");
             });
 
+            modelBuilder.Entity<AccountGroup>(entity =>
+            {
+                entity.Property(e => e.Name).HasDefaultValueSql("(N'')");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.Name).HasDefaultValueSql("(N'')");
+            });
+
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.HasOne(d => d.Customer)
@@ -87,9 +96,10 @@ namespace shop.Models
                     .HasForeignKey(d => d.InvoiceId)
                     .HasConstraintName("FK_BillDetails_Bills");
 
-                entity.HasOne(d => d.Product)
+                entity.HasOne(d => d.ProductCodeNavigation)
                     .WithMany(p => p.InvoiceDetails)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BillDetails_Products");
             });
 
@@ -107,15 +117,19 @@ namespace shop.Models
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.Property(e => e.Name).HasDefaultValueSql("(N'')");
+
                 entity.HasOne(d => d.Cat)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CatId)
                     .HasConstraintName("FK_Products_Categories");
             });
 
-            modelBuilder.Entity<View1>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
-                entity.ToView("View_1");
+                entity.Property(e => e.Name).HasDefaultValueSql("(N'')");
+
+                entity.Property(e => e.Phone).HasDefaultValueSql("(N'')");
             });
 
             OnModelCreatingPartial(modelBuilder);

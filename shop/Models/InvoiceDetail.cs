@@ -13,14 +13,18 @@ namespace shop.Models
         public long Id { get; set; }
         [Column("InvoiceID")]
         public long? InvoiceId { get; set; }
-        [Column("ProductID")]
-        public long ProductId { get; set; }
+        [StringLength(50)]
+        public string ProductCode { get; set; } = null!;
+        public decimal Quantity { get; set; }
+
+        [ForeignKey("InvoiceId")]
+        [InverseProperty("InvoiceDetails")]
+        public virtual Invoice? Invoice { get; set; }
+        [ForeignKey("ProductCode")]
+        [InverseProperty("InvoiceDetails")]
+        public virtual Product ProductCodeNavigation { get; set; } = null!;
+
         [Required]
-        [Range(1, 1000, ErrorMessage = "Quantity should be greater than 0 and less than 1000")]
-        public int Quantity { get; set; }
-
-
-        [NotMapped]
         public decimal Price { get; set; }
 
 
@@ -36,22 +40,5 @@ namespace shop.Models
         public bool IsDeleted { get; set; } = false;
         [NotMapped]
         public decimal Total { get; set; }
-
-
-        [Required]
-        [ForeignKey("Product")]
-        [MaxLength(6)]
-        public string ProductCode { get; set; }
-        [InverseProperty("InvoiceDetails")]
-        public virtual Product Product { get; private set; }
-
-
-
-        [ForeignKey("InvoiceId")]
-        [InverseProperty("InvoiceDetails")]
-        public virtual Invoice? Invoice { get; set; }
-        //[ForeignKey("ProductId")]
-        //[InverseProperty("InvoiceDetails")]
-        //public virtual Product? Product { get; set; }
     }
 }

@@ -12,9 +12,9 @@ namespace shop.Controllers
     {
         private readonly SalesManagerDBContext _context;
 
-        public InvoiceOrderController( SalesManagerDBContext context)
+        public InvoiceOrderController(SalesManagerDBContext context)
         {
-            _context=context;
+            _context = context;
         }
 
 
@@ -51,6 +51,28 @@ namespace shop.Controllers
             return View(items);
         }
 
+        public IActionResult SalseIndex(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5)
+        {
+            SortModel sortModel = new SortModel();
+            sortModel.AddColumn("Id");
+            sortModel.AddColumn("PoNumber");
+            sortModel.AddColumn("Date");
+            sortModel.ApplySort(sortExpression);
+            ViewData["sortModel"] = sortModel;
+
+            ViewBag.SearchText = SearchText;
+
+            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize);
+
+
+            var pager = new PagerModel(items.TotalRecords, pg, pageSize);
+            pager.SortExpression = sortExpression;
+            this.ViewBag.Pager = pager;
+
+
+            TempData["CurrentPage"] = pg;
+            return View(items);
+        }
 
 
         private List<Invoice> DoSort(List<Invoice> items, string SortProperty, SortOrder sortOrder)
@@ -115,7 +137,22 @@ namespace shop.Controllers
             item.InvoiceDetails.Add(new InvoiceDetail() { Id = 1 });
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
-           
+            ViewBag.CustomerList = GetCustomers();
+            ViewBag.UnitNames = GetUnitNames();
+            ViewBag.Price = GetPrice();
+
+
+
+            item.PoNumber = GetNewINNumber();
+            return View(item);
+        }
+        public IActionResult SalseCreate()
+        {
+            Invoice item = new Invoice();
+            item.InvoiceDetails.Add(new InvoiceDetail() { Id = 1 });
+            ViewBag.ProductList = GetProducts();
+            ViewBag.SupplierList = GetSuppliers();
+            ViewBag.CustomerList = GetCustomers();
             ViewBag.UnitNames = GetUnitNames();
             ViewBag.Price = GetPrice();
 
@@ -128,7 +165,7 @@ namespace shop.Controllers
         [HttpPost]
         public IActionResult Create(Invoice item)
         {
-           
+
             item.InvoiceDetails.ToList().RemoveAll(a => a.Quantity == 0);
 
 
@@ -165,11 +202,192 @@ namespace shop.Controllers
         {
             bool retVal = false;
             _errors = "";
+           
 
             try
             {
-                _context.Invoices.Add(invo);
-                _context.SaveChanges();
+
+                if (invo.IsSales == true)
+                {
+                    _context.Invoices.Add(invo);
+                    _context.SaveChanges();
+                    if (invo.SupplierId != null) {
+                        Supplier SuplierAcount = _context.Suppliers.Where(i => i.Id == invo.SupplierId).Include(s => s.Accounts).SingleOrDefault();
+
+                        Journal NewJournal =new Journal();
+                        NewJournal.Debtor = true;
+                        NewJournal.Creditor = false;
+                        NewJournal.AccountNumber = SuplierAcount.Accounts.SingleOrDefault().AccountNumber;
+                        NewJournal.ProcessType = "فاتورة شراء اجل";
+                        decimal total = 0;
+                        foreach (InvoiceDetail Details in invo.InvoiceDetails)
+                        {
+                            total += Details.Total;
+                        }
+                        NewJournal.Amount = total;
+                        NewJournal.Date = invo.Date;
+                        NewJournal.ReferenceId = invo.Id;
+
+                       Journal NewJournal2=new Journal();
+                        //NewJournal2 = NewJournal;
+                        NewJournal2.ProcessType = NewJournal.ProcessType;
+                        NewJournal2.ReferenceId = NewJournal.ReferenceId;
+                        NewJournal2.Date = NewJournal.Date;
+                        NewJournal2.Amount = NewJournal.Amount;
+                        NewJournal2.AccountNumber = 2;
+                        NewJournal2.Debtor = false;
+                        NewJournal2.Creditor = true;
+
+
+                        _context.Attach(NewJournal);
+                        _context.Entry(NewJournal).State = EntityState.Added;
+                        _context.SaveChanges();
+
+                        _context.Attach(NewJournal2);
+                        _context.Entry(NewJournal2).State = EntityState.Added;
+                        _context.SaveChanges();
+
+
+
+
+
+                    }
+                    else if(invo.CustomerId !=null)
+                        {
+                            Customer customerAcount = _context.Customers.Where(i => i.Id == invo.CustomerId).Include(s => s.Accounts).SingleOrDefault();
+
+                            Journal NewJournal = new Journal();
+                            NewJournal.Debtor = true;
+                            NewJournal.Creditor = false;
+                            NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
+                            NewJournal.ProcessType = "فاتورة بيع اجل";
+                            decimal total = 0;
+                            foreach (InvoiceDetail Details in invo.InvoiceDetails)
+                            {
+                                total += Details.Total;
+                            }
+                            NewJournal.Amount = total;
+                            NewJournal.Date = invo.Date;
+                            NewJournal.ReferenceId = invo.Id;
+
+                            Journal NewJournal2 = new Journal();
+                            //NewJournal2 = NewJournal;
+                            NewJournal2.ProcessType = NewJournal.ProcessType;
+                            NewJournal2.ReferenceId = NewJournal.ReferenceId;
+                            NewJournal2.Date = NewJournal.Date;
+                            NewJournal2.Amount = NewJournal.Amount;
+                            NewJournal2.AccountNumber = 1;
+                            NewJournal2.Debtor = false;
+                            NewJournal2.Creditor = true;
+
+
+                            _context.Attach(NewJournal);
+                            _context.Entry(NewJournal).State = EntityState.Added;
+                            _context.SaveChanges();
+
+                            _context.Attach(NewJournal2);
+                            _context.Entry(NewJournal2).State = EntityState.Added;
+                            _context.SaveChanges();
+
+
+
+
+
+                        }
+
+
+                }
+                else
+                {
+                    _context.Invoices.Add(invo);
+                    _context.SaveChanges();
+                    if (invo.SupplierId != null)
+                    {
+
+                        Journal NewJournal = new Journal();
+                        NewJournal.Debtor = true;
+                        NewJournal.Creditor = false;
+                        NewJournal.AccountNumber = 2;
+                        NewJournal.ProcessType = "فاتورة شراء نقدي";
+                        decimal total = 0;
+                        foreach (InvoiceDetail Details in invo.InvoiceDetails)
+                        {
+                            total += Details.Total;
+                        }
+                        NewJournal.Amount = total;
+                        NewJournal.Date = invo.Date;
+                        NewJournal.ReferenceId = invo.Id;
+
+                        Journal NewJournal2 = new Journal();
+                        //NewJournal2 = NewJournal;
+                        NewJournal2.ProcessType = NewJournal.ProcessType;
+                        NewJournal2.ReferenceId = NewJournal.ReferenceId;
+                        NewJournal2.Date = NewJournal.Date;
+                        NewJournal2.Amount = NewJournal.Amount;
+                        NewJournal2.AccountNumber = 4;
+                        NewJournal2.Debtor = false;
+                        NewJournal2.Creditor = true;
+
+
+                        _context.Attach(NewJournal);
+                        _context.Entry(NewJournal).State = EntityState.Added;
+                        _context.SaveChanges();
+
+                        _context.Attach(NewJournal2);
+                        _context.Entry(NewJournal2).State = EntityState.Added;
+                        _context.SaveChanges();
+
+
+
+
+
+                    }
+                    else if (invo.CustomerId != null)
+                    {
+
+                        Journal NewJournal = new Journal();
+                        NewJournal.Debtor = true;
+                        NewJournal.Creditor = false;
+                        NewJournal.AccountNumber = 4;
+                        NewJournal.ProcessType = "فاتورة بيع نقدي";
+                        decimal total = 0;
+                        foreach (InvoiceDetail Details in invo.InvoiceDetails)
+                        {
+                            total += Details.Total;
+                        }
+                        NewJournal.Amount = total;
+                        NewJournal.Date = invo.Date;
+                        NewJournal.ReferenceId = invo.Id;
+
+                        Journal NewJournal2 = new Journal();
+                        //NewJournal2 = NewJournal;
+                        NewJournal2.ProcessType = NewJournal.ProcessType;
+                        NewJournal2.ReferenceId = NewJournal.ReferenceId;
+                        NewJournal2.Date = NewJournal.Date;
+                        NewJournal2.Amount = NewJournal.Amount;
+                        NewJournal2.AccountNumber = 1;
+                        NewJournal2.Debtor = false;
+                        NewJournal2.Creditor = true;
+
+
+                        _context.Attach(NewJournal);
+                        _context.Entry(NewJournal).State = EntityState.Added;
+                        _context.SaveChanges();
+
+                        _context.Attach(NewJournal2);
+                        _context.Entry(NewJournal2).State = EntityState.Added;
+                        _context.SaveChanges();
+
+
+
+
+
+                    }
+
+                }
+               
+           
+
                 retVal = true;
             }
             catch (Exception ex)
@@ -186,7 +404,7 @@ namespace shop.Controllers
             Invoice item = GetItem(id);
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
-           
+
 
             return View(item);
         }
@@ -194,11 +412,11 @@ namespace shop.Controllers
 
         public Invoice GetItem(int Id)
         {
-            Invoice item = _context.Invoices.Where(i => i.Id == Id).Include(d => d.InvoiceDetails).ThenInclude(i => i.Product).FirstOrDefault();
+            Invoice item = _context.Invoices.Where(i => i.Id == Id).Include(d => d.InvoiceDetails).ThenInclude(i => i.ProductCodeNavigation).FirstOrDefault();
 
-            
-            item.InvoiceDetails.ToList().ForEach(i => i.UnitName = i.Product.Unit);
-            item.InvoiceDetails.ToList().ForEach(p => p.Description = p.Product.Name);
+
+            item.InvoiceDetails.ToList().ForEach(i => i.UnitName = i.ProductCodeNavigation.Unit);
+            item.InvoiceDetails.ToList().ForEach(p => p.Description = p.ProductCodeNavigation.Name);
             item.InvoiceDetails.ToList().ForEach(p => p.Total = p.Quantity * p.Price);
 
             return item;
@@ -211,7 +429,7 @@ namespace shop.Controllers
 
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
-          
+
             ViewBag.UnitNames = GetUnitNames();
 
             return View(item);
@@ -354,7 +572,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Id.ToString(),
+                Value = ut.Code.ToString(),
                 Text = ut.Name
             }).ToList();
 
@@ -383,13 +601,35 @@ namespace shop.Controllers
 
             var defItem = new SelectListItem()
             {
-                Value = "",
-                Text = "----Select Supplier ----"
+                Value = 5.ToString(),
+                Text = "----الحساب العام ----"
             };
 
             lstSuppliers.Insert(0, defItem);
 
             return lstSuppliers;
+        }
+        private List<SelectListItem> GetCustomers()
+        {
+            var lstCustomer = new List<SelectListItem>();
+
+            List<Customer> customers = _context.Customers.ToList();
+
+            lstCustomer = customers.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = 5.ToString(),
+                Text = "---- الحســاب العام  ----"
+            };
+
+            lstCustomer.Insert(0, defItem);
+
+            return lstCustomer;
         }
 
         private List<SelectListItem> GetUnitNames()
@@ -400,7 +640,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Id.ToString(),
+                Value = ut.Code.ToString(),
                 Text = ut.Unit
             }).ToList();
 
@@ -423,7 +663,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Id.ToString(),
+                Value = ut.Code.ToString(),
                 Text = ut.Price.ToString(),
             }).ToList();
 

@@ -64,6 +64,7 @@ namespace shop.Controllers
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
+               
                     TempData["Message"] = "  تمت اضافة   المستخدم   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));

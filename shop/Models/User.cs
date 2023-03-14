@@ -18,11 +18,9 @@ namespace shop.Models
         [Column("ID")]
         public long Id { get; set; }
         [StringLength(50)]
-        [Required(ErrorMessage ="يجب ان لا يكون الاسم فارغا")]
-        public string? Name { get; set; }
+        public string Name { get; set; } = null!;
         [StringLength(50)]
-        [Required(ErrorMessage = "يجب ان لا يكون رقم الهاتف فارغا")]
-        public string? Phone { get; set; }
+        public string Phone { get; set; } = null!;
         [StringLength(50)]
         public string? Email { get; set; }
         public bool? StateAcount { get; set; }
