@@ -14,7 +14,7 @@ namespace shop.Models
         }
 
         [Column("ID")]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [StringLength(50)]
         public string Name { get; set; } = null!;
         public int Price { get; set; }
@@ -22,7 +22,7 @@ namespace shop.Models
         [StringLength(50)]
         public string? Unit { get; set; }
         [Column("CatID")]
-        public long? CatId { get; set; }
+        public int? CatId { get; set; }
         [Key]
         [StringLength(50)]
         public string Code { get; set; } = null!;

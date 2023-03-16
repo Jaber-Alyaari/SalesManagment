@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 using shop.Tools;
+using System.Numerics;
 
 namespace shop.Controllers
 {
@@ -28,7 +29,7 @@ namespace shop.Controllers
 
 
 
-        public IActionResult Index(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5)
+        public IActionResult Index(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5, bool IsSalse=true)
         {
             SortModel sortModel = new SortModel();
             sortModel.AddColumn("Id");
@@ -39,40 +40,22 @@ namespace shop.Controllers
 
             ViewBag.SearchText = SearchText;
 
-            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize);
+            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize,IsSalse);
 
 
+            ViewData["IsSalse"] = true.ToString();
+            if (!IsSalse)
+                ViewData["IsSalse"] = false.ToString();
             var pager = new PagerModel(items.TotalRecords, pg, pageSize);
             pager.SortExpression = sortExpression;
             this.ViewBag.Pager = pager;
 
+           
 
             TempData["CurrentPage"] = pg;
             return View(items);
         }
 
-        public IActionResult SalseIndex(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5)
-        {
-            SortModel sortModel = new SortModel();
-            sortModel.AddColumn("Id");
-            sortModel.AddColumn("PoNumber");
-            sortModel.AddColumn("Date");
-            sortModel.ApplySort(sortExpression);
-            ViewData["sortModel"] = sortModel;
-
-            ViewBag.SearchText = SearchText;
-
-            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize);
-
-
-            var pager = new PagerModel(items.TotalRecords, pg, pageSize);
-            pager.SortExpression = sortExpression;
-            this.ViewBag.Pager = pager;
-
-
-            TempData["CurrentPage"] = pg;
-            return View(items);
-        }
 
 
         private List<Invoice> DoSort(List<Invoice> items, string SortProperty, SortOrder sortOrder)
@@ -103,22 +86,26 @@ namespace shop.Controllers
             return items;
         }
 
-        public PaginatedList<Invoice> GetItems(string SortProperty, SortOrder sortOrder, string SearchText = "", int pageIndex = 1, int pageSize = 5)
+        public PaginatedList<Invoice> GetItems(string SortProperty, SortOrder sortOrder, string SearchText = "", int pageIndex = 1, int pageSize = 5 ,bool IsSalse=true)
         {
             List<Invoice> items;
 
             if (SearchText != "" && SearchText != null)
             {
-                items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText))
-                    .Include(s => s.Supplier)
-                    .Include(c => c.Customer)
-                    .ToList();
+                if (IsSalse)
+                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.CustomerId!=null)
+                        .Include(c => c.Customer)
+                        .ToList();
+
+                else
+                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.SupplierId!=null).
+                        Include(s => s.Supplier).ToList();
             }
             else
-                items = _context.Invoices
-                   .Include(s => s.Supplier)
-                   .Include(c => c.Customer)
-                   .ToList();
+                if(IsSalse)
+                items = _context.Invoices.Where(n=> n.CustomerId!=null).Include(c => c.Customer).ToList();
+               else
+                items=_context.Invoices.Where(n=> n.SupplierId!=null).Include(s=> s.Supplier).ToList();
 
 
 
@@ -131,28 +118,15 @@ namespace shop.Controllers
         }
 
 
-        public IActionResult Create()
+        public IActionResult Create(bool IsSalse=true)
         {
             Invoice item = new Invoice();
             item.InvoiceDetails.Add(new InvoiceDetail() { Id = 1 });
             ViewBag.ProductList = GetProducts();
-            ViewBag.SupplierList = GetSuppliers();
-            ViewBag.CustomerList = GetCustomers();
-            ViewBag.UnitNames = GetUnitNames();
-            ViewBag.Price = GetPrice();
-
-
-
-            item.PoNumber = GetNewINNumber();
-            return View(item);
-        }
-        public IActionResult SalseCreate()
-        {
-            Invoice item = new Invoice();
-            item.InvoiceDetails.Add(new InvoiceDetail() { Id = 1 });
-            ViewBag.ProductList = GetProducts();
-            ViewBag.SupplierList = GetSuppliers();
-            ViewBag.CustomerList = GetCustomers();
+            if(IsSalse)
+                ViewBag.CustomerList = GetCustomers();
+            else
+                ViewBag.SupplierList = GetSuppliers();
             ViewBag.UnitNames = GetUnitNames();
             ViewBag.Price = GetPrice();
 
@@ -412,8 +386,17 @@ namespace shop.Controllers
 
         public Invoice GetItem(int Id)
         {
-            Invoice item = _context.Invoices.Where(i => i.Id == Id).Include(d => d.InvoiceDetails).ThenInclude(i => i.ProductCodeNavigation).FirstOrDefault();
+            var _id = Convert.ToInt32(Id);
 
+            Invoice item = _context.Invoices.Where(i => i.Id == _id)
+                     .Include(d => d.InvoiceDetails)
+                     .ThenInclude(i => i.ProductCodeNavigation)
+                     .FirstOrDefault();
+
+            // .Include(d => d.InvoiceDetails).ThenInclude(i => i.ProductCodeNavigation).FirstOrDefault(i => i.Id == _id);
+            //Invoice item = _context.Invoices.Where(i => i.Id == _id).Include(d => d.InvoiceDetails).ThenInclude(i => i.ProductCodeNavigation).FirstOrDefault(i => i.Id == _id);
+            //Invoice item = _context.Invoices.SingleOrDefault(i => i.Id == Id);
+            //item.InvoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceId == item.Id).ToList();
 
             item.InvoiceDetails.ToList().ForEach(i => i.UnitName = i.ProductCodeNavigation.Unit);
             item.InvoiceDetails.ToList().ForEach(p => p.Description = p.ProductCodeNavigation.Name);
@@ -423,7 +406,7 @@ namespace shop.Controllers
         }
 
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int id) 
         {
             Invoice item = GetItem(id);
 

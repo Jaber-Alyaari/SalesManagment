@@ -10,9 +10,9 @@ namespace shop.Models
     {
         [Key]
         [Column("ID")]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Column("InvoiceID")]
-        public long? InvoiceId { get; set; }
+        public int? InvoiceId { get; set; }
         [StringLength(50)]
         public string ProductCode { get; set; } = null!;
         public decimal Quantity { get; set; }
@@ -34,7 +34,7 @@ namespace shop.Models
 
         [MaxLength(25)]
         [NotMapped]
-        public string UnitName { get; set; } = "Pcs";
+        public string? UnitName { get; set; } = "Pcs";
 
         [NotMapped]
         public bool IsDeleted { get; set; } = false;

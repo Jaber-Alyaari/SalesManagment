@@ -86,7 +86,7 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Delete/5
-        public async Task <ActionResult> Delete(long id)
+        public async Task <ActionResult> Delete(int id)
         {
             if (_context.Categories == null)
             {

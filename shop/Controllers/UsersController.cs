@@ -30,7 +30,7 @@ namespace shop.Controllers
 
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Users == null)
             {
@@ -84,7 +84,7 @@ namespace shop.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Users == null)
             {
@@ -107,7 +107,7 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
         {
             if (id != user.Id)
             {
@@ -138,7 +138,7 @@ namespace shop.Controllers
         }
 
         //// GET: Users/Delete/5
-        //public async Task<IActionResult> Delete(long? id)
+        //public async Task<IActionResult> Delete(int? id)
         //{
         //    if (id == null || _context.Users == null)
         //    {
@@ -159,7 +159,7 @@ namespace shop.Controllers
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user != null)
@@ -184,7 +184,7 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool  UserExists(long id)
+        private bool  UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

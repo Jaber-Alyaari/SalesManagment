@@ -19,18 +19,18 @@ namespace shop.Models
 
         [Key]
         [Column("ID")]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
         public bool? IsSales { get; set; }
         [Column("Customer_ID")]
-        public long? CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [StringLength(50)]
         public string? Remarks { get; set; }
         [Column("User_ID")]
-        public long? UserId { get; set; }
+        public int? UserId { get; set; }
         [Column("SupplierID")]
-        public long? SupplierId { get; set; }
+        public int? SupplierId { get; set; }
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Invoices")]

@@ -11,15 +11,15 @@ namespace shop.Models
     {
         [Key]
         [Column("ProcessID")]
-        public long ProcessId { get; set; }
+        public int ProcessId { get; set; }
         [StringLength(50)]
         public string? ProcessType { get; set; }
         [Column("UserID")]
-        public long? UserId { get; set; }
+        public int? UserId { get; set; }
         [Column("ReferenceID")]
         [StringLength(10)]
-        public long? ReferenceId { get; set; }
-        public long? AccountNumber { get; set; }
+        public int? ReferenceId { get; set; }
+        public int? AccountNumber { get; set; }
         [StringLength(10)]
         public decimal Amount { get; set; }
         public bool? Creditor { get; set; }

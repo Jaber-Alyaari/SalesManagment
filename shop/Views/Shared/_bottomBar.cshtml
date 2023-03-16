@@ -34,10 +34,22 @@
 </div>
 
 <script>
-    function ChangePageSize(obj)
-    {
+    function ChangePageSize(obj) {  
+        //var V = document.getElementById("sals").textContent;
         var controllerName = '@this.ViewContext.RouteData.Values["controller"].ToString()';
-        window.location.href = "/" + controllerName + "/@Model.Action" + "?pageSize=" + obj.value + "&SearchText@Model.SearchText" + "&sortExpression=" + "@Model.SortExpression";
+        window.location.href = "/" + controllerName + "/@Model.Action" + "?pageSize=" + obj.value + "&IsSalse="+ "@ViewData["IsSalse"]" + "&SearchText@Model.SearchText" + "&sortExpression=" + "@Model.SortExpression";
+    }
+    function openErrorModal(strMessage) {
+        var myDiv = document.getElementById("MyModalErrorAlertBody");
+        myDiv.innerHTML = strMessage;
+        $('#myModalError').modal('show');
+    }
+
+    function openSuccessModal(strMessage) {
+        var myDiv = document.getElementById("MyModalSuccessAlertBody");
+        myDiv.innerHTML = strMessage;
+        $('#myModalSuccess').modal('show');
     }
 
 </script>
+

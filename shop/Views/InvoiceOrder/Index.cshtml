@@ -4,7 +4,17 @@
 
 @{
     Layout = "_InvoiceLayout";
-    ViewData["Title"] = "Purchase Orders Listing";
+    bool Salse = true;
+    
+    if (ViewData["IsSalse"] !=true.ToString())
+    {
+        Salse = false;
+        ViewData["Title"] = "فواتــــــــير المشتريـــات    ";
+    }
+    else
+        ViewData["Title"] = " فواتــــــــير المبيعات   ";
+
+
     SortModel sortModel = (SortModel)ViewData["sortModel"];
     PagerModel pager = ViewBag.Pager;
 }
@@ -18,11 +28,17 @@
     </div>
     <div class="col-2 justify-content-end">
         <p>
-            <a asp-action="Create" class="btn btn-success">فاتورة جديدة</a>
+           @if(Salse){
+            <a asp-action="Create" asp-route-IsSalse="@true" class="btn btn-success">فاتورة بيع جديدة</a>
+            }
+            else{
+               <a asp-action="Create" asp-route-IsSalse="@false" class="btn btn-success">فاتورة شراء جديدة</a>
+            }
+            
+
         </p>
     </div>
 </div>
-
 
 
 
@@ -42,22 +58,27 @@
 
 
             <th>
+
                 <i class="@sortModel.GetColumn("PoNumber").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression">
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression" asp-route-IsSalse="@Salse">
                     P.No
                 </a>
             </th>
 
             <th>
                 <i class="@sortModel.GetColumn("Date").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("Date").SortExpression">
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("Date").SortExpression" asp-route-IsSalse="@Salse">
                     @Html.DisplayNameFor(model => model.Date)
                 </a>
             </th>
 
 
             <th>
-                @Html.DisplayNameFor(model => model.Supplier)
+                @{if(!Salse)
+                      @Html.DisplayNameFor(model => model.Supplier)
+                else
+                        @Html.DisplayNameFor(model => model.Customer)
+            }
             </th>
 
             <th>
@@ -85,7 +106,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if(!Salse)
+        foreach (var item in Model)
         {
             if (item.SupplierId == null)
                 continue;
@@ -143,16 +165,84 @@
 
 
                 </td>
-            </tr>
+                </tr>
+            }
+        else
+        {
+            foreach (var item in Model)
+            {
+                if (item.CustomerId == null)
+                    continue;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PoNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
+                *@
+                    </td>
+                    <td>
+                        @*                    @Html.DisplayFor(modelItem => item.QuotationNo)
+                *@
+                    </td>
+                    @*<td>
+            @Html.DisplayFor(modelItem => item.QuotationDate)
+            </td>
+
+            <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+            </td>*@
+                    <td>
+
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-dark">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-danger">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </div>
+
+
+
+
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
 
-<div class="row">
+
+ <div class="row">
     <div class="col-12">
         <partial name="_bottomBar" model="@pager" />
     </div>
 </div>
+
+
 
 
 @section Scripts {
