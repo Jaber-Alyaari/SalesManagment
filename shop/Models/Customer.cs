@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,7 @@ namespace shop.Models
 
         [Key]
         [Column("ID")]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [StringLength(50)]
         public string? Name { get; set; }
         [StringLength(50)]
@@ -26,10 +25,18 @@ namespace shop.Models
         public string? Email { get; set; }
         [StringLength(50)]
         public string? Address { get; set; }
+
         [InverseProperty("Customer")]
-        [DisplayName("رقم الحساب")]
         public virtual ICollection<Account> Accounts { get; set; }
         [InverseProperty("Customer")]
         public virtual ICollection<Invoice> Invoices { get; set; }
+        [NotMapped]
+        public decimal? TotalDeptor { get; set; } = 0;
+        [NotMapped]
+
+        public decimal? TotalCreditor { get; set; } = 0;
+
+        [NotMapped]
+        public decimal? Total { get; set; } = 0;
     }
 }

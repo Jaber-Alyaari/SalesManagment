@@ -14,18 +14,17 @@ namespace shop.Models
         }
 
         [Key]
-        [Column("AccountNumber")]
-        public long AccountNumber { get; set; }
+        public int AccountNumber { get; set; }
         [Column(TypeName = "date")]
         public DateTime? CreateDate { get; set; }
-        public bool? State { get; set; }
-        public long? UserAdds { get; set; }
+        public int? UserAdds { get; set; }
         [Column("GroupID")]
-        public long? GroupId { get; set; }
+        public int? GroupId { get; set; }
         [Column("CustomerID")]
-        public long? CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [Column("SupplierID")]
-        public long? SupplierId { get; set; }
+        public int? SupplierId { get; set; }
+        public bool State { get; set; } = false;
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Accounts")]
@@ -41,6 +40,5 @@ namespace shop.Models
         public virtual User? UserAddsNavigation { get; set; }
         [InverseProperty("AccountNumberNavigation")]
         public virtual ICollection<Journal> Journals { get; set; }
-
     }
 }

@@ -30,7 +30,7 @@ namespace shop.Controllers
 
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Products == null)
             {
@@ -57,11 +57,11 @@ namespace shop.Controllers
 
 
 
-    
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Unit,CatId,SupplierID")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Price,Quantity,Unit,CatId,SupplierID,Code")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -70,9 +70,9 @@ namespace shop.Controllers
                     _context.Add(product);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة المنتج  بنجاح   ";
-                    TempData["MessageState"] ="1";
+                    TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
-                   
+
 
                 }
                 catch
@@ -91,8 +91,9 @@ namespace shop.Controllers
 
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(int id)
         {
+            var _id = Convert.ToInt32(id);
             if (id == null || _context.Products == null)
             {
                 TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
@@ -101,7 +102,7 @@ namespace shop.Controllers
 
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == _id);
             if (product == null)
             {
                 TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
@@ -119,7 +120,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity,Unit,CatId,Code")] Product product)
         {
             if (id != product.Id)
             {
@@ -153,7 +154,7 @@ namespace shop.Controllers
 
 
         // GET: Products/Delete/5
-        //public async Task<IActionResult> Delete(long? id)
+        //public async Task<IActionResult> Delete(int? id)
         //{
         //    if (id == null || _context.Products == null)
         //    {
@@ -172,12 +173,13 @@ namespace shop.Controllers
         //}
 
         // POST: Products/Delete/5
-       // [HttpPost, ActionName("Delete")]
+        // [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
-         
-            var product = await _context.Products.FindAsync(id);
+            var _id=Convert.ToInt32(id);
+
+            var product = await _context.Products.FirstOrDefaultAsync(i=> i.Id== id);
             if (product != null)
             {
                 try
@@ -200,7 +202,7 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(long id)
+        private bool ProductExists(int? id)
         {
             return _context.Products.Any(e => e.Id == id);
         }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace shop.Migrations
 {
-    public partial class onemigration : Migration
+    public partial class NewInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,9 +13,9 @@ namespace shop.Migrations
                 name: "AccountGroup",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
@@ -27,9 +27,9 @@ namespace shop.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Describtion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
@@ -41,13 +41,12 @@ namespace shop.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    State = table.Column<bool>(type: "bit", nullable: true)
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,13 +57,12 @@ namespace shop.Migrations
                 name: "Suppliers",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    State = table.Column<bool>(type: "bit", nullable: true)
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,10 +73,10 @@ namespace shop.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     StateAcount = table.Column<bool>(type: "bit", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -94,19 +92,19 @@ namespace shop.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CatID = table.Column<long>(type: "bigint", nullable: true)
+                    CatID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ID);
+                    table.PrimaryKey("PK_Products", x => x.Code);
                     table.ForeignKey(
-                        name: "FK_Products_Categories",
+                        name: "FK_Products_Categories_CatID",
                         column: x => x.CatID,
                         principalTable: "Categories",
                         principalColumn: "ID");
@@ -116,34 +114,35 @@ namespace shop.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    AccountNumber = table.Column<long>(type: "bigint", nullable: false)
+                    AccountNumber = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: true),
-                    UserAdds = table.Column<long>(type: "bigint", nullable: true),
-                    GroupID = table.Column<long>(type: "bigint", nullable: true),
-                    CustomerID = table.Column<long>(type: "bigint", nullable: true),
-                    SupplierID = table.Column<long>(type: "bigint", nullable: true)
+                    UserAdds = table.Column<int>(type: "int", nullable: true),
+                    GroupID = table.Column<int>(type: "int", nullable: true),
+                    CustomerID = table.Column<int>(type: "int", nullable: true),
+                    SupplierID = table.Column<int>(type: "int", nullable: true),
+                    State = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accounts", x => x.AccountNumber);
                     table.ForeignKey(
-                        name: "FK_Accounts_Customer",
-                        column: x => x.CustomerID,
-                        principalTable: "Customers",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_Accounts_Group",
+                        name: "FK_Accounts_AccountGroup_GroupID",
                         column: x => x.GroupID,
                         principalTable: "AccountGroup",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Accounts_Suppliers",
+                        name: "FK_Accounts_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Customers",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Accounts_Suppliers_SupplierID",
                         column: x => x.SupplierID,
                         principalTable: "Suppliers",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Accounts_User",
+                        name: "FK_Accounts_Users_UserAdds",
                         column: x => x.UserAdds,
                         principalTable: "Users",
                         principalColumn: "ID");
@@ -153,32 +152,33 @@ namespace shop.Migrations
                 name: "Invoice",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PoNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: true),
                     IsSales = table.Column<bool>(type: "bit", nullable: true),
-                    Customer_ID = table.Column<long>(type: "bigint", nullable: true),
+                    Customer_ID = table.Column<int>(type: "int", nullable: true),
                     Remarks = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    User_ID = table.Column<long>(type: "bigint", nullable: true),
-                    SupplierID = table.Column<long>(type: "bigint", nullable: true)
+                    User_ID = table.Column<int>(type: "int", nullable: true),
+                    SupplierID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoice", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Bills_Customers",
+                        name: "FK_Invoice_Customers_Customer_ID",
                         column: x => x.Customer_ID,
                         principalTable: "Customers",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Bills_Users",
-                        column: x => x.User_ID,
-                        principalTable: "Users",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_Invoice_Suppliers",
+                        name: "FK_Invoice_Suppliers_SupplierID",
                         column: x => x.SupplierID,
                         principalTable: "Suppliers",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Invoice_Users_User_ID",
+                        column: x => x.User_ID,
+                        principalTable: "Users",
                         principalColumn: "ID");
                 });
 
@@ -186,13 +186,13 @@ namespace shop.Migrations
                 name: "Journal",
                 columns: table => new
                 {
-                    ProcessID = table.Column<long>(type: "bigint", nullable: false)
+                    ProcessID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProcessType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    UserID = table.Column<long>(type: "bigint", nullable: true),
-                    ReferenceID = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: true),
-                    AccountNumber = table.Column<long>(type: "bigint", nullable: true),
-                    Amount = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: true),
+                    ReferenceID = table.Column<int>(type: "int", maxLength: 10, nullable: true),
+                    AccountNumber = table.Column<int>(type: "int", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", maxLength: 10, nullable: false),
                     Creditor = table.Column<bool>(type: "bit", nullable: true),
                     Debtor = table.Column<bool>(type: "bit", nullable: true),
                     Date = table.Column<DateTime>(type: "date", nullable: true)
@@ -201,7 +201,7 @@ namespace shop.Migrations
                 {
                     table.PrimaryKey("PK_Journal", x => x.ProcessID);
                     table.ForeignKey(
-                        name: "FK_Journal_Accounts",
+                        name: "FK_Journal_Accounts_AccountNumber",
                         column: x => x.AccountNumber,
                         principalTable: "Accounts",
                         principalColumn: "AccountNumber");
@@ -211,25 +211,27 @@ namespace shop.Migrations
                 name: "InvoiceDetails",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "bigint", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InvoiceID = table.Column<long>(type: "bigint", nullable: true),
-                    ProductID = table.Column<long>(type: "bigint", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: true)
+                    InvoiceID = table.Column<int>(type: "int", nullable: true),
+                    ProductCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InvoiceDetails", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_BillDetails_Bills",
+                        name: "FK_InvoiceDetails_Invoice_InvoiceID",
                         column: x => x.InvoiceID,
                         principalTable: "Invoice",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_BillDetails_Products",
-                        column: x => x.ProductID,
+                        name: "FK_InvoiceDetails_Products_ProductCode",
+                        column: x => x.ProductCode,
                         principalTable: "Products",
-                        principalColumn: "ID");
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -273,9 +275,9 @@ namespace shop.Migrations
                 column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetails_ProductID",
+                name: "IX_InvoiceDetails_ProductCode",
                 table: "InvoiceDetails",
-                column: "ProductID");
+                column: "ProductCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Journal_AccountNumber",
@@ -309,10 +311,10 @@ namespace shop.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "AccountGroup");
 
             migrationBuilder.DropTable(
-                name: "AccountGroup");
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

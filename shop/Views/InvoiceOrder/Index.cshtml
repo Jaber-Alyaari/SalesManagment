@@ -1,0 +1,254 @@
+﻿
+@model IEnumerable<shop.Models.Invoice>
+
+
+@{
+    Layout = "_InvoiceLayout";
+    bool Salse = true;
+    
+    if (ViewData["IsSalse"] !=true.ToString())
+    {
+        Salse = false;
+        ViewData["Title"] = "فواتــــــــير المشتريـــات    ";
+    }
+    else
+        ViewData["Title"] = " فواتــــــــير المبيعات   ";
+
+
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
+    PagerModel pager = ViewBag.Pager;
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+
+<div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-2 justify-content-end">
+        <p>
+           @if(Salse){
+            <a asp-action="Create" asp-route-IsSalse="@true" class="btn btn-success">فاتورة بيع جديدة</a>
+            }
+            else{
+               <a asp-action="Create" asp-route-IsSalse="@false" class="btn btn-success">فاتورة شراء جديدة</a>
+            }
+            
+
+        </p>
+    </div>
+</div>
+
+
+
+<br />
+
+
+<div class="row">
+    <div class="col-12">
+        <partial name="_topBar" model="@pager" />
+    </div>
+</div>
+
+
+<table class="table" style="direction:rtl;text-align: center;">
+    <thead>
+        <tr>
+
+
+            <th>
+
+                <i class="@sortModel.GetColumn("PoNumber").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression" asp-route-IsSalse="@Salse">
+                    P.No
+                </a>
+            </th>
+
+            <th>
+                <i class="@sortModel.GetColumn("Date").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("Date").SortExpression" asp-route-IsSalse="@Salse">
+                    @Html.DisplayNameFor(model => model.Date)
+                </a>
+            </th>
+
+
+            <th>
+                @{if(!Salse)
+                      @Html.DisplayNameFor(model => model.Supplier)
+                else
+                        @Html.DisplayNameFor(model => model.Customer)
+            }
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+                الخصم
+@*                @Html.DisplayNameFor(model => model.DiscountPercent)
+*@            </th>
+            <th>
+                العملة
+@*                @Html.DisplayNameFor(model => model.QuotationNo)
+*@            </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.QuotationDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(!Salse)
+        foreach (var item in Model)
+        {
+            if (item.SupplierId == null)
+                continue;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PoNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+@*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
+*@                </td>
+                <td>
+@*                    @Html.DisplayFor(modelItem => item.QuotationNo)
+*@                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.QuotationDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>*@
+                <td>
+
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+
+
+
+
+                </td>
+                </tr>
+            }
+        else
+        {
+            foreach (var item in Model)
+            {
+                if (item.CustomerId == null)
+                    continue;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PoNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
+                *@
+                    </td>
+                    <td>
+                        @*                    @Html.DisplayFor(modelItem => item.QuotationNo)
+                *@
+                    </td>
+                    @*<td>
+            @Html.DisplayFor(modelItem => item.QuotationDate)
+            </td>
+
+            <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+            </td>*@
+                    <td>
+
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-dark">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-danger">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </div>
+
+
+
+
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+ <div class="row">
+    <div class="col-12">
+        <partial name="_bottomBar" model="@pager" />
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+  

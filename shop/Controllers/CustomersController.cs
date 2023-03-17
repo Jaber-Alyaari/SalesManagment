@@ -26,7 +26,7 @@ namespace shop.Controllers
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Customers == null)
             {
@@ -91,7 +91,7 @@ namespace shop.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Customers == null)
             {
@@ -116,7 +116,7 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Phone,Email,Address")] Customer customer, bool State)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,Address")] Customer customer, bool State)
         {
             if (id != customer.Id)
             {
@@ -136,14 +136,16 @@ namespace shop.Controllers
                     Account account = new Account();
 
                     account = _context.Accounts.SingleOrDefault(A => A.CustomerId == customer.Id);
+                    if (account != null)
+                    {
+                        account.State = State;
+                        _context.Accounts.Update(account);
+                        await _context.SaveChangesAsync();
 
-                    account.State = State;
-                    _context.Accounts.Update(account);
-                    await _context.SaveChangesAsync();
-
-                    TempData["Message"] = "  تم تعديل  الزبــون  بنجاح   ";
-                    TempData["MessageState"] = "1";
-                    return RedirectToAction(nameof(Index));
+                        TempData["Message"] = "  تم تعديل  الزبــون  بنجاح   ";
+                        TempData["MessageState"] = "1";
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -157,7 +159,7 @@ namespace shop.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             var cust = await _context.Customers.FindAsync(id);
             if (cust != null)
@@ -183,7 +185,7 @@ namespace shop.Controllers
         }
 
 
-        private bool CustomerExists(long id)
+        private bool CustomerExists(int id)
         {
           return _context.Customers.Any(e => e.Id == id);
         }

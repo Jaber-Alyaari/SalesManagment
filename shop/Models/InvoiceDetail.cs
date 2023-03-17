@@ -10,19 +10,35 @@ namespace shop.Models
     {
         [Key]
         [Column("ID")]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Column("InvoiceID")]
-        public long? InvoiceId { get; set; }
-        [Column("ProductID")]
-        public long? ProductId { get; set; }
-        public int? Quantity { get; set; }
-        public int? TotalPrice { get; set; }
+        public int? InvoiceId { get; set; }
+        [StringLength(50)]
+        public string ProductCode { get; set; } = null!;
+        public decimal Quantity { get; set; }
 
         [ForeignKey("InvoiceId")]
         [InverseProperty("InvoiceDetails")]
         public virtual Invoice? Invoice { get; set; }
-        [ForeignKey("ProductId")]
+        [ForeignKey("ProductCode")]
         [InverseProperty("InvoiceDetails")]
-        public virtual Product? Product { get; set; }
+        public virtual Product ProductCodeNavigation { get; set; } = null!;
+
+        [Required]
+        public decimal Price { get; set; }
+
+
+        [MaxLength(75)]
+        [NotMapped]
+        public string Description { get; set; } = "";
+
+        [MaxLength(25)]
+        [NotMapped]
+        public string? UnitName { get; set; } = "Pcs";
+
+        [NotMapped]
+        public bool IsDeleted { get; set; } = false;
+        [NotMapped]
+        public decimal Total { get; set; }
     }
 }

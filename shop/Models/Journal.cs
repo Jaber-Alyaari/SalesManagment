@@ -9,23 +9,23 @@ namespace shop.Models
     [Table("Journal")]
     public partial class Journal
     {
+        [Key]
+        [Column("ProcessID")]
+        public int ProcessId { get; set; }
         [StringLength(50)]
         public string? ProcessType { get; set; }
         [Column("UserID")]
-        public long? UserId { get; set; }
+        public int? UserId { get; set; }
         [Column("ReferenceID")]
         [StringLength(10)]
-        public string? ReferenceId { get; set; }
-        public long? AccountNumber { get; set; }
+        public int? ReferenceId { get; set; }
+        public int? AccountNumber { get; set; }
         [StringLength(10)]
-        public string? Amount { get; set; }
-        public bool? Creditor { get; set; }
-        public bool? Debtor { get; set; }
+        public decimal Amount { get; set; }
+        public bool? Creditor { get; set; } = false;
+        public bool? Debtor { get; set; } = false;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; }
-        [Key]
-        [Column("ProcessID")]
-        public long ProcessId { get; set; }
 
         [ForeignKey("AccountNumber")]
         [InverseProperty("Journals")]
