@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using shop.Models;
 
 namespace shop.Controllers
@@ -13,21 +14,46 @@ namespace shop.Controllers
         {
             _context=context;
         }
-        public async Task< ActionResult> Index()
+        public  ActionResult Index()
         {
+            List <Customer> customer =  _context.Customers.Include(c=> c.Accounts).ThenInclude(j=> j.Journals).ToList();
+            foreach(Customer c  in customer)
+            {
+                foreach(var A in c.Accounts)
+                {
+
+                    foreach (var j in A.Journals)
+                    {
+                        if (j.Debtor == true) 
+                        { 
+
+                            c.TotalDeptor += j.Amount;
+                        }
+                        else
+                        {
+                            c.TotalCreditor += j.Amount;
+                        }
+
+                    }
+                    c.Total += c.TotalDeptor - c.TotalCreditor;
+
+                }
+
+            }
+
             
-            return View();
+            return View( customer);
         }
 
         // GET: Accounts/Details/5
         public ActionResult Details(int id)
         {
+           
             return View();
+
         }
 
-        // GET: Accounts/Create
-
-        // POST: Accounts/Create
+   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create( Account account)

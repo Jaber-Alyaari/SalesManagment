@@ -24,7 +24,7 @@ namespace shop.Models
         public int? CustomerId { get; set; }
         [Column("SupplierID")]
         public int? SupplierId { get; set; }
-        public bool? State { get; set; }
+        public bool State { get; set; } = false;
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Accounts")]

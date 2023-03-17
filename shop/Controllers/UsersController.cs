@@ -159,9 +159,10 @@ namespace shop.Controllers
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var _id=Convert.ToInt32(id);
+            var user = await _context.Users.FirstOrDefaultAsync(i=> i.Id == _id);
             if (user != null)
             {
                 try

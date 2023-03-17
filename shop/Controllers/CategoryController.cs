@@ -65,25 +65,62 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task <ActionResult> Edit(int id)
         {
-            return View();
+            var _id = Convert.ToInt32(id);
+            if (_id == null || _context.Categories == null)
+            {
+                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            var cat = await _context.Categories.FirstOrDefaultAsync(i => i.Id == _id);
+            if (cat == null)
+            {
+                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View(cat);
+
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Namet,Describtion")] Category cat)
         {
-            try
+            if (id != cat.Id)
             {
+                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+                TempData["MessageState"] = "0";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    _context.Update(cat);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "  تم تعديل  الصنف  بنجاح   ";
+                    TempData["MessageState"] = "1";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+                    TempData["MessageState"] = "0";
+                    return RedirectToAction(nameof(Index));
+
+                }
             }
+            return View(cat);
         }
+
 
         // GET: CategoryController/Delete/5
         public async Task <ActionResult> Delete(int id)
