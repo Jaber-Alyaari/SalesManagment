@@ -21,11 +21,11 @@
         {
             @if (TempData["MessageState"].ToString() == "1")
             {
-                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+                                                                                        <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
             }
             else
             {
-                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+                                                                                        <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
             }
         }
 
@@ -35,24 +35,28 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post">
                     <div class="row">
                         <input type="hidden" asp-for="Id"/>
                         <div class="col-md-4 col-sm-4">
                             <select asp-for="CatId" class="form-control">
                                 @if (Cats != null)
                                 {
-                                    <option value=@null>بدون صنـــــــف </option>
+                                                                        <option value=@null>بدون صنـــــــف </option>
                                     foreach (var Cat in Cats)
                                     {
-                                        <option value="@Cat.Id">@Cat.Name  </option>
+                                                                                                                <option value="@Cat.Id">@Cat.Name  </option>
                                     }
                                 }
                             </select>
-
+                            <div class="col-md-12 col-sm-12">
+                            <input asp-for="Code" class="form-control has-feedback-left" placeholder="الكود" type="hidden">
+                                @*<span asp-validation-for="Code" class="right text-danger"></span>
+                            <span class="fa  fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>*@
                         </div>
-                        <div class="col-md-4 col-sm-4">
-                            <select class="form-control">
+                        </div>
+                        @*<div class="col-md-4 col-sm-4">
+                            <select  class="form-control">
                                 @if (Sups != null)
                                 {
                                     <option value=@null> بدون مــــورد </option>
@@ -62,12 +66,15 @@
                                     }
                                 }
                             </select>
-                        </div><br><br><br>
+                        </div>*@
+
+                        <br><br><br>
                         <div class="col-md-12 col-sm-12">
                             <input asp-for="Name" class="form-control has-feedback-left" placeholder="اسم المنتج">
                             <span asp-validation-for="Name" class="right text-danger"></span>
                             <span class="fa  fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
-                        </div><br><br><br>
+                        </div>
+                        <br><br><br>
 
                         @*<div class="col-md-12 col-sm-12">
                         <textarea asp-for="" class="form-control" placeholder=" وصف المنتج"></textarea>
@@ -84,15 +91,17 @@
                             <span asp-validation-for="Price" class="right text-danger"></span>
                             <span class="fa fa-balance-scale form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-4 col-sm-4">
+                        @*<div class="col-md-4 col-sm-4">
                             <input type="date" class="form-control has-feedback-left">
 
                             <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
-                        </div><br><br><br>
-                        <div class="col-md-12 col-sm-12">
+                        </div>*@
+                        <br><br><br>
+                        @*<div class="col-md-12 col-sm-12">
                             <input type="file" class="form-control has-feedback-left" placeholder="Retail Price">
                             <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
-                        </div><br><br><br>
+                        </div>*@
+                        <br><br><br>
                         <div class="col-md-12 col-sm-12 ">
                             <button type="submit" value="Create" class="btn btn-success" style="float:right">حفــــــــظ</button>
                             <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>

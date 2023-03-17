@@ -89,7 +89,7 @@ namespace shop.Controllers
         }
 
 
-
+        [HttpGet]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -120,21 +120,16 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
+        public IActionResult Edit(Product product)
         {
-            if (id != product.Id)
-            {
-                TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
-                TempData["MessageState"] = "0";
-                return RedirectToAction(nameof(Index));
-            }
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                     TempData["Message"] = "  تم تعديل  المنتج  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
@@ -150,7 +145,37 @@ namespace shop.Controllers
             return View(product);
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
+        //{
+        //    if (id != product.Id)
+        //    {
+        //        TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+        //        TempData["MessageState"] = "0";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(product);
+        //            await _context.SaveChangesAsync();
+        //            TempData["Message"] = "  تم تعديل  المنتج  بنجاح   ";
+        //            TempData["MessageState"] = "1";
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
+        //            TempData["MessageState"] = "0";
+        //            return RedirectToAction(nameof(Index));
+
+        //        }
+        //    }
+        //    return View(product);
+        //}
 
 
         // GET: Products/Delete/5

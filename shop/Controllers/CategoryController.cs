@@ -19,7 +19,7 @@ namespace shop.Controllers
         // GET: CategoryController    
         public IActionResult Index()
         {
-            List<Category>ss= _context.Categories.ToList();
+            List<Category> ss = _context.Categories.ToList();
             return View(ss);
         }
 
@@ -30,15 +30,15 @@ namespace shop.Controllers
         }
         //[HttpGet]
         // GET: CategoryController/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
-     
+
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>  Create(Category cat)
+        public async Task<ActionResult> Create(Category cat)
         {
             if (ModelState.IsValid)
             {
@@ -65,19 +65,32 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null || id == 0) return NotFound();
+            var category = _context.Categories.FirstOrDefault(x => x.Id == id);
+            if (category == null) return NotFound();
+
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Categories.Update(category);
+                    _context.SaveChanges();
+
+
+                    return RedirectToAction("Index");
+                }
+                return View(category);
+
             }
             catch
             {
@@ -86,7 +99,7 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Delete/5
-        public async Task <ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (_context.Categories == null)
             {
