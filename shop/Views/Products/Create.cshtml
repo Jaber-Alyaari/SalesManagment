@@ -54,7 +54,7 @@
                             </select>
                             
                         </div>
-                        <div class="col-md-4 col-sm-4">
+                        @*<div class="col-md-4 col-sm-4">
                             <select  class="form-control">
                                 @if (Sups != null)
                                 {
@@ -65,7 +65,9 @@
                                     }
                                 }
                             </select>                            
-                        </div><br><br><br>
+                        </div>
+                        *@
+                        <br><br><br>
                         <div class="col-md-6 col-sm-6">
                             <input asp-for="Name" class="form-control has-feedback-left" placeholder="اسم المنتج" >
                             <span asp-validation-for="Name" class="right text-danger"></span>
@@ -97,15 +99,16 @@
                             <span asp-validation-for="Price" class="right text-danger"></span>
                             <span class="fa fa-balance-scale form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-4 col-sm-4">
+                        @*<div class="col-md-4 col-sm-4">
                             <input type="date" class="form-control has-feedback-left" >
 
                             <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
-                        </div><br><br><br>
-                        <div class="col-md-12 col-sm-12">
+                        </div>*@
+                        <br><br><br>
+                        @*<div class="col-md-12 col-sm-12">
                             <input type="file" class="form-control has-feedback-left" placeholder="Retail Price">
                             <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
-                        </div><br><br><br>
+                        </div><br><br><br>*@
                         <div class="col-md-12 col-sm-12 ">
                             <button type="submit" value="Create" class="btn btn-success" style="float:right">حفــــــــظ</button>
                             <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>

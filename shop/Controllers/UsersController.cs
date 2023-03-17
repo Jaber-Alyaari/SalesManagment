@@ -24,7 +24,7 @@ namespace shop.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Users.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
 
@@ -53,7 +53,7 @@ namespace shop.Controllers
             return View();
         }
 
-    
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
@@ -64,7 +64,7 @@ namespace shop.Controllers
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
-               
+
                     TempData["Message"] = "  تمت اضافة   المستخدم   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
@@ -107,7 +107,7 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
         {
             if (id != user.Id)
             {
@@ -185,7 +185,7 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool  UserExists(int id)
+        private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

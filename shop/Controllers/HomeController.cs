@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.Build.Framework;
 using shop.Models;
 using System.Diagnostics;
+
+
 
 namespace shop.Controllers
 {
@@ -11,16 +15,20 @@ namespace shop.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
         }
+
+        //[System.Web.Mvc.OutputCache(Duration = 0, NoStore = true)]
 
         public IActionResult Index()
         {
-
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
 

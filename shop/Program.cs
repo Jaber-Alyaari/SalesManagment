@@ -3,7 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using shop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddDbContext<SalesManagerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBcoon")));
 
@@ -22,6 +29,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -53,7 +54,7 @@
                                 <li><a asp-action="DailySalse" asp-controller="Salse"><i class="fa fa-shopping-cart"></i> المبيعات اليومية</a></li>
                                 <li><a asp-action="Edit" asp-controller="User"><i class="fa fa-user"></i> الملف الشخصي</a></li>*@
 
-                                 @*    login as Admin*@
+                                @*    login as Admin*@
                                 <li><a asp-action="Index" asp-controller="Invoice" ><i class="fa fa-tachometer"></i> Dashboard</a></li>
                                 <li><a asp-action="Index" asp-controller="Category"><i class="fa fa-list"></i> الأصنـــــــاف</a></li>
                                 <li><a asp-action="Index" asp-controller="Products"><i class="fa fa-shopping-cart"></i> المــنتجـــــات</a></li>
@@ -82,7 +83,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="Lock">
                             <span class="fa fa-lock" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" asp-action="LogOut" asp-controller="Login">
                             <span class="fa fa-sign-out" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -99,7 +100,8 @@
                         <ul class=" navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/picture.jpg" alt="">Anne Smmith
+                                    <img src="images/picture.jpg" alt="">  Muhannad
+                                    @*@HttpContext.Session.GetString("UserName")*@
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="javascript:;"><i class="fa fa-user pull-right"></i> Profile</a>

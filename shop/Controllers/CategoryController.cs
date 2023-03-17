@@ -19,7 +19,7 @@ namespace shop.Controllers
         // GET: CategoryController    
         public IActionResult Index()
         {
-            List<Category>ss= _context.Categories.ToList();
+            List<Category> ss = _context.Categories.ToList();
             return View(ss);
         }
 
@@ -30,15 +30,15 @@ namespace shop.Controllers
         }
         //[HttpGet]
         // GET: CategoryController/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
-     
+
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>  Create(Category cat)
+        public async Task<ActionResult> Create(Category cat)
         {
             if (ModelState.IsValid)
             {
@@ -65,39 +65,30 @@ namespace shop.Controllers
         }
 
         // GET: CategoryController/Edit/5
-        public async Task <ActionResult> Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var _id = Convert.ToInt32(id);
-            if (_id == null || _context.Categories == null)
-            {
-                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
-                TempData["MessageState"] = "0";
-                return RedirectToAction(nameof(Index));
+            if (id == null || id == 0) return NotFound();
+            var category = _context.Categories.FirstOrDefault(x => x.Id == id);
+            if (category == null) return NotFound();
 
-            }
-
-            var cat = await _context.Categories.FirstOrDefaultAsync(i => i.Id == _id);
-            if (cat == null)
-            {
-                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
-                TempData["MessageState"] = "0";
-                return RedirectToAction(nameof(Index));
-
-            }
-            return View(cat);
-
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Namet,Describtion")] Category cat)
-        {
-            if (id != cat.Id)
-            {
-                TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
-                TempData["MessageState"] = "0";
-                return RedirectToAction(nameof(Index));
+        public ActionResult Edit(Category category)
+
+                if (ModelState.IsValid)
+                {
+                    _context.Categories.Update(category);
+                    _context.SaveChanges();
+
+
+                    return RedirectToAction("Index");
+                }
+                return View(category);
+
             }
 
             if (ModelState.IsValid)
@@ -123,7 +114,7 @@ namespace shop.Controllers
 
 
         // GET: CategoryController/Delete/5
-        public async Task <ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (_context.Categories == null)
             {
