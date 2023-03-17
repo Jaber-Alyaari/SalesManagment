@@ -22,8 +22,8 @@ namespace shop.Models
         public int? AccountNumber { get; set; }
         [StringLength(10)]
         public decimal Amount { get; set; }
-        public bool? Creditor { get; set; }
-        public bool? Debtor { get; set; }
+        public bool? Creditor { get; set; } = false;
+        public bool? Debtor { get; set; } = false;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; }
 

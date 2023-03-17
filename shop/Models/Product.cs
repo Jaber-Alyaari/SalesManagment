@@ -17,8 +17,8 @@ namespace shop.Models
         public int Id { get; set; }
         [StringLength(50)]
         public string Name { get; set; } = null!;
-        public int Price { get; set; }
-        public int? Quantity { get; set; }
+        public decimal Price { get; set; }
+        public decimal? Quantity { get; set; }
         [StringLength(50)]
         public string? Unit { get; set; }
         [Column("CatID")]

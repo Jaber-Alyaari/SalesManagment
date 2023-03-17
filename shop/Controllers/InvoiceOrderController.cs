@@ -233,7 +233,7 @@ namespace shop.Controllers
                             Journal NewJournal = new Journal();
                             NewJournal.Debtor = true;
                             NewJournal.Creditor = false;
-                            NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
+                                NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
                             NewJournal.ProcessType = "فاتورة بيع اجل";
                             decimal total = 0;
                             foreach (InvoiceDetail Details in invo.InvoiceDetails)

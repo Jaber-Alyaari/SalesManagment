@@ -78,9 +78,7 @@ namespace shop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category category)
-        {
-            try
-            {
+
                 if (ModelState.IsValid)
                 {
                     _context.Categories.Update(category);
@@ -92,11 +90,28 @@ namespace shop.Controllers
                 return View(category);
 
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    _context.Update(cat);
+                    await _context.SaveChangesAsync();
+                    TempData["Message"] = "  تم تعديل  الصنف  بنجاح   ";
+                    TempData["MessageState"] = "1";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+                    TempData["MessageState"] = "0";
+                    return RedirectToAction(nameof(Index));
+
+                }
             }
+            return View(cat);
         }
+
 
         // GET: CategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)

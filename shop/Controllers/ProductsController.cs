@@ -61,7 +61,7 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Quantity,Unit,CatId,SupplierID,Code")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Price,Quantity,Unit,CatId,SupplierID,Code")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -121,6 +121,7 @@ namespace shop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Product product)
+
         {
 
 
@@ -202,8 +203,9 @@ namespace shop.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
+            var _id=Convert.ToInt32(id);
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FirstOrDefaultAsync(i=> i.Id== id);
             if (product != null)
             {
                 try

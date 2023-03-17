@@ -134,14 +134,16 @@ namespace shop.Controllers
                     Account account = new Account();
 
                     account = _context.Accounts.SingleOrDefault(A => A.SupplierId == supplier.Id);
+                    if (account != null)
+                    {
+                        account.State = State;
+                        _context.Accounts.Update(account);
+                        await _context.SaveChangesAsync();
 
-                    account.State = State;
-                    _context.Accounts.Update(account);
-                    await _context.SaveChangesAsync();
-
-                    TempData["Message"] = "  تم تعديل  المورد  بنجاح   ";
-                    TempData["MessageState"] = "1";
-                    return RedirectToAction(nameof(Index));
+                        TempData["Message"] = "  تم تعديل  المورد  بنجاح   ";
+                        TempData["MessageState"] = "1";
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

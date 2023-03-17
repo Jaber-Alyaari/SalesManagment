@@ -13,18 +13,18 @@ namespace shop.Models
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<AccountGroup> AccountGroups { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
-        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
-        public virtual DbSet<Journal> Journals { get; set; } 
-        public virtual DbSet<Product> Products { get; set; }  
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<AccountGroup> AccountGroups { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Invoice> Invoices { get; set; } = null!;
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; } = null!;
+        public virtual DbSet<Journal> Journals { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
 
 
-     
+
     }
 }
