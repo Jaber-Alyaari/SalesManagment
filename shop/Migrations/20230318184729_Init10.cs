@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace shop.Migrations
 {
-    public partial class NewInit : Migration
+    public partial class Init10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,17 +92,17 @@ namespace shop.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CatID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Code);
+                    table.PrimaryKey("PK_Products", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Products_Categories_CatID",
                         column: x => x.CatID,
@@ -121,7 +121,7 @@ namespace shop.Migrations
                     GroupID = table.Column<int>(type: "int", nullable: true),
                     CustomerID = table.Column<int>(type: "int", nullable: true),
                     SupplierID = table.Column<int>(type: "int", nullable: true),
-                    State = table.Column<bool>(type: "bit", nullable: true)
+                    State = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,7 +214,7 @@ namespace shop.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceID = table.Column<int>(type: "int", nullable: true),
-                    ProductCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProductId = table.Column<int>(type: "int", maxLength: 50, nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -227,10 +227,10 @@ namespace shop.Migrations
                         principalTable: "Invoice",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_InvoiceDetails_Products_ProductCode",
-                        column: x => x.ProductCode,
+                        name: "FK_InvoiceDetails_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Code",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -275,9 +275,9 @@ namespace shop.Migrations
                 column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetails_ProductCode",
+                name: "IX_InvoiceDetails_ProductId",
                 table: "InvoiceDetails",
-                column: "ProductCode");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Journal_AccountNumber",

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,9 +50,11 @@ namespace shop.Controllers
         }
 
         // GET: Products/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            //ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id");
+
+            ViewBag.CategoryList = GetCategorys();
             return View();
         }
 
@@ -61,30 +64,30 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Price,Quantity,Unit,CatId,SupplierID,Code")] Product product)
+        public IActionResult Create([Bind("Name,Price,Quantity,Unit,CatId")] Product product)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+
                     _context.Add(product);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                     TempData["Message"] = "  تمت اضافة المنتج  بنجاح   ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));
 
 
                 }
-                catch
+                catch (Exception ex)
                 {
-                    TempData["Message"] = "  لم يتم اضافة المنتج  !!!!!!!! ";
+                    TempData["Message"] = "  لم يتم اضافة المنتج  !!!!!!!! " +ex+" ";
                     TempData["MessageState"] = "0";
                     return View(product);
                 }
             }
             TempData["Message"] = "    لم يتم اضافة المنتج تحقق من المدخلات!!!!!!!! ";
             TempData["MessageState"] = "0";
-            //ViewData["CatId"] = new SelectList(_context.Categories, "Id", "Id", product.Id);
             return View(product);
         }
 
@@ -203,9 +206,9 @@ namespace shop.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var _id=Convert.ToInt32(id);
+            var _id = Convert.ToInt32(id);
 
-            var product = await _context.Products.FirstOrDefaultAsync(i=> i.Id== id);
+            var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == id);
             if (product != null)
             {
                 try
@@ -232,5 +235,52 @@ namespace shop.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+        private List<SelectListItem> GetSuppliers()
+        {
+            var lstSuppliers = new List<SelectListItem>();
+
+            List<Supplier> suppliers = _context.Suppliers.ToList();
+
+            lstSuppliers = suppliers.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = 1.ToString(),
+                Text = "---- بدون مورد  ----"
+            };
+
+            lstSuppliers.Insert(0, defItem);
+
+            return lstSuppliers;
+        }
+        private List<SelectListItem> GetCategorys ()
+        {
+            var lstSuppliers = new List<SelectListItem>();
+
+            List<Category> categories = _context.Categories.ToList();
+
+            lstSuppliers = categories.Select(sp => new SelectListItem()
+            {
+                Value = sp.Id.ToString(),
+                Text = sp.Name
+            }).ToList();
+
+            //var defItem = new SelectListItem()
+            //{
+            //    Value = 1.ToString(),
+            //    Text = "---- بدون صنف  ----"
+            //};
+
+            //lstSuppliers.Insert(0, defItem);
+
+            return lstSuppliers;
+        }
+
+
     }
 }

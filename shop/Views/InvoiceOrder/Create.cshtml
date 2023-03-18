@@ -116,7 +116,7 @@
                                     </td>
 
                                     <td>
-                                        <input asp-for="@Model.InvoiceDetails[i].ProductCode" class="form-control" />
+                                        <input asp-for="@Model.InvoiceDetails[i].ProductId" class="form-control" />
                                     </td>
 
                                     <td>
@@ -353,7 +353,7 @@
         function SetPrice(txtProductCode) {
 
 
-            var txtunitNameId = txtProductCode.id.replaceAll('ProductCode', 'Price');
+            var txtunitNameId = txtProductCode.id.replaceAll('ProductId', 'Price');
 
             var txtunitName = document.getElementById(txtunitNameId);
 
@@ -376,7 +376,7 @@
 
         function SetUnitName(txtProductCode) {
 
-            var txtunitNameId = txtProductCode.id.replaceAll('ProductCode', 'UnitName');
+            var txtunitNameId = txtProductCode.id.replaceAll('ProductId', 'UnitName');
 
             var txtunitName = document.getElementById(txtunitNameId);
 
@@ -460,7 +460,7 @@
 
 
         document.addEventListener('change', function (e) {
-            if (event.target.id.indexOf('ProductCode') >= 0) {
+            if (event.target.id.indexOf('ProductId') >= 0) {
                 SetUnitName(event.target);
                 SetPrice(event.target);
             }
@@ -482,14 +482,14 @@
         //function to shaw srarch item as event
         function ShowSearchableList(event) {
 
-            if (event.target.id.indexOf('ProductCode') < 0) {
+            if (event.target.id.indexOf('ProductId') < 0) {
                 return;
             }
 
 
             var tid = event.target.id;
 
-            var txtDescId = tid.replaceAll('ProductCode', 'Description');
+            var txtDescId = tid.replaceAll('ProductId', 'Description');
 
             var txtValue = document.getElementById('txtValue');
 

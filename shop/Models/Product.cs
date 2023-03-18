@@ -23,14 +23,13 @@ namespace shop.Models
         public string? Unit { get; set; }
         [Column("CatID")]
         public int? CatId { get; set; }
-        [Key]
-        [StringLength(50)]
-        public string Code { get; set; } = null!;
-
+        //[Key]
+        //public int Code { get; set; }
+        
         [ForeignKey("CatId")]
         [InverseProperty("Products")]
         public virtual Category? Cat { get; set; }
-        [InverseProperty("ProductCodeNavigation")]
+        [InverseProperty("Product")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }

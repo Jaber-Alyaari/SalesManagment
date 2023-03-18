@@ -390,7 +390,7 @@ namespace shop.Controllers
 
             Invoice item = _context.Invoices.Where(i => i.Id == _id)
                      .Include(d => d.InvoiceDetails)
-                     .ThenInclude(i => i.ProductCodeNavigation)
+                     .ThenInclude(i => i.Product)
                      .FirstOrDefault();
 
             // .Include(d => d.InvoiceDetails).ThenInclude(i => i.ProductCodeNavigation).FirstOrDefault(i => i.Id == _id);
@@ -398,8 +398,8 @@ namespace shop.Controllers
             //Invoice item = _context.Invoices.SingleOrDefault(i => i.Id == Id);
             //item.InvoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceId == item.Id).ToList();
 
-            item.InvoiceDetails.ToList().ForEach(i => i.UnitName = i.ProductCodeNavigation.Unit);
-            item.InvoiceDetails.ToList().ForEach(p => p.Description = p.ProductCodeNavigation.Name);
+            item.InvoiceDetails.ToList().ForEach(i => i.UnitName = i.Product.Unit);
+            item.InvoiceDetails.ToList().ForEach(p => p.Description = p.Product.Name);
             item.InvoiceDetails.ToList().ForEach(p => p.Total = p.Quantity * p.Price);
 
             return item;
@@ -555,7 +555,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Code.ToString(),
+                Value = ut.Id.ToString(),
                 Text = ut.Name
             }).ToList();
 
@@ -584,7 +584,7 @@ namespace shop.Controllers
 
             var defItem = new SelectListItem()
             {
-                Value = 5.ToString(),
+                Value = 1.ToString(),
                 Text = "----الحساب العام ----"
             };
 
@@ -606,7 +606,7 @@ namespace shop.Controllers
 
             var defItem = new SelectListItem()
             {
-                Value = 5.ToString(),
+                Value = 1.ToString(),
                 Text = "---- الحســاب العام  ----"
             };
 
@@ -623,7 +623,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Code.ToString(),
+                Value = ut.Id.ToString(),
                 Text = ut.Unit
             }).ToList();
 
@@ -646,7 +646,7 @@ namespace shop.Controllers
 
             lstProducts = products.Select(ut => new SelectListItem()
             {
-                Value = ut.Code.ToString(),
+                Value = ut.Id.ToString(),
                 Text = ut.Price.ToString(),
             }).ToList();
 

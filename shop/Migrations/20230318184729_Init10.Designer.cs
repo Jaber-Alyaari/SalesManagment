@@ -12,8 +12,8 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    [Migration("20230316200752_NewInit")]
-    partial class NewInit
+    [Migration("20230318184729_Init10")]
+    partial class Init10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,7 @@ namespace shop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("GroupID");
 
-                    b.Property<bool?>("State")
+                    b.Property<bool>("State")
                         .HasColumnType("bit");
 
                     b.Property<int?>("SupplierId")
@@ -205,10 +205,10 @@ namespace shop.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductCode")
+                    b.Property<int?>("ProductId")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
@@ -217,7 +217,7 @@ namespace shop.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.HasIndex("ProductCode");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("InvoiceDetails");
                 });
@@ -269,34 +269,33 @@ namespace shop.Migrations
 
             modelBuilder.Entity("shop.Models.Product", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("CatId")
                         .HasColumnType("int")
                         .HasColumnName("CatID");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Quantity")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Unit")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Code");
+                    b.HasKey("Id");
 
                     b.HasIndex("CatId");
 
@@ -429,15 +428,15 @@ namespace shop.Migrations
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("InvoiceId");
 
-                    b.HasOne("shop.Models.Product", "ProductCodeNavigation")
+                    b.HasOne("shop.Models.Product", "Product")
                         .WithMany("InvoiceDetails")
-                        .HasForeignKey("ProductCode")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Invoice");
 
-                    b.Navigation("ProductCodeNavigation");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("shop.Models.Journal", b =>

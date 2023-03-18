@@ -1,11 +1,7 @@
 ﻿@model shop.Models.Product
-@inject SalesManagerDBContext DB
 @{
     Layout = "_CashierLayout";
     ViewData["Title"] = "Create";
-    var Cats = DB.Categories.ToList();
-    var Sups = DB.Suppliers.ToList();
-
 }
 
 <div class="right_col" role="main">
@@ -37,47 +33,22 @@
                
                 <form asp-action="Create" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                     <div class="row">
-                        <!-- <div class="col-md-4 col-sm-4">
-                          <input type="text" class="form-control has-feedback-left" placeholder="Medicine Code">
-                          <span class="fa fa-medkit form-control-feedback left" aria-hidden="true"></span>
-                        </div> -->
+                       
                         <div class="col-md-4 col-sm-4">
-                            <select asp-for="CatId" class="form-control">
-                                @if(Cats != null)
-                                {
-                                    <option value=@null>بدون صنـــــــف </option>
-                                    foreach(var Cat in Cats)
-                                    {
-                                        <option value="@Cat.Id">@Cat.Name  </option>
-                                    }
-                                }
-                            </select>
+                            <select asp-for="CatId" class="form-control" asp-items="@ViewBag.CategoryList"> </select>
                             
                         </div>
-                        @*<div class="col-md-4 col-sm-4">
-                            <select  class="form-control">
-                                @if (Sups != null)
-                                {
-                                    <option value=@null> بدون مــــورد </option>
-                                    foreach (var Sup in Sups)
-                                    {
-                                        <option value="@Sup.Id">@Sup.Name  </option>
-                                    }
-                                }
-                            </select>                            
-                        </div>
-                        *@
                         <br><br><br>
                         <div class="col-md-6 col-sm-6">
                             <input asp-for="Name" class="form-control has-feedback-left" placeholder="اسم المنتج" >
                             <span asp-validation-for="Name" class="right text-danger"></span>
                             <span class="fa  fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                         <div class="col-md-6 col-sm-6">
-                            <input asp-for="Code" class="form-control has-feedback-left" placeholder="كود المنتج" >
+                       @*  <div class="col-md-6 col-sm-6">
+                            <input asp-for="Id" class="form-control has-feedback-left" placeholder="كود المنتج" >
                             <span asp-validation-for="Code" class="right text-danger"></span>
                             <span class="fa  fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
-                        </div>
+                        </div>*@
                         <div class="col-md-6 col-sm-6">
                             <input asp-for="Quantity" class="form-control has-feedback-left" placeholder="كمية المنتج">
                             <span asp-validation-for="Quantity" class="right text-danger"></span>
@@ -110,7 +81,7 @@
                             <span class="fa fa-image form-control-feedback left" aria-hidden="true"></span>
                         </div><br><br><br>*@
                         <div class="col-md-12 col-sm-12 ">
-                            <button type="submit" value="Create" class="btn btn-success" style="float:right">حفــــــــظ</button>
+                            <button type="submit"  class="btn btn-success" style="float:right">حفــــــــظ</button>
                             <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
                                 
                         </div>

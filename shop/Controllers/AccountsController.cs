@@ -48,13 +48,80 @@ namespace shop.Controllers
         // GET: Accounts/Details/5
         public ActionResult Details(int id)
         {
-           
-            return View();
+            Customer customer;
+            try
+            {
+
+                 customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
+
+                foreach (var A in customer.Accounts)
+                {
+
+                    foreach (var j in A.Journals)
+                    {
+                        if (j.Debtor == true)
+                        {
+
+                            customer.TotalDeptor += j.Amount;
+                        }
+                        else
+                        {
+                            customer.TotalCreditor += j.Amount;
+                        }
+
+                    }
+                    customer.Total += customer.TotalDeptor - customer.TotalCreditor;
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+
+            
+
+
+            return View(customer);
 
         }
 
-   
-        [HttpPost]
+        public ActionResult JournalDetails(int id)
+        {
+
+            Customer customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
+
+            foreach (var A in customer.Accounts)
+            {
+
+                foreach (var j in A.Journals)
+                {
+                    if (j.Debtor == true)
+                    {
+
+                        customer.TotalDeptor += j.Amount;
+                    }
+                    else
+                    {
+                        customer.TotalCreditor += j.Amount;
+                    }
+
+                }
+                customer.Total += customer.TotalDeptor - customer.TotalCreditor;
+
+            }
+
+
+
+
+            return View(customer);
+
+        }
+
+
+
+
+             [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create( Account account)
         {
@@ -67,6 +134,7 @@ namespace shop.Controllers
                 return View();
             }
         }
+
 
         // GET: Accounts/Edit/5
         public ActionResult Edit(int id)

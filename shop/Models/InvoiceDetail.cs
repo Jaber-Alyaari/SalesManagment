@@ -14,15 +14,15 @@ namespace shop.Models
         [Column("InvoiceID")]
         public int? InvoiceId { get; set; }
         [StringLength(50)]
-        public string ProductCode { get; set; } = null!;
+        public int? ProductId { get; set; } 
         public decimal Quantity { get; set; }
 
         [ForeignKey("InvoiceId")]
         [InverseProperty("InvoiceDetails")]
         public virtual Invoice? Invoice { get; set; }
-        [ForeignKey("ProductCode")]
+        [ForeignKey("ProductId")]
         [InverseProperty("InvoiceDetails")]
-        public virtual Product ProductCodeNavigation { get; set; } = null!;
+        public virtual Product Product { get; set; } = null!;
 
         [Required]
         public decimal Price { get; set; }

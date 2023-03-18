@@ -203,10 +203,10 @@ namespace shop.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductCode")
+                    b.Property<int?>("ProductId")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
@@ -215,7 +215,7 @@ namespace shop.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.HasIndex("ProductCode");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("InvoiceDetails");
                 });
@@ -267,17 +267,16 @@ namespace shop.Migrations
 
             modelBuilder.Entity("shop.Models.Product", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("CatId")
                         .HasColumnType("int")
                         .HasColumnName("CatID");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -294,7 +293,7 @@ namespace shop.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Code");
+                    b.HasKey("Id");
 
                     b.HasIndex("CatId");
 
@@ -427,15 +426,15 @@ namespace shop.Migrations
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("InvoiceId");
 
-                    b.HasOne("shop.Models.Product", "ProductCodeNavigation")
+                    b.HasOne("shop.Models.Product", "Product")
                         .WithMany("InvoiceDetails")
-                        .HasForeignKey("ProductCode")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Invoice");
 
-                    b.Navigation("ProductCodeNavigation");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("shop.Models.Journal", b =>

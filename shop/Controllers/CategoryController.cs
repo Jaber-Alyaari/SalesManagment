@@ -77,7 +77,7 @@ namespace shop.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category category)
+        public ActionResult Edit(Category category) { 
 
                 if (ModelState.IsValid)
                 {
@@ -91,26 +91,26 @@ namespace shop.Controllers
 
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cat);
-                    await _context.SaveChangesAsync();
-                    TempData["Message"] = "  تم تعديل  الصنف  بنجاح   ";
-                    TempData["MessageState"] = "1";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
-                    TempData["MessageState"] = "0";
-                    return RedirectToAction(nameof(Index));
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(cat);
+        //            await _context.SaveChangesAsync();
+        //            TempData["Message"] = "  تم تعديل  الصنف  بنجاح   ";
+        //            TempData["MessageState"] = "1";
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
+        //            TempData["MessageState"] = "0";
+        //            return RedirectToAction(nameof(Index));
 
-                }
-            }
-            return View(cat);
-        }
+        //        }
+        //    }
+        //    return View(cat);
+        //}
 
 
         // GET: CategoryController/Delete/5
