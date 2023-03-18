@@ -19,6 +19,7 @@ namespace shop.Controllers
         // GET: CategoryController    
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             List<Category> ss = _context.Categories.ToList();
             return View(ss);
         }
@@ -26,12 +27,14 @@ namespace shop.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
         //[HttpGet]
         // GET: CategoryController/Create
         public ActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
 
@@ -40,6 +43,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Category cat)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
                 try
@@ -67,6 +71,7 @@ namespace shop.Controllers
         // GET: CategoryController/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id == null || id == 0) return NotFound();
             var category = _context.Categories.FirstOrDefault(x => x.Id == id);
             if (category == null) return NotFound();
@@ -77,19 +82,20 @@ namespace shop.Controllers
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category category) { 
+        public ActionResult Edit(Category category)
+        {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Update(category);
+                _context.SaveChanges();
 
-                if (ModelState.IsValid)
-                {
-                    _context.Categories.Update(category);
-                    _context.SaveChanges();
 
-
-                    return RedirectToAction("Index");
-                }
-                return View(category);
-
+                return RedirectToAction("Index");
             }
+            return View(category);
+
+        }
 
         //    if (ModelState.IsValid)
         //    {
@@ -116,6 +122,7 @@ namespace shop.Controllers
         // GET: CategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (_context.Categories == null)
             {
                 return Problem("Entity set 'SalesManagerDBContext.Products'  is null.");

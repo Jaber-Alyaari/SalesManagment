@@ -12,8 +12,8 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    [Migration("20230318184729_Init10")]
-    partial class Init10
+    [Migration("20230318203539_newdb")]
+    partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

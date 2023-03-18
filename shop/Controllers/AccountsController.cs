@@ -12,20 +12,21 @@ namespace shop.Controllers
         // GET: Accounts
         public AccountsController(SalesManagerDBContext context)
         {
-            _context=context;
+            _context = context;
         }
-        public  ActionResult Index()
+        public ActionResult Index()
         {
-            List <Customer> customer =  _context.Customers.Include(c=> c.Accounts).ThenInclude(j=> j.Journals).ToList();
-            foreach(Customer c  in customer)
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            List<Customer> customer = _context.Customers.Include(c => c.Accounts).ThenInclude(j => j.Journals).ToList();
+            foreach (Customer c in customer)
             {
-                foreach(var A in c.Accounts)
+                foreach (var A in c.Accounts)
                 {
 
                     foreach (var j in A.Journals)
                     {
-                        if (j.Debtor == true) 
-                        { 
+                        if (j.Debtor == true)
+                        {
 
                             c.TotalDeptor += j.Amount;
                         }
@@ -41,18 +42,19 @@ namespace shop.Controllers
 
             }
 
-            
-            return View( customer);
+
+            return View(customer);
         }
 
         // GET: Accounts/Details/5
         public ActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Customer customer;
             try
             {
 
-                 customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
+                customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
 
                 foreach (var A in customer.Accounts)
                 {
@@ -74,12 +76,12 @@ namespace shop.Controllers
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return RedirectToAction("Index");
             }
 
-            
+
 
 
             return View(customer);
@@ -88,7 +90,7 @@ namespace shop.Controllers
 
         public ActionResult JournalDetails(int id)
         {
-
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Customer customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
 
             foreach (var A in customer.Accounts)
@@ -121,9 +123,9 @@ namespace shop.Controllers
 
 
 
-             [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( Account account)
+        public ActionResult Create(Account account)
         {
             try
             {

@@ -29,8 +29,9 @@ namespace shop.Controllers
 
 
 
-        public IActionResult Index(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5, bool IsSalse=true)
+        public IActionResult Index(string sortExpression = "", string SearchText = "", int pg = 1, int pageSize = 5, bool IsSalse = true)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             SortModel sortModel = new SortModel();
             sortModel.AddColumn("Id");
             sortModel.AddColumn("PoNumber");
@@ -40,7 +41,7 @@ namespace shop.Controllers
 
             ViewBag.SearchText = SearchText;
 
-            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize,IsSalse);
+            PaginatedList<Invoice> items = GetItems(sortModel.SortedProperty, sortModel.SortedOrder, SearchText, pg, pageSize, IsSalse);
 
 
             ViewData["IsSalse"] = true.ToString();
@@ -50,7 +51,7 @@ namespace shop.Controllers
             pager.SortExpression = sortExpression;
             this.ViewBag.Pager = pager;
 
-           
+
 
             TempData["CurrentPage"] = pg;
             return View(items);
@@ -86,26 +87,26 @@ namespace shop.Controllers
             return items;
         }
 
-        public PaginatedList<Invoice> GetItems(string SortProperty, SortOrder sortOrder, string SearchText = "", int pageIndex = 1, int pageSize = 5 ,bool IsSalse=true)
+        public PaginatedList<Invoice> GetItems(string SortProperty, SortOrder sortOrder, string SearchText = "", int pageIndex = 1, int pageSize = 5, bool IsSalse = true)
         {
             List<Invoice> items;
 
             if (SearchText != "" && SearchText != null)
             {
                 if (IsSalse)
-                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.CustomerId!=null)
+                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.CustomerId != null)
                         .Include(c => c.Customer)
                         .ToList();
 
                 else
-                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.SupplierId!=null).
+                    items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.SupplierId != null).
                         Include(s => s.Supplier).ToList();
             }
             else
-                if(IsSalse)
-                items = _context.Invoices.Where(n=> n.CustomerId!=null).Include(c => c.Customer).ToList();
-               else
-                items=_context.Invoices.Where(n=> n.SupplierId!=null).Include(s=> s.Supplier).ToList();
+                if (IsSalse)
+                items = _context.Invoices.Where(n => n.CustomerId != null).Include(c => c.Customer).ToList();
+            else
+                items = _context.Invoices.Where(n => n.SupplierId != null).Include(s => s.Supplier).ToList();
 
 
 
@@ -118,12 +119,13 @@ namespace shop.Controllers
         }
 
 
-        public IActionResult Create(bool IsSalse=true)
+        public IActionResult Create(bool IsSalse = true)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Invoice item = new Invoice();
             item.InvoiceDetails.Add(new InvoiceDetail() { Id = 1 });
             ViewBag.ProductList = GetProducts();
-            if(IsSalse)
+            if (IsSalse)
                 ViewBag.CustomerList = GetCustomers();
             else
                 ViewBag.SupplierList = GetSuppliers();
@@ -139,7 +141,7 @@ namespace shop.Controllers
         [HttpPost]
         public IActionResult Create(Invoice item)
         {
-
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             item.InvoiceDetails.ToList().RemoveAll(a => a.Quantity == 0);
 
 
@@ -176,7 +178,7 @@ namespace shop.Controllers
         {
             bool retVal = false;
             _errors = "";
-           
+
 
             try
             {
@@ -185,10 +187,11 @@ namespace shop.Controllers
                 {
                     _context.Invoices.Add(invo);
                     _context.SaveChanges();
-                    if (invo.SupplierId != null) {
+                    if (invo.SupplierId != null)
+                    {
                         Supplier SuplierAcount = _context.Suppliers.Where(i => i.Id == invo.SupplierId).Include(s => s.Accounts).SingleOrDefault();
 
-                        Journal NewJournal =new Journal();
+                        Journal NewJournal = new Journal();
                         NewJournal.Debtor = true;
                         NewJournal.Creditor = false;
                         NewJournal.AccountNumber = SuplierAcount.Accounts.SingleOrDefault().AccountNumber;
@@ -202,7 +205,7 @@ namespace shop.Controllers
                         NewJournal.Date = invo.Date;
                         NewJournal.ReferenceId = invo.Id;
 
-                       Journal NewJournal2=new Journal();
+                        Journal NewJournal2 = new Journal();
                         //NewJournal2 = NewJournal;
                         NewJournal2.ProcessType = NewJournal.ProcessType;
                         NewJournal2.ReferenceId = NewJournal.ReferenceId;
@@ -226,48 +229,48 @@ namespace shop.Controllers
 
 
                     }
-                    else if(invo.CustomerId !=null)
+                    else if (invo.CustomerId != null)
+                    {
+                        Customer customerAcount = _context.Customers.Where(i => i.Id == invo.CustomerId).Include(s => s.Accounts).SingleOrDefault();
+
+                        Journal NewJournal = new Journal();
+                        NewJournal.Debtor = true;
+                        NewJournal.Creditor = false;
+                        NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
+                        NewJournal.ProcessType = "فاتورة بيع اجل";
+                        decimal total = 0;
+                        foreach (InvoiceDetail Details in invo.InvoiceDetails)
                         {
-                            Customer customerAcount = _context.Customers.Where(i => i.Id == invo.CustomerId).Include(s => s.Accounts).SingleOrDefault();
-
-                            Journal NewJournal = new Journal();
-                            NewJournal.Debtor = true;
-                            NewJournal.Creditor = false;
-                                NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
-                            NewJournal.ProcessType = "فاتورة بيع اجل";
-                            decimal total = 0;
-                            foreach (InvoiceDetail Details in invo.InvoiceDetails)
-                            {
-                                total += Details.Total;
-                            }
-                            NewJournal.Amount = total;
-                            NewJournal.Date = invo.Date;
-                            NewJournal.ReferenceId = invo.Id;
-
-                            Journal NewJournal2 = new Journal();
-                            //NewJournal2 = NewJournal;
-                            NewJournal2.ProcessType = NewJournal.ProcessType;
-                            NewJournal2.ReferenceId = NewJournal.ReferenceId;
-                            NewJournal2.Date = NewJournal.Date;
-                            NewJournal2.Amount = NewJournal.Amount;
-                            NewJournal2.AccountNumber = 1;
-                            NewJournal2.Debtor = false;
-                            NewJournal2.Creditor = true;
-
-
-                            _context.Attach(NewJournal);
-                            _context.Entry(NewJournal).State = EntityState.Added;
-                            _context.SaveChanges();
-
-                            _context.Attach(NewJournal2);
-                            _context.Entry(NewJournal2).State = EntityState.Added;
-                            _context.SaveChanges();
-
-
-
-
-
+                            total += Details.Total;
                         }
+                        NewJournal.Amount = total;
+                        NewJournal.Date = invo.Date;
+                        NewJournal.ReferenceId = invo.Id;
+
+                        Journal NewJournal2 = new Journal();
+                        //NewJournal2 = NewJournal;
+                        NewJournal2.ProcessType = NewJournal.ProcessType;
+                        NewJournal2.ReferenceId = NewJournal.ReferenceId;
+                        NewJournal2.Date = NewJournal.Date;
+                        NewJournal2.Amount = NewJournal.Amount;
+                        NewJournal2.AccountNumber = 1;
+                        NewJournal2.Debtor = false;
+                        NewJournal2.Creditor = true;
+
+
+                        _context.Attach(NewJournal);
+                        _context.Entry(NewJournal).State = EntityState.Added;
+                        _context.SaveChanges();
+
+                        _context.Attach(NewJournal2);
+                        _context.Entry(NewJournal2).State = EntityState.Added;
+                        _context.SaveChanges();
+
+
+
+
+
+                    }
 
 
                 }
@@ -359,8 +362,8 @@ namespace shop.Controllers
                     }
 
                 }
-               
-           
+
+
 
                 retVal = true;
             }
@@ -375,6 +378,7 @@ namespace shop.Controllers
 
         public IActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Invoice item = GetItem(id);
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
@@ -406,8 +410,9 @@ namespace shop.Controllers
         }
 
 
-        public IActionResult Edit(int id) 
+        public IActionResult Edit(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Invoice item = GetItem(id);
 
             ViewBag.ProductList = GetProducts();
@@ -421,6 +426,7 @@ namespace shop.Controllers
         [HttpPost]
         public IActionResult Edit(Invoice item)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             item.InvoiceDetails.ToList().RemoveAll(a => a.Quantity == 0);
 
 
@@ -453,6 +459,7 @@ namespace shop.Controllers
 
         public IActionResult Delete(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Invoice item = GetItem(id);
 
             ViewBag.ProductList = GetProducts();
@@ -467,6 +474,7 @@ namespace shop.Controllers
         [HttpPost]
         public IActionResult Delete(Invoice item)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             item.InvoiceDetails.ToList().RemoveAll(a => a.Quantity == 0);
 
 
