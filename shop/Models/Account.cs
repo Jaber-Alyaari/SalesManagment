@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
 {
+    [Index("CustomerId", Name = "IX_Accounts_CustomerID")]
+    [Index("GroupId", Name = "IX_Accounts_GroupID")]
+    [Index("SupplierId", Name = "IX_Accounts_SupplierID")]
+    [Index("UserAdds", Name = "IX_Accounts_UserAdds")]
     public partial class Account
     {
         public Account()
@@ -24,7 +28,8 @@ namespace shop.Models
         public int? CustomerId { get; set; }
         [Column("SupplierID")]
         public int? SupplierId { get; set; }
-        public bool State { get; set; } = false;
+        [Required]
+        public bool? State { get; set; }
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Accounts")]
@@ -40,5 +45,7 @@ namespace shop.Models
         public virtual User? UserAddsNavigation { get; set; }
         [InverseProperty("AccountNumberNavigation")]
         public virtual ICollection<Journal> Journals { get; set; }
+
+
     }
 }

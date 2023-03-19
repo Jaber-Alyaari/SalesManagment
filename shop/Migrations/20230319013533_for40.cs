@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace shop.Migrations
 {
-    public partial class Init10 : Migration
+    public partial class for40 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,8 +92,8 @@ namespace shop.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -102,7 +102,7 @@ namespace shop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ID);
+                    table.PrimaryKey("PK_Products", x => x.Code);
                     table.ForeignKey(
                         name: "FK_Products_Categories_CatID",
                         column: x => x.CatID,
@@ -190,9 +190,9 @@ namespace shop.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProcessType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: true),
-                    ReferenceID = table.Column<int>(type: "int", maxLength: 10, nullable: true),
+                    ReferenceID = table.Column<int>(type: "int", nullable: true),
                     AccountNumber = table.Column<int>(type: "int", nullable: true),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", maxLength: 10, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Creditor = table.Column<bool>(type: "bit", nullable: true),
                     Debtor = table.Column<bool>(type: "bit", nullable: true),
                     Date = table.Column<DateTime>(type: "date", nullable: true)
@@ -214,7 +214,7 @@ namespace shop.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceID = table.Column<int>(type: "int", nullable: true),
-                    ProductId = table.Column<int>(type: "int", maxLength: 50, nullable: false),
+                    ProductCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -227,10 +227,10 @@ namespace shop.Migrations
                         principalTable: "Invoice",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_InvoiceDetails_Products_ProductId",
-                        column: x => x.ProductId,
+                        name: "FK_InvoiceDetails_Products_ProductCode",
+                        column: x => x.ProductCode,
                         principalTable: "Products",
-                        principalColumn: "ID",
+                        principalColumn: "Code",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -275,9 +275,9 @@ namespace shop.Migrations
                 column: "InvoiceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoiceDetails_ProductId",
+                name: "IX_InvoiceDetails_ProductCode",
                 table: "InvoiceDetails",
-                column: "ProductId");
+                column: "ProductCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Journal_AccountNumber",

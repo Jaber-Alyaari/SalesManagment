@@ -7,28 +7,35 @@ using Microsoft.EntityFrameworkCore;
 namespace shop.Models
 {
     [Table("Invoice")]
+    //[Index("CustomerId", Name = "IX_Invoice_Customer_ID")]
+    //[Index("SupplierId", Name = "IX_Invoice_SupplierID")]
+    //[Index("UserId", Name = "IX_Invoice_User_ID")]
     public partial class Invoice
     {
         //public Invoice()
         //{
         //    InvoiceDetails = new HashSet<InvoiceDetail>();
         //}
-        [Required]
-        [MaxLength(15)]
-        public string PoNumber { get; set; }
 
         [Key]
         [Column("ID")]
         public int Id { get; set; }
+        [StringLength(15)]
+        public string PoNumber { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
-        public bool? IsSales { get; set; }
+        public DateTime? ModifiDate { get; set; } = null!;
+
+        public bool? IsDebt { get; set; }=false;
         [Column("Customer_ID")]
         public int? CustomerId { get; set; }
         [StringLength(50)]
         public string? Remarks { get; set; }
-        [Column("User_ID")]
-        public int? UserId { get; set; }
+        [Column("AUser_ID")]
+        public int? AUserId { get; set; }
+        [Column("MUser_ID")]
+        public int? MUserId { get; set; }
+
         [Column("SupplierID")]
         public int? SupplierId { get; set; }
 
@@ -38,13 +45,13 @@ namespace shop.Models
         [ForeignKey("SupplierId")]
         [InverseProperty("Invoices")]
         public virtual Supplier? Supplier { get; set; }
-        [ForeignKey("UserId")]
-        [InverseProperty("Invoices")]
-        public virtual User? User { get; set; }
-        [InverseProperty("Invoice")]
-        public virtual List<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
+        //[ForeignKey("AUserId")]
+        public virtual User? UserAdd { get; set; }
 
-        [NotMapped]
-        public decimal Total { get; set; }
+        //[ForeignKey("MUserId")]
+        public virtual User? UserModifi { get; set; }
+
+        [InverseProperty("Invoice")]
+        public virtual List<InvoiceDetail> InvoiceDetails { get; set; }=new List<InvoiceDetail>();        
     }
 }

@@ -30,13 +30,16 @@ namespace shop.Models
         public virtual ICollection<Account> Accounts { get; set; }
         [InverseProperty("Customer")]
         public virtual ICollection<Invoice> Invoices { get; set; }
-        [NotMapped]
-        public decimal? TotalDeptor { get; set; } = 0;
-        [NotMapped]
 
-        public decimal? TotalCreditor { get; set; } = 0;
+
 
         [NotMapped]
-        public decimal? Total { get; set; } = 0;
+        public virtual decimal? TotalDeptor { get; set; }
+
+        [NotMapped]
+        public virtual decimal? TotalCreditor { get; set; }
+        [NotMapped]
+
+        public virtual decimal? Total { get; set; }
     }
 }

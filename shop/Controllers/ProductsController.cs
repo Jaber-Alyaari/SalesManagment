@@ -55,6 +55,10 @@ namespace shop.Controllers
         {
 
             ViewBag.CategoryList = GetCategorys();
+            var last = _context.Products.Max(cd => cd.Code);
+            int _result = 1;
+            int.TryParse(last, out _result);
+            ViewBag.LastCode = _result+1;
             return View();
         }
 
@@ -64,7 +68,7 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Price,Quantity,Unit,CatId")] Product product)
+        public IActionResult Create( Product product)
         {
             if (ModelState.IsValid)
             {
@@ -113,6 +117,7 @@ namespace shop.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
+            
             return View(product);
         }
 

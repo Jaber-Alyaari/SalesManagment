@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
 {
+    [Index("InvoiceId", Name = "IX_InvoiceDetails_InvoiceID")]
+    [Index("ProductCode", Name = "IX_InvoiceDetails_ProductCode")]
     public partial class InvoiceDetail
     {
         [Key]
@@ -14,19 +16,18 @@ namespace shop.Models
         [Column("InvoiceID")]
         public int? InvoiceId { get; set; }
         [StringLength(50)]
-        public int? ProductId { get; set; } 
+        public string ProductCode { get; set; } = null!;
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Quantity { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Price { get; set; }
 
         [ForeignKey("InvoiceId")]
         [InverseProperty("InvoiceDetails")]
         public virtual Invoice? Invoice { get; set; }
-        [ForeignKey("ProductId")]
+        [ForeignKey("ProductCode")]
         [InverseProperty("InvoiceDetails")]
-        public virtual Product Product { get; set; } = null!;
-
-        [Required]
-        public decimal Price { get; set; }
-
+        public virtual Product ProductCodeNavigation { get; set; } = null!;
 
         [MaxLength(75)]
         [NotMapped]
@@ -34,11 +35,12 @@ namespace shop.Models
 
         [MaxLength(25)]
         [NotMapped]
-        public string? UnitName { get; set; } = "Pcs";
+        public string UnitName { get; set; } = "Pcs";
 
         [NotMapped]
         public bool IsDeleted { get; set; } = false;
         [NotMapped]
         public decimal Total { get; set; }
+
     }
 }

@@ -1,0 +1,248 @@
+﻿@model shop.Models.Invoice
+
+@{
+    Layout = "_InvoiceLayout";
+        ViewData["Title"] = "تعديل فاتورة مشتريات ";
+   
+}
+
+<div class="card" style="direction:rtl;text-align: right;">
+
+    <div class="card-header bg-success text-uppercase text-white text-center mb-2 pt-0" style="height:25px;">
+        <h6>@ViewData["Title"] </h6>
+    </div>
+
+
+    <form id="CodeSbyAnizForm" asp-action="Edit">
+
+        <div class="row col-12">
+
+            <div class="row col-11 ml-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group col-2 ">
+                    <label asp-for="PoNumber" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                    <input asp-for="PoNumber" class="form-control" readonly />
+                    <span asp-validation-for="PoNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2">
+                </div>
+
+
+
+                    <div class="form-group col-2">
+                        <label asp-for="SupplierId" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3">
+                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierList"></select>
+                        <span asp-validation-for="SupplierId" class="text-danger"></span>
+                    </div>
+                
+         
+
+
+                @* <div class="form-group col-2">
+                </div>*@
+
+                <div class="form-group col-2">
+                    <label asp-for="IsDebt" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                    <select asp-for="IsDebt" class="form-control">
+                        <option value="@true"> اجـــل</option>
+                        <option value="@false"> نقــد</option>
+                    </select>
+                    <span asp-validation-for="IsDebt" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2">
+                </div>
+
+
+                <div class="form-group col-2 ">
+                    <label asp-for="Date" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 ">
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="col-12">
+
+                    <table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0 border CodesTable">
+                        <thead>
+                            <tr>
+                                <th style="width:60px;">
+                                    <button id='btnAddDetailRow' type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
+                                        Add
+                                    </button>
+                                </th>
+
+                                <th>Product Code</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Unit</th>
+                                <th>Total (AED)</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody id="CsDiv">
+                            @for (int i = 0; i < Model.InvoiceDetails.Count; i++)
+                            {
+
+                                <tr>
+
+                                    <td style="width:60px;">
+                                        <button id='btnremove-@i' type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
+                                            Delete
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <textarea style="height:calc(1.5em + .75rem + 2px);" asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control"></textarea>
+                                    </td>
+
+                                    <td>
+                                        <input asp-for="@Model.InvoiceDetails[i].Description" class="form-control form-control-plaintext" readonly />
+                                    </td>
+
+                                    <td>
+                                        <input asp-for="@Model.InvoiceDetails[i].Quantity" class="form-control QtyTotal" />
+                                        <span asp-validation-for="@Model.InvoiceDetails[i].Quantity" class="text-danger"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.InvoiceDetails[i].Price" class="form-control form-control-plaintext PriceTotal" readonly />
+                                        <span asp-validation-for="@Model.InvoiceDetails[i].Price" class="text-danger"></span>
+                                    </td>
+
+
+                                    <td>
+                                        <input asp-for="@Model.InvoiceDetails[i].UnitName" class="form-control form-control-plaintext" readonly />
+                                        <input type="hidden" asp-for="@Model.InvoiceDetails[i].IsDeleted" />
+
+                                    </td>
+
+                                    <td>
+                                        <input asp-for="@Model.InvoiceDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
+                                    </td>
+
+
+
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    <table class="table table-sm mb-0 pb-0 border">
+                        <thead>
+                            <tr>
+                                <th style="width:13%;">
+                                    Total
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+                                <th style="width:13%;">
+                                </th>
+
+
+                                <th style="width:13%;">
+                                    <input type="text" id="txtQtyTotal" class="form-control form-control-plaintext" value="" readonly />
+                                </th>
+
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                    <input asp-asp-for="Total" id="txtAmountTotal" class="form-control form-control-plaintext" value="" readonly />
+                                </th>
+
+                                <th style="width:9%;">
+                                </th>
+                            </tr>
+
+                        </thead>
+                    </table>
+
+                </div>
+                <div class="form-group col-12">
+                </div>
+
+                <div class="form-group col-12">
+                </div>
+
+            </div>
+
+            <div class="form-group btn-group col-1">
+
+
+                <select id="dropdownExRate" class="form-control" size="1" style="visibility: hidden;" asp-items="ViewBag.ExchangeRate">
+                </select>
+
+                <div class="form-group invisible">
+                    <select id="mySelect" class="form-control" size="5"
+                            style="visibility: hidden;" asp-items="ViewBag.ProductList">
+                    </select>
+                    <input id="txtValue" class="form-control col-2 invisible" />
+                </div>
+
+                <div ID="HiddenDiv" style="visibility: hidden;">
+                    @* <input asp-for="Date" class="form-control" />
+                    <select asp-for="pr" class="form-control"
+                    asp-items="ViewBag.P"></select>*@
+
+
+                    <select id="dropdownUnitNames" class="form-control"
+                            size="1" style="visibility: hidden;"
+                            asp-items="ViewBag.UnitNames">
+                    </select>
+                    <select id="dropdownPrice" class="form-control"
+                            size="1" style="visibility: hidden;"
+                            asp-items="ViewBag.Price">
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="form-group btn-group col-11">
+                @*                <div class="col-1"></div>
+                *@                <div class="col-5">
+                    <input type="submit" value="تعـــديل" class="btn btn-primary btn-block" />
+                </div>
+                <div class="col-5">
+                    <a class="btn btn-secondary btn-block" asp-action="index"
+                       asp-route-pg="@TempData.Peek("CurrentPage")">رجـــوع</a>
+                </div>
+                <div class="col-1"></div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+       
+    </script>
+}

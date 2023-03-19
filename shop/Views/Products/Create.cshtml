@@ -44,6 +44,9 @@
                             <span asp-validation-for="Name" class="right text-danger"></span>
                             <span class="fa  fa-shopping-cart form-control-feedback left" aria-hidden="true"></span>
                         </div>
+                             <input asp-for="Code" value="@ViewBag.LastCode" type="hidden" >
+                        <input asp-for="Id" value="@ViewBag.LastCode" type="hidden">
+
                        @*  <div class="col-md-6 col-sm-6">
                             <input asp-for="Id" class="form-control has-feedback-left" placeholder="كود المنتج" >
                             <span asp-validation-for="Code" class="right text-danger"></span>

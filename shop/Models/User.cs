@@ -8,11 +8,11 @@ namespace shop.Models
 {
     public partial class User
     {
-        public User()
-        {
-            Accounts = new HashSet<Account>();
-            Invoices = new HashSet<Invoice>();
-        }
+        //public User()
+        //{
+        //    Accounts = new HashSet<Account>();
+        //    Invoices = new HashSet<Invoice>();
+        //}
 
         [Key]
         [Column("ID")]
@@ -32,7 +32,11 @@ namespace shop.Models
 
         [InverseProperty("UserAddsNavigation")]
         public virtual ICollection<Account> Accounts { get; set; }
-        [InverseProperty("User")]
-        public virtual ICollection<Invoice> Invoices { get; set; }
+
+        [InverseProperty("UserAdd")]
+        public virtual ICollection<Invoice> AddInvoices { get; set; }
+        [InverseProperty("UserModifi")]
+        public virtual ICollection<Invoice> ModifiInvoices { get; set; }
+
     }
 }

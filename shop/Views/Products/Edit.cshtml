@@ -38,6 +38,7 @@
                 <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post">
                     <div class="row">
                         <input type="hidden" asp-for="Id"/>
+                        <input asp-for="Code" type="hidden">
                         <div class="col-md-4 col-sm-4">
                             <select asp-for="CatId" class="form-control">
                                 @if (Cats != null)
@@ -67,7 +68,6 @@
                                 }
                             </select>
                         </div>*@
-
                         <br><br><br>
                         <div class="col-md-12 col-sm-12">
                             <input asp-for="Name" class="form-control has-feedback-left" placeholder="اسم المنتج">
@@ -108,6 +108,7 @@
 
 
 
+                        </div>
                         </div>
                 </form>
             </div>

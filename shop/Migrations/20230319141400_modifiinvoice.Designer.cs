@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230319141400_modifiinvoice")]
+    partial class modifiinvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,7 +163,7 @@ namespace shop.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsDebt")
+                    b.Property<bool?>("IsSales")
                         .HasColumnType("bit");
 
                     b.Property<int?>("MUserId")

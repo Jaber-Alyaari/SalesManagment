@@ -12,8 +12,8 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    [Migration("20230318184729_Init10")]
-    partial class Init10
+    [Migration("20230319142610_modifIsDebtINInvoice")]
+    partial class modifIsDebtINInvoice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,8 @@ namespace shop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("GroupID");
 
-                    b.Property<bool>("State")
+                    b.Property<bool?>("State")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.Property<int?>("SupplierId")
@@ -55,13 +56,13 @@ namespace shop.Migrations
 
                     b.HasKey("AccountNumber");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex(new[] { "CustomerId" }, "IX_Accounts_CustomerID");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex(new[] { "GroupId" }, "IX_Accounts_GroupID");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex(new[] { "SupplierId" }, "IX_Accounts_SupplierID");
 
-                    b.HasIndex("UserAdds");
+                    b.HasIndex(new[] { "UserAdds" }, "IX_Accounts_UserAdds");
 
                     b.ToTable("Accounts");
                 });
@@ -151,6 +152,10 @@ namespace shop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("AUser_ID");
+
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int")
                         .HasColumnName("Customer_ID");
@@ -158,8 +163,15 @@ namespace shop.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsSales")
+                    b.Property<bool?>("IsDebt")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("MUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("MUser_ID");
+
+                    b.Property<DateTime?>("ModifiDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PoNumber")
                         .IsRequired()
@@ -174,9 +186,11 @@ namespace shop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("SupplierID");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("User_ID");
+                    b.Property<int?>("UserAddId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserModifiId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -184,7 +198,9 @@ namespace shop.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserAddId");
+
+                    b.HasIndex("UserModifiId");
 
                     b.ToTable("Invoice");
                 });
@@ -205,19 +221,19 @@ namespace shop.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<string>("ProductCode")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex(new[] { "InvoiceId" }, "IX_InvoiceDetails_InvoiceID");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex(new[] { "ProductCode" }, "IX_InvoiceDetails_ProductCode");
 
                     b.ToTable("InvoiceDetails");
                 });
@@ -235,7 +251,6 @@ namespace shop.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
-                        .HasMaxLength(10)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool?>("Creditor")
@@ -252,7 +267,6 @@ namespace shop.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("ReferenceId")
-                        .HasMaxLength(10)
                         .HasColumnType("int")
                         .HasColumnName("ReferenceID");
 
@@ -262,23 +276,24 @@ namespace shop.Migrations
 
                     b.HasKey("ProcessId");
 
-                    b.HasIndex("AccountNumber");
+                    b.HasIndex(new[] { "AccountNumber" }, "IX_Journal_AccountNumber");
 
                     b.ToTable("Journal");
                 });
 
             modelBuilder.Entity("shop.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("CatId")
                         .HasColumnType("int")
                         .HasColumnName("CatID");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -295,9 +310,9 @@ namespace shop.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Code");
 
-                    b.HasIndex("CatId");
+                    b.HasIndex(new[] { "CatId" }, "IX_Products_CatID");
 
                     b.ToTable("Products");
                 });
@@ -411,15 +426,21 @@ namespace shop.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("SupplierId");
 
-                    b.HasOne("shop.Models.User", "User")
-                        .WithMany("Invoices")
-                        .HasForeignKey("UserId");
+                    b.HasOne("shop.Models.User", "UserAdd")
+                        .WithMany("AddInvoices")
+                        .HasForeignKey("UserAddId");
+
+                    b.HasOne("shop.Models.User", "UserModifi")
+                        .WithMany("ModifiInvoices")
+                        .HasForeignKey("UserModifiId");
 
                     b.Navigation("Customer");
 
                     b.Navigation("Supplier");
 
-                    b.Navigation("User");
+                    b.Navigation("UserAdd");
+
+                    b.Navigation("UserModifi");
                 });
 
             modelBuilder.Entity("shop.Models.InvoiceDetail", b =>
@@ -428,15 +449,15 @@ namespace shop.Migrations
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("InvoiceId");
 
-                    b.HasOne("shop.Models.Product", "Product")
+                    b.HasOne("shop.Models.Product", "ProductCodeNavigation")
                         .WithMany("InvoiceDetails")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Invoice");
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductCodeNavigation");
                 });
 
             modelBuilder.Entity("shop.Models.Journal", b =>
@@ -500,7 +521,9 @@ namespace shop.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("Invoices");
+                    b.Navigation("AddInvoices");
+
+                    b.Navigation("ModifiInvoices");
                 });
 #pragma warning restore 612, 618
         }

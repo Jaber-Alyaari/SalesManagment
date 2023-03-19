@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace shop.Models
 {
     [Table("Journal")]
+    [Index("AccountNumber", Name = "IX_Journal_AccountNumber")]
     public partial class Journal
     {
         [Key]
@@ -17,18 +18,20 @@ namespace shop.Models
         [Column("UserID")]
         public int? UserId { get; set; }
         [Column("ReferenceID")]
-        [StringLength(10)]
         public int? ReferenceId { get; set; }
         public int? AccountNumber { get; set; }
-        [StringLength(10)]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
-        public bool? Creditor { get; set; } = false;
-        public bool? Debtor { get; set; } = false;
+        public bool? Creditor { get; set; }
+        public bool? Debtor { get; set; }
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; }
 
         [ForeignKey("AccountNumber")]
         [InverseProperty("Journals")]
         public virtual Account? AccountNumberNavigation { get; set; }
+
+
+
     }
 }

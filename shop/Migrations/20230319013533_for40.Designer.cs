@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230319013533_for40")]
+    partial class for40
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,10 +152,6 @@ namespace shop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("AUser_ID");
-
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int")
                         .HasColumnName("Customer_ID");
@@ -161,15 +159,8 @@ namespace shop.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("date");
 
-                    b.Property<bool?>("IsDebt")
+                    b.Property<bool?>("IsSales")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("MUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("MUser_ID");
-
-                    b.Property<DateTime?>("ModifiDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("PoNumber")
                         .IsRequired()
@@ -184,21 +175,17 @@ namespace shop.Migrations
                         .HasColumnType("int")
                         .HasColumnName("SupplierID");
 
-                    b.Property<int?>("UserAddId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserModifiId")
-                        .HasColumnType("int");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("User_ID");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex(new[] { "CustomerId" }, "IX_Invoice_Customer_ID");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex(new[] { "SupplierId" }, "IX_Invoice_SupplierID");
 
-                    b.HasIndex("UserAddId");
-
-                    b.HasIndex("UserModifiId");
+                    b.HasIndex(new[] { "UserId" }, "IX_Invoice_User_ID");
 
                     b.ToTable("Invoice");
                 });
@@ -424,21 +411,15 @@ namespace shop.Migrations
                         .WithMany("Invoices")
                         .HasForeignKey("SupplierId");
 
-                    b.HasOne("shop.Models.User", "UserAdd")
-                        .WithMany("AddInvoices")
-                        .HasForeignKey("UserAddId");
-
-                    b.HasOne("shop.Models.User", "UserModifi")
-                        .WithMany("ModifiInvoices")
-                        .HasForeignKey("UserModifiId");
+                    b.HasOne("shop.Models.User", "User")
+                        .WithMany("Invoices")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Customer");
 
                     b.Navigation("Supplier");
 
-                    b.Navigation("UserAdd");
-
-                    b.Navigation("UserModifi");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("shop.Models.InvoiceDetail", b =>
@@ -519,9 +500,7 @@ namespace shop.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("AddInvoices");
-
-                    b.Navigation("ModifiInvoices");
+                    b.Navigation("Invoices");
                 });
 #pragma warning restore 612, 618
         }
