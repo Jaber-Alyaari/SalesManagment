@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using shop.Models;
 
 namespace shop.Controllers
@@ -48,7 +46,7 @@ namespace shop.Controllers
             {
                 try
                 {
-                    _context.Add(cat);
+                    _context.Categories.Add(cat);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة الصنف  بنجاح   ";
                     TempData["MessageState"] = "1";

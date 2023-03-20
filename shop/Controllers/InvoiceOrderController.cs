@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 //using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 using shop.Tools;
-using System.Numerics;
 
 namespace shop.Controllers
 {
