@@ -95,8 +95,8 @@ namespace shop.Controllers
                         .Distinct()
                         .OrderBy(a => a).ToArray();
 
-            return new JsonResult(new { cat = Prices });
-            //return new JsonResult(new { Days = Days.ToArray(), Prices = Prices.ToArray() });
+            //return new JsonResult(new { cat = ids });
+            return new JsonResult(new { days = Days.ToArray(), prices = Prices });
         }
     }
 }
