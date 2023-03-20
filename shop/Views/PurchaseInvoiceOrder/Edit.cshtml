@@ -63,11 +63,11 @@
 
 
                 <div class="form-group col-2 ">
-                    <label asp-for="Date" class="control-label"></label>
+                    <label asp-for="ModifiDate" class="control-label" ></label>
                 </div>
                 <div class="form-group col-3 ">
-                    <input asp-for="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
+                    <input asp-for="ModifiDate"  class="form-control" readonly />
+                    <span asp-validation-for="ModifiDate" class="text-danger"></span>
                 </div>
 
 
@@ -106,7 +106,7 @@
                                     </td>
 
                                     <td>
-                                        <textarea style="height:calc(1.5em + .75rem + 2px);" asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control"></textarea>
+                                        <input  asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control">
                                     </td>
 
                                     <td>

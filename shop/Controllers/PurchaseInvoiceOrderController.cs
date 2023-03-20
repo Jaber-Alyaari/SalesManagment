@@ -133,7 +133,9 @@ namespace shop.Controllers
             string errMessage = "";
             try
             {
-                bolret = Create1(item);
+                _context.Invoices.Add(item);
+                _context.SaveChanges();
+                bolret = AddJournals(item);
             }
             catch (Exception ex)
             {
@@ -158,7 +160,7 @@ namespace shop.Controllers
 
 
 
-        public bool Create1(Invoice invo)
+        public bool AddJournals(Invoice invo)
         {
             bool retVal = false;
             _errors = "";
@@ -166,8 +168,7 @@ namespace shop.Controllers
 
             try
             {
-                _context.Invoices.Add(invo);
-                _context.SaveChanges();
+              
 
                 if (invo.IsDebt == true && invo.SupplierId != 1)
                 {
@@ -306,7 +307,6 @@ namespace shop.Controllers
             ViewBag.SupplierList = GetSuppliers();
 
             ViewBag.UnitNames = GetUnitNames();
-
             return View(item);
         }
 
@@ -423,11 +423,18 @@ namespace shop.Controllers
                 _context.InvoiceDetails.RemoveRange(poDetails);
                 _context.SaveChanges();
 
+
+                List<Journal> journals = _context.Journals.Where(j => j.ReferenceId == invo.Id).ToList();
+                _context.Journals.RemoveRange(journals);
+                _context.SaveChanges();
+
+
                 _context.Attach(invo);
                 _context.Entry(invo).State = EntityState.Modified;
                 _context.InvoiceDetails.AddRange(invo.InvoiceDetails);
                 _context.SaveChanges();
 
+                AddJournals(invo);
 
                 retVal = true;
             }

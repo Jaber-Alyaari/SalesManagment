@@ -65,7 +65,7 @@
                     <label asp-for="ModifiDate" class="control-label" ></label>
                 </div>
                 <div class="form-group col-3 ">
-                    <input asp-for="ModifiDate" value="@DateTime.Now" class="form-control" />
+                    <input asp-for="ModifiDate" class="form-control" />
                     <span asp-validation-for="ModifiDate" class="text-danger"></span>
                 </div>
 
@@ -105,7 +105,7 @@
                                     </td>
 
                                     <td>
-                                        <textarea style="height:calc(1.5em + .75rem + 2px);" asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control"></textarea>
+                                        <input asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control">
                                     </td>
 
                                     <td>

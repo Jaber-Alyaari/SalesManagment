@@ -120,7 +120,6 @@ namespace shop.Controllers
             ViewBag.UnitNames = GetUnitNames();
             ViewBag.Price = GetPrice();
 
-            
 
             item.PoNumber = GetNewINNumber();
             return View(item);
@@ -256,7 +255,7 @@ namespace shop.Controllers
         {
             Invoice item = GetItem(id);
             ViewBag.ProductList = GetProducts();
-            ViewBag.SupplierList = GetSuppliers();
+            ViewBag.SupplierList = GetCustomers();
 
 
             return View(item);
@@ -293,7 +292,6 @@ namespace shop.Controllers
             ViewBag.CustomerList = GetCustomers();
 
             ViewBag.UnitNames = GetUnitNames();
-
             return View(item);
         }
 
