@@ -21,13 +21,15 @@ namespace shop.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             var AllCustomer = _context.Customers.Include(A => A.Accounts);
-              return View(await AllCustomer.ToListAsync());
+            return View(await AllCustomer.ToListAsync());
         }
 
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id == null || _context.Customers == null)
             {
                 return NotFound();
@@ -46,6 +48,7 @@ namespace shop.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
 
@@ -54,8 +57,9 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Customer customer,bool State)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Customer customer, bool State)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
                 try
@@ -66,8 +70,8 @@ namespace shop.Controllers
                     await _context.SaveChangesAsync();
                     //to creat account for this customer
                     Account account = new Account();
-                    var _customerid =_context.Customers.Max(A => A.Id);
-                    account.State= State;
+                    var _customerid = _context.Customers.Max(A => A.Id);
+                    account.State = State;
                     account.CustomerId = _customerid;
                     _context.Accounts.Add(account);
                     await _context.SaveChangesAsync();
@@ -93,6 +97,7 @@ namespace shop.Controllers
         // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id == null || _context.Customers == null)
             {
                 TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
@@ -118,6 +123,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,Address")] Customer customer, bool State)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id != customer.Id)
             {
                 TempData["Message"] = "  الزبــون غير موجود !!!!!!!! ";
@@ -161,6 +167,7 @@ namespace shop.Controllers
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             var cust = await _context.Customers.FindAsync(id);
             if (cust != null)
             {
@@ -187,7 +194,7 @@ namespace shop.Controllers
 
         private bool CustomerExists(int id)
         {
-          return _context.Customers.Any(e => e.Id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

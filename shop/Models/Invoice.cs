@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
 {
@@ -26,7 +23,7 @@ namespace shop.Models
         public DateTime? Date { get; set; } = DateTime.Now;
         public DateTime? ModifiDate { get; set; } = null!;
 
-        public bool? IsDebt { get; set; }=false;
+        public bool? IsDebt { get; set; } = false;
         [Column("Customer_ID")]
         public int? CustomerId { get; set; }
         [StringLength(50)]
@@ -52,6 +49,8 @@ namespace shop.Models
         public virtual User? UserModifi { get; set; }
 
         [InverseProperty("Invoice")]
-        public virtual List<InvoiceDetail> InvoiceDetails { get; set; }=new List<InvoiceDetail>();        
+        public virtual List<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
+        [NotMapped]
+        public decimal Total { get; set; }
     }
 }

@@ -1,110 +1,282 @@
-﻿
+﻿@model Dashboard
 @{
     Layout = "_CashierLayout";
+    int i = 1;
 }
 
 
-<div class="right_col" role="main" stlye="margin-right: 230px;margin-left: 0px;">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3><i class="fa fa-dashboard"></i> Dashboard</h3>
+@*<div class="right_col" role="main" stlye="margin-right: 230px;margin-left: 0px;">*@
+
+
+<div class="row">
+    <div class="col-3 col-sm-3 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">المبيعات</span>
+                <span class="info-box-number">
+                    @Model.Sales
+
+                </span>
             </div>
+
         </div>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">المشتريات</span>
+                <span class="info-box-number">
+                    @Model.Purchases
+                </span>
+            </div>
 
-        <div class="clearfix"></div>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12  ">
-                <div class="x_panel">
-                    <div class="x_content">
-                        <div class="row">
-                            <center>
-                                <div class="tile_count">
-                                    <div class="col-md-6 col-sm-6  tile_stats_count">
-                                        <span class="count_top"><i class="fa fa-money"></i> عدد المبيعات </span>
-                                        <div class="count">6,567</div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6  tile_stats_count">
-                                        <span class="count_top"><i class="fa fa-dollar"></i> اجمالي المبيعات</span>
-                                        <div class="count">80,000</div>
-                                    </div>
-                                </div>
-                            </center>
-                        </div>
-                        <div class="col-md-6 col-sm-6  " style="float:right;">
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <h2>كمية البيع </h2>
+    <div class="col-3 col-sm-3 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">الموردين</span>
+                <span class="info-box-number">
+                    @Model.Supplires
+                </span>
+            </div>
 
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <canvas id="lineChart"></canvas>
-                                </div>
+        </div>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">الزبائن</span>
+                <span class="info-box-number">
+                    @Model.Customers
+                </span>
+            </div>
+
+        </div>
+    </div>
+    @*<div class="col-lg-3 col-6">
+
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                    <p>Bounce Rate</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info<i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>*@
+</div>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6  ">
+        @*<div class="x_panel">
+            <div class="x_content">*@
+
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Line Chart</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class="">
+
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6  ">
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <h2>اعلئ عشرة مبيعات</h2>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class="">
 
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <table class="table table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>اسم المنتج</th>
-                                                <th>الكمية</th>
-                                                <th>السعر</th>
-                                                <th>الاجمالي</th>
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            <tr>
-                                                <td>Biogesic</td>
-                                                <td>30</td>
-                                                <td>Php7.00</td>
-                                                <td>Php210.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alaxan</td>
-                                                <td>20</td>
-                                                <td>Php10.00</td>
-                                                <td>Php200.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tuseran</td>
-                                                <td>50</td>
-                                                <td>Php8.00</td>
-                                                <td>Ph400.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>BioFlu</td>
-                                                <td>45</td>
-                                                <td>Php12.00</td>
-                                                <td>Php540.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Enervon</td>
-                                                <td>100</td>
-                                                <td>Php6.00</td>
-                                                <td>Php600.00</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
                         </div>
                     </div>
+                    <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 351px;" width="351" height="250" class="chartjs-render-monitor"></canvas>
                 </div>
             </div>
+
         </div>
+
+        @*<div class="container">
+              <h2>Line Chart</h2>
+              <div>
+                <canvas id="myChart"></canvas>
+              </div>
+            </div>*@
+    </div>
+
+
+    @*<div class="col-md-6 col-sm-6  " style="float:right;">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>كمية البيع </h2>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>*@
+    <div class="col-md-6 col-sm-6  ">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">اعلئ عشرة مبيعات</h3>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>اسم المنتج</th>
+                            <th>الكمية</th>
+                            <th>السعر</th>
+                            <th>الاجمالي</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.TopProducts)
+                        {
+
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.ProductCodeNavigation.Name</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.ProductCodeNavigation.Name</td>
+                                <td>@item.Total </td>
+
+                            </tr>
+                            { i++; }
+                        }
+                        @*<tr>
+                                <td>1</td>
+                                <td>Biogesic</td>
+                                <td>30</td>
+                                <td>Php7.00</td>
+                                <td>Php210.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Alaxan</td>
+                                <td>20</td>
+                                <td>Php10.00</td>
+                                <td>Php200.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Tuseran</td>
+                                <td>50</td>
+                                <td>Php8.00</td>
+                                <td>Ph400.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>BioFlu</td>
+                                <td>45</td>
+                                <td>Php12.00</td>
+                                <td>Php540.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Enervon</td>
+                                <td>100</td>
+                                <td>Php6.00</td>
+                                <td>Php600.00</td>
+                            </tr>*@
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                    <li class="page-item"><a class="page-link" href="#">«</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+            </div>
+        </div>
+        @*<div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>اعلئ عشرة مبيعات</h2>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>اسم المنتج</th>
+                                    <th>الكمية</th>
+                                    <th>السعر</th>
+                                    <th>الاجمالي</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                <tr>
+                                    <td>Biogesic</td>
+                                    <td>30</td>
+                                    <td>Php7.00</td>
+                                    <td>Php210.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Alaxan</td>
+                                    <td>20</td>
+                                    <td>Php10.00</td>
+                                    <td>Php200.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuseran</td>
+                                    <td>50</td>
+                                    <td>Php8.00</td>
+                                    <td>Ph400.00</td>
+                                </tr>
+                                <tr>
+                                    <td>BioFlu</td>
+                                    <td>45</td>
+                                    <td>Php12.00</td>
+                                    <td>Php540.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Enervon</td>
+                                    <td>100</td>
+                                    <td>Php6.00</td>
+                                    <td>Php600.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>*@
+        @*</div>
+            </div>*@
     </div>
 </div>
+
+@*</div>*@
+
 
 
 

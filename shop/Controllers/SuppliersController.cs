@@ -21,13 +21,15 @@ namespace shop.Controllers
         // GET: Suppliers
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             var AllSuppliers = _context.Suppliers.Include(A => A.Accounts);
-              return View(await AllSuppliers.ToListAsync());
+            return View(await AllSuppliers.ToListAsync());
         }
 
         // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
@@ -46,6 +48,7 @@ namespace shop.Controllers
         // GET: Suppliers/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             return View();
         }
 
@@ -54,8 +57,9 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Supplier supplier,bool State)
+        public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Supplier supplier, bool State)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
                 try
@@ -90,6 +94,7 @@ namespace shop.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id == null || _context.Suppliers == null)
             {
                 TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
@@ -114,8 +119,9 @@ namespace shop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,Address")] Supplier supplier,bool State)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,Address")] Supplier supplier, bool State)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (id != supplier.Id)
             {
                 TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
@@ -159,6 +165,7 @@ namespace shop.Controllers
         // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             var sup = await _context.Suppliers.FindAsync(id);
             if (sup != null)
             {
@@ -196,14 +203,14 @@ namespace shop.Controllers
         //    {
         //        _context.Suppliers.Remove(supplier);
         //    }
-            
+
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}
 
         private bool SupplierExists(int id)
         {
-          return _context.Suppliers.Any(e => e.Id == id);
+            return _context.Suppliers.Any(e => e.Id == id);
         }
     }
 }
