@@ -1,0 +1,94 @@
+﻿@model IEnumerable<shop.Models.Receipt>
+@{
+    Layout = "_CashierLayout";
+}
+
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3><i class="fa  fa-list"></i>  </h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+            }
+            else
+            {
+                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+            }
+        }
+        <div class="row">
+            <div class="col-md-12 col-sm-12  ">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">DataTable with minimal features &amp; hover style</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row">
+                                <div class="col-sm-12">
+                                    <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+                                        <thead>
+                                            <tr>
+                                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">رقم السند </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">رقم الحساب </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">المبلغ</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending"> التاريخ </th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">المستخدم</th>
+                                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">تاريخ التعديل</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">المستخدم</th>
+
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @if(Model is not null)
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="dtr-control sorting_1" tabindex="0">@item.PoNumber</td>
+                                                    <td>@item.AccountNumber</td>
+                                                     <td>@item.Amount</td>
+                                                        <td>@item.Date</td>
+                                                        <td>@item.UserAdd.Name</td>
+                                                        <td>@item.ModifiDate</td>
+                                                        <td>@item.UserModifi.Name</td>
+
+                                                    <td>
+@*                                                        <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i> تفاصيل</a>
+*@                                                        @*<a class="btn btn-sm btn-success text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i> تعديل</a>
+
+                                                        <a asp-route-id="@item.Id" class="btn btn-sm btn-danger text-white" asp-action="Delete" onclick="return confirm('هل تريد الحذف بالفعل');"><i class="fa fa-trash"></i> حـــذف</a>
+*@
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        @*<tfoot>
+                                            <tr><th rowspan="1" colspan="1">Rendering engine</th><th rowspan="1" colspan="1">Browser</th><th rowspan="1" colspan="1">Platform(s)</th><th rowspan="1" colspan="1">Engine version</th><th rowspan="1" colspan="1">CSS grade</th></tr>
+                                            </tfoot>*@
+
+
+                                    </table>
+                                </div>
+                            </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                        </div>
+                    </div>
+
+                </div>
+
+           
+    </div>
+</div>

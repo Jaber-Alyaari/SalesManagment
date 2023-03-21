@@ -7,31 +7,34 @@ namespace shop.Models
     [Table("Receipt")]
     public class Receipt
     {
-        [Required]
-        [MaxLength(15)]
-        public string PoNumber { get; set; }
 
         [Key]
-
-        [Column(name: "ID", TypeName = "int")]
+        [Column("ID")]
         public int Id { get; set; }
+        [StringLength(15)]
+        public string PoNumber { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
-        public bool? IsCatch { get; set; }
-        [Column(name: "Account_Num", TypeName = "int")]
-        public int? AccountNum { get; set; }
-        [StringLength(50)]
+        public DateTime? ModifiDate { get; set; } = null!;
+
+        public bool? IsCatch { get; set; } = true;
+
         public string? Remarks { get; set; }
-        [Column("User_ID")]
-        public int? UserId { get; set; }
+        [Column("AUser_ID")]
+        public int? AUserId { get; set; }
+        [Column("MUser_ID")]
+        public int? MUserId { get; set; }
+
+
+        public virtual User? UserAdd { get; set; }
+        public virtual User? UserModifi { get; set; }
         public decimal Amount { get; set; }
+        public int? AccountNumber { get; set; }
 
-        [ForeignKey("AccountNum")]
-        [InverseProperty("AccountNumber")]
-        public virtual Account? Account { get; set; }
+        [ForeignKey("AccountNumber")]
+        [InverseProperty("Receipt")]
+        public virtual Account? Accounts { get; set; }
 
-        [ForeignKey("UserId")]
-        [InverseProperty("Id")]
-        public virtual User? User { get; set; }
+
     }
 }

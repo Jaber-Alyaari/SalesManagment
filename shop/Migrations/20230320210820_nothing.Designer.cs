@@ -12,8 +12,8 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    [Migration("20230319142610_modifIsDebtINInvoice")]
-    partial class modifIsDebtINInvoice
+    [Migration("20230320210820_nothing")]
+    partial class nothing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -45,7 +45,8 @@ namespace shop.Models
         public virtual User? UserAddsNavigation { get; set; }
         [InverseProperty("AccountNumberNavigation")]
         public virtual ICollection<Journal> Journals { get; set; }
-
+        [InverseProperty("Accounts")]
+        public virtual ICollection<Receipt> Receipt { get; set; }
 
     }
 }

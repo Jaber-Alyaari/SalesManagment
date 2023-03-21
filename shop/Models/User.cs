@@ -35,8 +35,11 @@ namespace shop.Models
 
         [InverseProperty("UserAdd")]
         public virtual ICollection<Invoice> AddInvoices { get; set; }
-        [InverseProperty("UserModifi")]
+            [InverseProperty("UserModifi")]
         public virtual ICollection<Invoice> ModifiInvoices { get; set; }
-
+        [InverseProperty("UserAdd")]
+        public virtual ICollection<Receipt> AddReceipt { get; set; }
+        [InverseProperty("UserModifi")]
+        public virtual ICollection<Receipt> ModifiReceipt { get; set; }
     }
 }

@@ -1,0 +1,66 @@
+﻿@model shop.Models.Category
+
+@{
+    Layout = "_CashierLayout";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3><i class="fa fa-list"></i>تعديل الصنــــــــف</h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    @if (TempData.ContainsKey("Message"))
+                    {
+                        @if (TempData["MessageState"].ToString() == "1")
+                        {
+                            <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+                        }
+                        else
+                        {
+                            <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+                        }
+                    }
+                    <div class="x_content">
+                        <form asp-action="Edit" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                            <input type="hidden" asp-for="Id" />
+
+
+                            <div class="item form-group">
+                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                    <input asp-for="Name" class="form-control has-feedback-left" placeholder=" اسم الصنــــف">
+@*                                    <span asp-validation-for="Name" class="right text-danger"></span>
+*@                                    <span class="fa fa-medkit form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                    <input asp-for="Describtion" class="form-control has-feedback-left" placeholder="الوصـــف">
+@*                                    <span asp-validation-for="Name" class="right text-danger"></span>
+*@                                    <span class="fa fa-map form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                    <button type="submit" class="btn btn-success" style="float:right">حفــــــــظ</button>
+                                    <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

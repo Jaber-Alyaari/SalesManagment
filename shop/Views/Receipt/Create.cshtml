@@ -1,0 +1,78 @@
+﻿@model shop.Models.Receipt
+@{
+    Layout = "_CashierLayout";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3><i class="fa fa-list"></i>اضافة سنــد</h3>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+            }
+            else
+            {
+                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+            }
+        }
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                          <form asp-action="Create" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align">رقم السنــد </label>
+                                <div class="col-md-8 col-sm-8 ">
+                                    <input asp-for="PoNumber" class="form-control" readonly />
+                                    <span asp-validation-for="PoNumber" class="right text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align"> نــوع الســند </label>
+                                <div class="col-md-8 col-sm-8 ">
+                                    <select asp-for="IsCatch" class="form-control has-feedback-left">
+                                        <option value="@true"> سند قــبض</option>
+                                        <option value="@false">سند صــرق</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align">  العميــل </label>
+                                <div class="col-md-8 col-sm-8 ">
+                                    <select asp-for="AccountNumber" class="form-control" asp-items="ViewBag.CustomerList"></select>
+                                    <span asp-validation-for="AccountNumber" class="right text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align">  المبلغ </label>
+                                <div class="col-md-8 col-sm-8 ">
+                                    <input asp-for="Amount" class="form-control">
+                                    <span asp-validation-for="Amount" class="right text-danger"></span>
+                                </div>
+                            </div>
+                         
+
+                            <div class="card-footer">
+                                <button type="submit" value="Create" class="btn btn-info">حفــــــــظ</button>
+                                <a asp-action="Index" class="btn btn-default float-right">الغـــــــاء</a>
+                            </div>
+                           </form>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -315,6 +315,64 @@ namespace shop.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("shop.Models.Receipt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("AUser_ID");
+
+                    b.Property<int?>("AccountNumber")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<bool?>("IsCatch")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("MUser_ID");
+
+                    b.Property<DateTime?>("ModifiDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PoNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Customer_ID");
+
+                    b.Property<int?>("UserAddId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserModifiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber");
+
+                    b.HasIndex("UserAddId");
+
+                    b.HasIndex("UserModifiId");
+
+                    b.ToTable("Receipt");
+                });
+
             modelBuilder.Entity("shop.Models.Supplier", b =>
                 {
                     b.Property<int>("Id")
@@ -476,9 +534,32 @@ namespace shop.Migrations
                     b.Navigation("Cat");
                 });
 
+            modelBuilder.Entity("shop.Models.Receipt", b =>
+                {
+                    b.HasOne("shop.Models.Account", "Accounts")
+                        .WithMany("Receipt")
+                        .HasForeignKey("AccountNumber");
+
+                    b.HasOne("shop.Models.User", "UserAdd")
+                        .WithMany("AddReceipt")
+                        .HasForeignKey("UserAddId");
+
+                    b.HasOne("shop.Models.User", "UserModifi")
+                        .WithMany("ModifiReceipt")
+                        .HasForeignKey("UserModifiId");
+
+                    b.Navigation("Accounts");
+
+                    b.Navigation("UserAdd");
+
+                    b.Navigation("UserModifi");
+                });
+
             modelBuilder.Entity("shop.Models.Account", b =>
                 {
                     b.Navigation("Journals");
+
+                    b.Navigation("Receipt");
                 });
 
             modelBuilder.Entity("shop.Models.AccountGroup", b =>
@@ -521,7 +602,11 @@ namespace shop.Migrations
 
                     b.Navigation("AddInvoices");
 
+                    b.Navigation("AddReceipt");
+
                     b.Navigation("ModifiInvoices");
+
+                    b.Navigation("ModifiReceipt");
                 });
 #pragma warning restore 612, 618
         }

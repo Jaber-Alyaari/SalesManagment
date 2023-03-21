@@ -339,8 +339,7 @@ namespace shop.Controllers
 
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
-            //ViewBag.PoCurrencyList = GetPoCurrencies();
-            //ViewBag.BaseCurrencyList = GetBaseCurrencies();
+           
 
 
             return View(item);
