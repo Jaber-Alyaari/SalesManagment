@@ -18,8 +18,11 @@ namespace shop.Models
         [Column("ID")]
         public int Id { get; set; }
         [StringLength(50)]
+        [Required(ErrorMessage = "يجب ادخال الاسم")]
         public string? Name { get; set; }
         [StringLength(50)]
+        //[Required(ErrorMessage = "يجب ادخال الرقم")]
+        [Range(700000000, 799999999, ErrorMessage = "رقم الهاتف غير صحيح")]
         public string? Phone { get; set; }
         [StringLength(50)]
         public string? Email { get; set; }
@@ -34,12 +37,12 @@ namespace shop.Models
 
 
         [NotMapped]
-        public virtual decimal? TotalDeptor { get; set; }
+        public virtual decimal? TotalDeptor { get; set; } = 0;
 
         [NotMapped]
-        public virtual decimal? TotalCreditor { get; set; }
+        public virtual decimal? TotalCreditor { get; set; }= 0;
         [NotMapped]
 
-        public virtual decimal? Total { get; set; }
+        public virtual decimal? Total { get; set; } = 0;
     }
 }

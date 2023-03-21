@@ -18,8 +18,12 @@ namespace shop.Models
         [StringLength(50)]
         public string ProductCode { get; set; } = null!;
         [Column(TypeName = "decimal(18, 2)")]
+        
+        [Range(1, 1000, ErrorMessage = "Quantity should be greater than 0 and less than 1000")]
         public decimal Quantity { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
+      
+        [Range(1, 1000000, ErrorMessage = "Quantity should be greater than 0 and less than 1000000")]
         public decimal Price { get; set; }
 
         [ForeignKey("InvoiceId")]

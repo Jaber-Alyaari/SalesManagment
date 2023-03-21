@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using shop.Models;
 
@@ -11,9 +12,10 @@ using shop.Models;
 namespace shop.Migrations
 {
     [DbContext(typeof(SalesManagerDBContext))]
-    partial class SalesManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230321003814_ReceiptAndinvoiceAndUserRlation")]
+    partial class ReceiptAndinvoiceAndUserRlation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,7 +100,6 @@ namespace shop.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Describtion")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -130,7 +131,6 @@ namespace shop.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -152,10 +152,6 @@ namespace shop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("AUser_ID");
-
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int")
                         .HasColumnName("Customer_ID");
@@ -165,10 +161,6 @@ namespace shop.Migrations
 
                     b.Property<bool?>("IsDebt")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("MUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("MUser_ID");
 
                     b.Property<DateTime?>("ModifiDate")
                         .HasColumnType("date");
@@ -304,7 +296,6 @@ namespace shop.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Quantity")
-                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Unit")
@@ -327,10 +318,6 @@ namespace shop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("AUser_ID");
-
                     b.Property<int?>("AccountNumber")
                         .HasColumnType("int");
 
@@ -342,10 +329,6 @@ namespace shop.Migrations
 
                     b.Property<bool?>("IsCatch")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("MUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("MUser_ID");
 
                     b.Property<DateTime?>("ModifiDate")
                         .HasColumnType("date");
@@ -393,7 +376,6 @@ namespace shop.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

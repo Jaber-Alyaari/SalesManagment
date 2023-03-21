@@ -21,6 +21,7 @@ namespace shop.Models
         public string PoNumber { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
+        [Column(TypeName = "date")]
         public DateTime? ModifiDate { get; set; } = null!;
 
         public bool? IsDebt { get; set; } = false;
@@ -51,6 +52,6 @@ namespace shop.Models
         [InverseProperty("Invoice")]
         public virtual List<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
         [NotMapped]
-        public decimal Total { get; set; }
+        public decimal Total { get; set; } = 0;
     }
 }

@@ -65,7 +65,7 @@ namespace shop.Controllers
                         {
 
                             customer.TotalDeptor += j.Amount;
-                        }
+                        }   
                         else
                         {
                             customer.TotalCreditor += j.Amount;

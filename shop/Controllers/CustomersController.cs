@@ -70,6 +70,9 @@ namespace shop.Controllers
                     await _context.SaveChangesAsync();
                     //to creat account for this customer
                     Account account = new Account();
+                    int reslt = 0;
+                    int.TryParse( HttpContext.Session.GetString("UserId"),out reslt);
+                    account.UserAdds = reslt;
                     var _customerid = _context.Customers.Max(A => A.Id);
                     account.State = State;
                     account.CustomerId = _customerid;

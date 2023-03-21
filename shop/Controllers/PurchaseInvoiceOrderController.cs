@@ -133,6 +133,9 @@ namespace shop.Controllers
             string errMessage = "";
             try
             {
+                int reslt = 0;
+                int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                item.AUserId = reslt;
                 _context.Invoices.Add(item);
                 _context.SaveChanges();
                 bolret = AddJournals(item);
@@ -177,6 +180,9 @@ namespace shop.Controllers
                         Supplier SuplierAcount = _context.Suppliers.Where(i => i.Id == invo.SupplierId).Include(s => s.Accounts).SingleOrDefault();
 
                         Journal NewJournal =new Journal();
+                        int reslt = 0;
+                        int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                        NewJournal.UserId = reslt;
                         NewJournal.Debtor = false;
                         NewJournal.Creditor = true;
                         NewJournal.AccountNumber = SuplierAcount.Accounts.SingleOrDefault().AccountNumber;
@@ -192,6 +198,7 @@ namespace shop.Controllers
 
                        Journal NewJournal2=new Journal();
                         //NewJournal2 = NewJournal;
+                        NewJournal2.UserId = reslt;
                         NewJournal2.ProcessType = NewJournal.ProcessType;
                         NewJournal2.ReferenceId = NewJournal.ReferenceId;
                         NewJournal2.Date = NewJournal.Date;
@@ -218,7 +225,10 @@ namespace shop.Controllers
                 {
 
                         Journal NewJournal = new Journal();
-                        NewJournal.Debtor = true;
+                    int reslt = 0;
+                    int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                    NewJournal.UserId = reslt;
+                    NewJournal.Debtor = true;
                         NewJournal.Creditor = false;
                         NewJournal.AccountNumber = 2;
                         NewJournal.ProcessType = "فاتورة شراء نقدي";
@@ -232,8 +242,10 @@ namespace shop.Controllers
                         NewJournal.ReferenceId = invo.Id;
 
                         Journal NewJournal2 = new Journal();
-                        //NewJournal2 = NewJournal;
-                        NewJournal2.ProcessType = NewJournal.ProcessType;
+                    //NewJournal2 = NewJournal;
+                    NewJournal2.UserId = reslt;
+
+                    NewJournal2.ProcessType = NewJournal.ProcessType;
                         NewJournal2.ReferenceId = NewJournal.ReferenceId;
                         NewJournal2.Date = NewJournal.Date;
                         NewJournal2.Amount = NewJournal.Amount;
@@ -428,7 +440,9 @@ namespace shop.Controllers
                 _context.Journals.RemoveRange(journals);
                 _context.SaveChanges();
 
-
+                int reslt = 0;
+                int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                invo.MUserId = reslt;
                 _context.Attach(invo);
                 _context.Entry(invo).State = EntityState.Modified;
                 _context.InvoiceDetails.AddRange(invo.InvoiceDetails);

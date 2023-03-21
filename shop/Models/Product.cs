@@ -20,10 +20,15 @@ namespace shop.Models
         [Column("ID")]
         public int Id { get; set; }
         [StringLength(50)]
+        [Required(ErrorMessage = "يجب ادخال الاسم")]
         public string Name { get; set; } = null!;
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب ادخال السعر")]
+        [Range(1, 1000000, ErrorMessage = "price should be greater than 0 and less than 1000000")]
         public decimal Price { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
+        [Required(ErrorMessage = "يجب ادخال الكمية")]
+        [Range(1, 1000, ErrorMessage = "Quantity should be greater than 0 and less than 1000")]
         public decimal? Quantity { get; set; }
         [StringLength(50)]
         public string? Unit { get; set; }

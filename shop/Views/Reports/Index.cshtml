@@ -11,7 +11,6 @@
         </div>
 
         <div class="clearfix"></div>
-        <div class="clearfix"></div>
         @if (TempData.ContainsKey("Message"))
         {
             @if (TempData["MessageState"].ToString() == "1")
@@ -86,11 +85,12 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <ul class="nav navbar-right panel_toolbox">
-@*                            <a asp-action="Create" class="btn btn-sm btn-info text-white"><i class="fa fa-plus"></i> اضافة منتج </a>
-*@                        </ul>
+                            <a   class="btn btn-primary btn-block" onclick="print();">طباعة</a>
+                            
+                        </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
+                    <div class="x_content" id="pr">
                         <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                             <thead>
 
@@ -165,3 +165,18 @@
 
     </div>
 </div>
+
+ <script>
+     function print(){
+        var prtContent = document.getElementById("pr");
+    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+
+    WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.write(<link rel="stylesheet" href = "~/ui/dist/css/adminlte.min.css" >)
+
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+     }
+ </script>

@@ -18,6 +18,7 @@ namespace shop.Models
         }
 
         [Key]
+
         public int AccountNumber { get; set; }
         [Column(TypeName = "date")]
         public DateTime? CreateDate { get; set; }
@@ -44,9 +45,9 @@ namespace shop.Models
         [InverseProperty("Accounts")]
         public virtual User? UserAddsNavigation { get; set; }
         [InverseProperty("AccountNumberNavigation")]
-        public virtual ICollection<Journal> Journals { get; set; }
+        public virtual ICollection<Journal>? Journals { get; set; }
         [InverseProperty("Accounts")]
-        public virtual ICollection<Receipt> Receipt { get; set; }
+        public virtual ICollection<Receipt>? Receipt { get; set; }
 
     }
 }

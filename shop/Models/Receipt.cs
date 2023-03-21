@@ -15,6 +15,7 @@ namespace shop.Models
         public string PoNumber { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
+        [Column(TypeName = "date")]
         public DateTime? ModifiDate { get; set; } = null!;
 
         public bool? IsCatch { get; set; } = true;

@@ -17,8 +17,11 @@ namespace shop.Models
         [Column("ID")]
         public int Id { get; set; }
         [StringLength(50)]
+        [Required (ErrorMessage ="يجب ادخال الاسم")]
+        [Range(1, 1000, ErrorMessage = "Quantity should be greater than 0 and less than 1000")]
         public string Name { get; set; } = null!;
         [StringLength(100)]
+        [Required(ErrorMessage = "يجب ادخال الوصف")]
         public string? Describtion { get; set; }
 
         [InverseProperty("Cat")]

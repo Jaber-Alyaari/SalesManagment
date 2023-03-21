@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 using shop.Tools;
+using System.Security.Principal;
 
 namespace shop.Controllers
 {
@@ -142,6 +143,9 @@ namespace shop.Controllers
             string errMessage = "";
             try
             {
+                int reslt = 0;
+                int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                item.AUserId = reslt;
                 _context.Invoices.Add(item);
                 _context.SaveChanges();
                 bolret = AddJournals(item);
@@ -181,8 +185,12 @@ namespace shop.Controllers
 
                 if (invo.CustomerId != null)
                 {
+                    int reslt = 0;
+                    int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+
                     Customer customerAcount = _context.Customers.Where(i => i.Id == invo.CustomerId).Include(s => s.Accounts).SingleOrDefault();
                     Journal NewJournal = new Journal();
+                    NewJournal.UserId = reslt;
                     NewJournal.Debtor = true;
                     NewJournal.Creditor = false;
                     NewJournal.AccountNumber = customerAcount.Accounts.SingleOrDefault().AccountNumber;
@@ -195,6 +203,7 @@ namespace shop.Controllers
                     NewJournal.Date = DateTime.Now;
                     NewJournal.ReferenceId = invo.Id;
                     Journal NewJournal2 = new Journal();
+                    NewJournal2.UserId = reslt;
                     //NewJournal2 = NewJournal;
                     NewJournal2.ReferenceId = NewJournal.ReferenceId;
                     NewJournal2.Date = NewJournal.Date;
@@ -416,7 +425,9 @@ namespace shop.Controllers
                 List<Journal> journals = _context.Journals.Where(j => j.ReferenceId == invo.Id).ToList();
                 _context.Journals.RemoveRange(journals);
                 _context.SaveChanges();
-
+                int reslt = 0;
+                int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                invo.MUserId = reslt;
                 _context.Attach(invo);
                 _context.Entry(invo).State = EntityState.Modified;
                 _context.InvoiceDetails.AddRange(invo.InvoiceDetails);

@@ -29,6 +29,7 @@ namespace shop.Controllers
             var existUser = _context.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
             if (existUser == null) return View(user);
             HttpContext.Session.SetString("UserName", user.UserName);
+            HttpContext.Session.SetString("UserId", existUser.Id.ToString());
 
             if (existUser.IsAdmin.Value)
                 return RedirectToAction("Index", "Home");
