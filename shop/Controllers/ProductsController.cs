@@ -221,8 +221,9 @@ namespace shop.Controllers
             {
                 try
                 {
-                    _context.Products.Remove(product);
-                    await _context.SaveChangesAsync();
+                    _context.Database.ExecuteSqlRaw($"DeleteProduct {id}");
+                    //_context.Products.Remove(product);
+                    //await _context.SaveChangesAsync();
                     TempData["Message"] = "   ...  تم الحذف بنجاح  .... ";
                     TempData["MessageState"] = "1";
                     return RedirectToAction(nameof(Index));

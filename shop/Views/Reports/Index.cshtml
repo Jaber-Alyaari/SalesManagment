@@ -2,13 +2,62 @@
 @{
     Layout = "_CashierLayout";
 }
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">تقرير المبيعات</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">تقرير المبيعات</li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+
 <div class="right_col" role="main">
     <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3><i class="fa fa-list"></i> تقارير المبيعات</h3>
+        @*<div class="row">
+                <div class="form-group">
+                    <label>Date range:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="far fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control float-right" id="reservation">
+                    </div>
+
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-3" data-select2-id="20">
+                    <div class="form-group" data-select2-id="19">
+                        <label>Sort Order:</label>
+                        <select class="select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="3" tabindex="-1" aria-hidden="true">
+                            <option selected="" data-select2-id="5">ASC</option>
+                            <option data-select2-id="21">DESC</option>
+                        </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="4" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-jb9i-container"><span class="select2-selection__rendered" id="select2-jb9i-container" role="textbox" aria-readonly="true" title="ASC">ASC</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                    </div>
+                </div>
+                <div class="col-3" data-select2-id="24">
+                    <div class="form-group" data-select2-id="23">
+                        <label>Order By:</label>
+                        <select class="select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="6" tabindex="-1" aria-hidden="true">
+                            <option selected="" data-select2-id="8">Title</option>
+                            <option data-select2-id="25">Date</option>
+                        </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="7" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-f90i-container"><span class="select2-selection__rendered" id="select2-f90i-container" role="textbox" aria-readonly="true" title="Date">Date</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                    </div>
+                </div>
+            </div>*@
 
         <div class="clearfix"></div>
         @if (TempData.ContainsKey("Message"))
@@ -46,8 +95,8 @@
                             </div>
                             <div class="ln_solid"></div>
                             <div class="item form-group">
-                                    <label class="control-label"> فلتــر حسب التاريخ</label>
-                                
+                                <label class="control-label"> فلتــر حسب التاريخ</label>
+
                             </div>
 
                             <div class="item form-group">
@@ -55,13 +104,13 @@
                                     <label class="control-label"> من تاريخ  </label>
                                 </div>
                                 <div class="col-md-3 col-sm-3 ">
-                                    <input name="date" type="date" class="form-control" >
+                                    <input name="date" type="date" class="form-control">
                                 </div>
                                 <div class="form-group col-2 ">
                                     <label class="control-label">   الــى تاريخ</label>
                                 </div>
                                 <div class="col-md-3 col-sm-3 ">
-                                    <input name="todate" class="form-control" type="Date" >
+                                    <input name="todate" class="form-control" type="Date">
                                 </div>
                             </div>
                             <div class="ln_solid"></div>
@@ -69,8 +118,8 @@
                             <div class="item form-group">
                                 <div class="col-md-8 col-sm-8 ">
                                     <input type="submit" value="فلــــــــــــــــــــــــــــــــــــتر" class="btn btn-primary btn-block" />
-@*                                    <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
-*@
+                                    @*                                    <a asp-action="Index" class="btn btn-primary " style="float:right"> الغـــــــاء </a>
+                                    *@
                                 </div>
                             </div>
                         </form>
@@ -85,8 +134,8 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <ul class="nav navbar-right panel_toolbox">
-                            <a   class="btn btn-primary btn-block" onclick="print();">طباعة</a>
-                            
+                            <a class="btn btn-primary btn-block" onclick="print();">طباعة</a>
+
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -106,23 +155,23 @@
                                         الكمية
                                     </th>
                                     <th>
-                                         السعر
+                                        السعر
                                     </th>
                                     <th>
-                                       التاريخ
+                                        التاريخ
                                     </th>
                                     <th></th>
                                 </tr>
                                 @* <tr>
-                                <!-- <th>Medicine Code</th>
-                                <th>Image</th> -->
-                                <th>الاســم</th>
-                                <!-- <th>Purchase Price</th> -->
-                                <th> الــسعر</th>
-                                <th>الكميــة</th>
-                                <th>الــوحــدة</th>
-                                <th>حــــدث</th>
-                                </tr>*@
+                                    <!-- <th>Medicine Code</th>
+                                    <th>Image</th> -->
+                                    <th>الاســم</th>
+                                    <!-- <th>Purchase Price</th> -->
+                                    <th> الــسعر</th>
+                                    <th>الكميــة</th>
+                                    <th>الــوحــدة</th>
+                                    <th>حــــدث</th>
+                                    </tr>*@
                             </thead>
 
                             @if (Model is not null)
@@ -130,32 +179,31 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        
 
-                                            <tr>
-                                                <td>
+
+                                        <tr>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.Invoice.Customer.Name)
-                                                </td>
-                                                <td>
+                                            </td>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.ProductCodeNavigation.Name)
-                                                </td>
-                                                <td>
+                                            </td>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.Quantity)
-                                                </td>
-                                                <td>
+                                            </td>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.Price)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Invoice.Date)
-                                                </td>
-                                                <td>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Invoice.Date)
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
 
-                                                </td>
-                                            </tr>
-                                        
                                     }
                                 </tbody>
-                             }
+                            }
                         </table>
                     </div>
                 </div>
@@ -166,17 +214,17 @@
     </div>
 </div>
 
- <script>
-     function print(){
+<script>
+    function print() {
         var prtContent = document.getElementById("pr");
-    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+        var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
 
-    WinPrint.document.write(prtContent.innerHTML);
-        WinPrint.document.write(<link rel="stylesheet" href = "~/ui/dist/css/adminlte.min.css" >)
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.write(<link rel="stylesheet" href="~/ui/dist/css/adminlte.min.css" >)
 
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
      }
- </script>
+</script>

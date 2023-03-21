@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 using shop.Tools;
-using System.Security.Principal;
 
 namespace shop.Controllers
 {
@@ -348,7 +347,7 @@ namespace shop.Controllers
 
             ViewBag.ProductList = GetProducts();
             ViewBag.SupplierList = GetSuppliers();
-           
+
 
 
             return View(item);
