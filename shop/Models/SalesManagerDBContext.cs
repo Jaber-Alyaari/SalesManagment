@@ -23,6 +23,7 @@ namespace shop.Models
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Receipt> Receipts { get; set; } = null!;
 
 
 

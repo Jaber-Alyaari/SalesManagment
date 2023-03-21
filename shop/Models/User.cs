@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace shop.Models
+﻿namespace shop.Models
 {
     public partial class User
     {
@@ -31,9 +28,12 @@ namespace shop.Models
         public virtual ICollection<Account>? Accounts { get; set; }
 
         [InverseProperty("UserAdd")]
-        public virtual ICollection<Invoice>? AddInvoices { get; set; }
+        public virtual ICollection<Invoice> AddInvoices { get; set; }
         [InverseProperty("UserModifi")]
-        public virtual ICollection<Invoice>? ModifiInvoices { get; set; }
-
+        public virtual ICollection<Invoice> ModifiInvoices { get; set; }
+        [InverseProperty("UserAdd")]
+        public virtual ICollection<Receipt> AddReceipt { get; set; }
+        [InverseProperty("UserModifi")]
+        public virtual ICollection<Receipt> ModifiReceipt { get; set; }
     }
 }
