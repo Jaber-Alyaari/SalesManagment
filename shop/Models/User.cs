@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace shop.Models
 {
@@ -31,12 +28,12 @@ namespace shop.Models
         public bool? IsAdmin { get; set; }
 
         [InverseProperty("UserAddsNavigation")]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Account>? Accounts { get; set; }
 
         [InverseProperty("UserAdd")]
-        public virtual ICollection<Invoice> AddInvoices { get; set; }
+        public virtual ICollection<Invoice>? AddInvoices { get; set; }
         [InverseProperty("UserModifi")]
-        public virtual ICollection<Invoice> ModifiInvoices { get; set; }
+        public virtual ICollection<Invoice>? ModifiInvoices { get; set; }
 
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
@@ -60,7 +55,7 @@ namespace shop.Controllers
             var last = _context.Products.Max(cd => cd.Code);
             int _result = 1;
             int.TryParse(last, out _result);
-            ViewBag.LastCode = _result+1;
+            ViewBag.LastCode = _result + 1;
             return View();
         }
 
@@ -70,9 +65,11 @@ namespace shop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create( Product product)
+        public IActionResult Create(Product product)
         {
             if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            ViewBag.CategoryList = GetCategorys();
+
             if (ModelState.IsValid)
             {
                 try
@@ -101,9 +98,10 @@ namespace shop.Controllers
 
         [HttpGet]
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            ViewBag.CategoryList = GetCategorys();
             var _id = Convert.ToInt32(id);
             if (id == null || _context.Products == null)
             {
@@ -113,7 +111,7 @@ namespace shop.Controllers
 
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == _id);
+            var product = _context.Products.FirstOrDefault(i => i.Id == _id);
             if (product == null)
             {
                 TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
@@ -121,7 +119,7 @@ namespace shop.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            
+
             return View(product);
         }
 
@@ -136,7 +134,7 @@ namespace shop.Controllers
 
         {
             if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
-
+            ViewBag.CategoryList = GetCategorys();
             if (ModelState.IsValid)
             {
                 try

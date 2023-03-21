@@ -4,131 +4,121 @@
     Layout = "_CashierLayout";
 
     ViewData["Title"] = "Edit";
+    string state = "";
+    if (Model.Accounts.First().State != null && Model.Accounts.First().State.Value)
+    {
+        state = "مفعل";
+
+    }
+    else
+    {
+        state = "غير مفعل";
+
+    }
 }
 
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">تفاصيل الحساب</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">تفاصيل الحساب</li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Account">الحسابات</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
 <div class="right_col" role="main">
     <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3><i class="fa fa-user"></i> ملف الحســــاب</h3>
-            </div>
-        </div>
-
-        <div class="clearfix"></div>
-
+        @if (TempData.ContainsKey("Message"))
+        {
+            @if (TempData["MessageState"].ToString() == "1")
+            {
+                <div class="alert-success " style="text-align: right; font-family: Font Awesome 5 Free;"><h2> @TempData["Message"] </h2></div>
+            }
+            else
+            {
+                <div class="alert-danger " style="text-align: right; font-family: Font Awesome 5 Free;"> @TempData["Message"] </div>
+            }
+        }
         <div class="row">
-            <div class="col-md-12 col-sm-12  ">
+            <div class="col-md-6 col-sm-6  ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2> المعلوات الشخصية</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3  profile_left">
-                            <div class="profile_img">
-                                <div id="crop-avatar">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" style="border-radius:10px">
+                        <form class="form-horizontal" asp-action="Edit" id="demo-form2" data-parsley-validate>
+                            <div class="card-body">
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <input value="@Model.Name" class="form-control has-feedback-left" readonly placeholder="اسم الحساب">
+
+
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-fa-phone"></i></span>
+                                    </div>
+                                    <input value="@Model.Phone" class="form-control has-feedback-left" readonly placeholder="رقم الهاتف">
+
+
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <input value="@Model.Email" class="form-control has-feedback-left" readonly placeholder="الايميل">
+
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-accessible-icon"></i></span>
+                                    </div>
+                                    <input value="@Model.Accounts.First().AccountNumber" class="form-control has-feedback-left" readonly placeholder="رقم الحساب">
+
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-accessible-icon"></i></span>
+                                    </div>
+                                    <input value="@state" class="form-control has-feedback-left" readonly placeholder="حالة الحساب">
+
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-accessible-icon"></i></span>
+                                    </div>
+                                    <input value="@Model.Accounts.First().CreateDate" class="form-control has-feedback-left" readonly placeholder="تاريخ الانشاء">
+
                                 </div>
                             </div>
-                            <h3>@Html.DisplayFor(Model=>Model.Name)</h3>
+                            <div class="card-footer">
 
-                            @*     <ul class="list-unstyled user_data">
-                            <li>
-                            <i class="fa fa-map-marker user-profile-icon"></i> San Francisco, California, USA
-                            </li>
-
-                            <li>
-                            <i class="fa fa-user user-profile-icon"></i> Cashier
-                            </li>
-
-                            <li class="m-top-xs">
-                            <i class="fa fa-external-link user-profile-icon"></i>
-                            <a href="#" target="_blank">www.facebook.com</a>
-                            </li>
-                            </ul>*@
-                        </div>
-                        <div class="col-md-9 col-sm-9  profile_left">
-                            <form asp-action="Edit" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align"><strong><i class="fa fa-user"></i> المعلومات الشخصية  </strong></label>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                        الاسم الكامل <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-8 col-sm-8 ">
-                                        <input asp-for="Name" type="text" required="required" class="form-control" placeholder="الأســــــم  " readonly>
-                                    </div>
-                                    @*<div class="col-md-4 col-sm-4 ">
-                                    <input type="text" required="required" class="form-control" placeholder="الأسم الثاني ">
-                                    </div>*@
-                                </div>
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">الأيميل</label>
-                                    <div class="col-md-8 col-sm-8 ">
-                                        <input asp-for="Email" class="form-control" type="text" readonly>
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">الهاتف</label>
-                                    <div class="col-md-8 col-sm-8 ">
-                                        <input asp-for="Phone" class="form-control" type="text" readonly>
-                                    </div>
-                                </div>
-
-
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align"><strong><i class="fa fa-key"></i> معلومات الحساب</strong></label>
-                                </div>
-                                @foreach (var a in Model.Accounts)
-                                {
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">رقم الحساب </label>
-                                        <div class="col-md-8 col-sm-8 ">
-
-                                            <input value="@a.AccountNumber" class="form-control" type="text" readonly>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align"> حالة الحساب</label>
-                                        <div class="col-md-8 col-sm-8 ">
-                                            <input value="@a.State.ToString()" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align"> تاريخ انشاء الحساب</label>
-                                        <div class="col-md-8 col-sm-8 ">
-                                            <input value="@a.CreateDate" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                }
-
-                                @*if Admin*@
-
-                                <div class="ln_solid"></div>
-                                <div class="item form-group">
-                                    <div class="col-md-6 col-sm-6 offset-md-3">
-                                        <a asp-action="Index" class="btn btn-primary " style="float:right"> رجـــوع </a>
-                                        <a asp-action="JournalDetails" asp-route-id="@Model.Id" class="btn btn-info " style="float:right"> عمليـــات الحساب </a>
-                                    </div>
-                                </div>
-                              
-                            </form>
-                        </div>
+                                <a asp-action="JournalDetails" asp-route-id="@Model.Id" class="btn btn-info "> عمليـــات الحساب </a>
+                                <a asp-action="Index" class="btn btn-default float-right">رجـــوع</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-
 </div>
+
+
 
 
 

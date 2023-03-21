@@ -5,110 +5,85 @@
     ViewData["Title"] = "Create";
 }
 
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">إضافة مورد</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">إضافة مورد</li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Supplier">الموردين</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
 <div class="right_col" role="main">
     <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3><i class="fa fa-user-plus"></i>  اضافة مـــورد</h3>
-            </div>
-        </div>
-
-        <div class="clearfix"></div>
         @if (TempData.ContainsKey("Message"))
         {
             @if (TempData["MessageState"].ToString() == "1")
             {
-                <div class="alert-success " style="text-align: right;font-size: larger;"><h2> @TempData["Message"] </h2></div>
+                <div class="alert-success " style="text-align: right; font-family: Font Awesome 5 Free;"><h2> @TempData["Message"] </h2></div>
             }
             else
             {
-                <div class="alert-danger " style="text-align: right;font-size: larger;"> @TempData["Message"] </div>
+                <div class="alert-danger " style="text-align: right; font-family: Font Awesome 5 Free;"> @TempData["Message"] </div>
             }
         }
         <div class="row">
-            <div class="col-md-12 col-sm-12  ">
+            <div class="col-md-6 col-sm-6  ">
                 <div class="x_panel">
                     <div class="x_title">
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <form asp-action="Create" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                        <form class="form-horizontal" asp-action="Create" id="demo-form2" data-parsley-validate>
+                            <div class="card-body">
 
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <label style="float:right"><i class="fa fa-user"></i> معلومــــات المورد </label>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    </div>
+
+
                                     <input asp-for="Name" class="form-control has-feedback-left" placeholder="الاسم الكامل ">
                                     <span asp-validation-for="Name" class="right text-danger"></span>
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+
                                 </div>
-                            </div>
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-fa-phone"></i></span>
+                                    </div>
                                     <input asp-for="Phone" class="form-control has-feedback-left" placeholder="رقم الهاتف">
                                     <span asp-validation-for="Phone" class="right text-danger"></span>
 
-                                    <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                                 </div>
-                            </div>
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input asp-for="Address" class="form-control has-feedback-left" placeholder=" الموقع ">
-                                    <span asp-validation-for="Address" class="right text-danger"></span>
-
-                                    <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    </div>
                                     <input asp-for="Email" class="form-control has-feedback-left" placeholder="الايميل">
                                     <span asp-validation-for="Email" class="right text-danger"></span>
-
-                                    <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                 </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-address-card"></i></span>
+                                    </div>
+                                    <input asp-for="Address" class="form-control has-feedback-left" placeholder="العنوان">
+                                    <span asp-validation-for="Address" class="right text-danger"></span>
+                                </div>
+
                             </div>
-
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <label style="float:right"><i class="fa fa-key"></i>  معلومــــات الحســــــــاب</label>
-                                </div>
-                            </div>
-                            @*<div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <input asp-for="UserName" class="form-control has-feedback-left" placeholder="رقم الحساب">
-                                    <span asp-validation-for="UserName" class="right text-danger"></span>
-
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div>*@
-
-                           
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <label style="float:right"><i class="fa fa-key"></i>  حالــــة الحســــــــاب</label>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-2 col-sm-2       label-align"> تنششيط الحساب</label>
-
-                                <div class="col-md-2 col-sm-2 offset-md-2">
-                                    <select name="State" class="form-control has-feedback-left">
-                                        <option value="@Boolean.FalseString">تعطيـــــــل </option>
-                                        <option value="@Boolean.TrueString">تفعيـــــــل</option>
-                                    </select>
-                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="item form-group">
-                                <div class="col-md-8 col-sm-8 offset-md-2">
-                                    <button style="float:right" type="submit" class="btn btn-success">حفــــــــظ</button>
-                                    <a asp-action="Index" style="float:right" class="btn btn-primary"> الغـــــــاء</a>
-                                </div>
+                            <div class="card-footer">
+                                <button type="submit" value="Create" class="btn btn-info">حفــــــــظ</button>
+                                <a asp-action="Index" class="btn btn-default float-right">الغـــــــاء</a>
                             </div>
                         </form>
                     </div>
@@ -117,20 +92,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
