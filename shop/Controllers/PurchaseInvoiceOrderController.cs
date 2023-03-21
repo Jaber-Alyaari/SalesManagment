@@ -89,7 +89,7 @@ namespace shop.Controllers
             if (SearchText != "" && SearchText != null)
             {
 
-                items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) && n.SupplierId != null).
+                items = _context.Invoices.Where(n => n.PoNumber.Contains(SearchText) || n.Date.ToString().Contains(SearchText) && n.SupplierId != null).
                     Include(s => s.Supplier).ToList();
             }
             else

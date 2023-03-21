@@ -12,6 +12,7 @@ namespace shop.Models
         [Column("ID")]
         public int Id { get; set; }
         [StringLength(15)]
+        [Required(ErrorMessage = "يجب ادخال رقم السند")]
         public string PoNumber { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime? Date { get; set; } = DateTime.Now;
@@ -29,7 +30,10 @@ namespace shop.Models
 
         public virtual User? UserAdd { get; set; }
         public virtual User? UserModifi { get; set; }
+        [Required(ErrorMessage = "يجب ادخال المبلغ")]
+        [Range(1, 1000000, ErrorMessage = "Amount should be greater than 0 and less than 1000000")]
         public decimal Amount { get; set; }
+        [Required(ErrorMessage = "يجب ادخال رقم الحساب")]
         public int? AccountNumber { get; set; }
 
         [ForeignKey("AccountNumber")]

@@ -73,6 +73,7 @@ namespace shop.Controllers
                     int reslt = 0;
                     int.TryParse( HttpContext.Session.GetString("UserId"),out reslt);
                     account.UserAdds = reslt;
+                    account.CreateDate = DateTime.Now;
                     var _customerid = _context.Customers.Max(A => A.Id);
                     account.State = State;
                     account.CustomerId = _customerid;

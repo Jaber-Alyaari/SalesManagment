@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace shop.Controllers
@@ -30,7 +31,7 @@ namespace shop.Controllers
             if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             Receipt item = new Receipt();
 
-            ViewBag.CustomerList = GetCustomers();
+            ViewBag.CustomerList = GetCustomers().Concat(GetSuppliers());
 
 
             item.PoNumber = GetNewRENumber();
@@ -41,6 +42,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Receipt rec)
         {
+            ViewBag.CustomerList = GetCustomers().Concat(GetSuppliers());
             if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
@@ -73,14 +75,16 @@ namespace shop.Controllers
         {
             var lstSuppliers = new List<SelectListItem>();
 
-            List<Supplier> suppliers = _context.Suppliers.ToList();
+            List<Account> Supplieraccounts = _context.Accounts.Include("Supplier").Where(a => a.AccountNumber > 5 && a.SupplierId != null).ToList();
 
-            lstSuppliers = suppliers.Select(sp => new SelectListItem()
+            if (Supplieraccounts is not null)
             {
-                Value = sp.Id.ToString(),
-                Text = sp.Name
-            }).ToList();
-
+                lstSuppliers = Supplieraccounts.Select(sp => new SelectListItem()
+                {
+                    Value = sp.AccountNumber.ToString(),
+                    Text = sp.Supplier.Name
+                }).ToList();
+            }
           
 
             return lstSuppliers;
@@ -89,11 +93,12 @@ namespace shop.Controllers
         {
             var lstCustomer = new List<SelectListItem>();
 
-            List<Account> accounts = _context.Accounts.Include("Customer").Where(a => a.AccountNumber > 5 && a.CustomerId!=null).ToList();
-            if (accounts is not null)
+            List<Account> Customeraccounts = _context.Accounts.Include("Customer").Where(a => a.AccountNumber > 5 && a.CustomerId!=null ).ToList();
+            if (Customeraccounts is not null)
             {
 
-                lstCustomer = accounts.Select(sp => new SelectListItem()
+
+                lstCustomer = Customeraccounts.Select(sp => new SelectListItem()
                 {
                     Value = sp.AccountNumber.ToString(),
                     Text = sp.Customer.Name

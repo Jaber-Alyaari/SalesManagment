@@ -71,6 +71,10 @@ namespace shop.Controllers
                     var supplerid = _context.Suppliers.Max(A => A.Id);
                     account.State = State;
                     account.SupplierId = supplerid;
+                    int reslt = 0;
+                    int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
+                    account.UserAdds = reslt;
+                    account.CreateDate=DateTime.Now;    
                     _context.Accounts.Add(account);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة   المورد   ";
@@ -142,6 +146,7 @@ namespace shop.Controllers
                     account = _context.Accounts.SingleOrDefault(A => A.SupplierId == supplier.Id);
                     if (account != null)
                     {
+                      
                         account.State = State;
                         _context.Accounts.Update(account);
                         await _context.SaveChangesAsync();
