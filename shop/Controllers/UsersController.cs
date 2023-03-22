@@ -24,7 +24,7 @@ namespace shop.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             return View(await _context.Users.ToListAsync());
         }
 
@@ -33,7 +33,7 @@ namespace shop.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Users == null)
             {
                 return NotFound();
@@ -52,7 +52,7 @@ namespace shop.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (ModelState.IsValid)
             {
                 try
@@ -90,7 +90,7 @@ namespace shop.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserId") !=id.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Users == null)
             {
                 TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
@@ -114,7 +114,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,StateAcount,Password,IsAdmin,UserName")] User user)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserId") != id.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id != user.Id)
             {
                 TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
@@ -167,7 +167,7 @@ namespace shop.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             var _id = Convert.ToInt32(id);
             var user = await _context.Users.FirstOrDefaultAsync(i => i.Id == _id);
             if (user != null)

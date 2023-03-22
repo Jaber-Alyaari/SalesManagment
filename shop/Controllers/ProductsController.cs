@@ -18,7 +18,7 @@ namespace shop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             var salesManagerDBContext = _context.Products.Include(p => p.Cat);
             return View(await salesManagerDBContext.ToListAsync());
         }
@@ -29,7 +29,7 @@ namespace shop.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Products == null)
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace shop.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             ViewBag.CategoryList = GetCategorys();
             var last = _context.Products.Max(cd => cd.Code);
             int _result = 1;
@@ -67,7 +67,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             ViewBag.CategoryList = GetCategorys();
 
             if (ModelState.IsValid)
@@ -100,7 +100,7 @@ namespace shop.Controllers
         // GET: Products/Edit/5
         public IActionResult Edit(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             ViewBag.CategoryList = GetCategorys();
             var _id = Convert.ToInt32(id);
             if (id == null || _context.Products == null)
@@ -133,7 +133,7 @@ namespace shop.Controllers
         public IActionResult Edit(Product product)
 
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             ViewBag.CategoryList = GetCategorys();
             if (ModelState.IsValid)
             {
@@ -156,64 +156,13 @@ namespace shop.Controllers
             return View(product);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Quantity,Unit,CatId")] Product product)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
-        //        TempData["MessageState"] = "0";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(product);
-        //            await _context.SaveChangesAsync();
-        //            TempData["Message"] = "  تم تعديل  المنتج  بنجاح   ";
-        //            TempData["MessageState"] = "1";
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            TempData["Message"] = "  المنتج غير موجود !!!!!!!! ";
-        //            TempData["MessageState"] = "0";
-        //            return RedirectToAction(nameof(Index));
-
-        //        }
-        //    }
-        //    return View(product);
-        //}
-
-
-        // GET: Products/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Products == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var product = await _context.Products
-        //        .Include(p => p.Cat)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(product);
-        //}
-
+        
         // POST: Products/Delete/5
         // [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             var _id = Convert.ToInt32(id);
 
             var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == id);

@@ -21,6 +21,7 @@ namespace shop.Controllers
         // GET: ReportsController
         public ActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
 
             ViewBag.ProductList = GetProducts();
 
@@ -36,6 +37,8 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetSalse(int id =0,DateTime? date=null, DateTime? todate = null,string? code=null)
         {
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
+
             List<InvoiceDetail> items = new List<InvoiceDetail>();
             ViewBag.ProductList = GetProducts();
 

@@ -17,22 +17,17 @@ namespace shop.Controllers
         // GET: CategoryController    
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             List<Category> ss = _context.Categories.ToList();
             return View(ss);
         }
 
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
-            return View();
-        }
+    
         //[HttpGet]
         // GET: CategoryController/Create
         public ActionResult Create()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             return View();
         }
 
@@ -41,7 +36,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Category cat)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (ModelState.IsValid)
             {
                 try
@@ -69,7 +64,7 @@ namespace shop.Controllers
         // GET: CategoryController/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || id == 0) return NotFound();
             var category = _context.Categories.FirstOrDefault(x => x.Id == id);
             if (category == null) return NotFound();
@@ -82,7 +77,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category category)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (ModelState.IsValid)
             {
                 _context.Categories.Update(category);
@@ -95,32 +90,13 @@ namespace shop.Controllers
 
         }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(cat);
-        //            await _context.SaveChangesAsync();
-        //            TempData["Message"] = "  تم تعديل  الصنف  بنجاح   ";
-        //            TempData["MessageState"] = "1";
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            TempData["Message"] = "  الصنف غير موجود !!!!!!!! ";
-        //            TempData["MessageState"] = "0";
-        //            return RedirectToAction(nameof(Index));
-
-        //        }
-        //    }
-        //    return View(cat);
-        //}
+       
 
 
         // GET: CategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (_context.Categories == null)
             {
                 return Problem("Entity set 'SalesManagerDBContext.Products'  is null.");
@@ -135,19 +111,5 @@ namespace shop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: CategoryController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

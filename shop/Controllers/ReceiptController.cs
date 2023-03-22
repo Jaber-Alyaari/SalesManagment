@@ -20,7 +20,7 @@ namespace shop.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             List<Receipt> ss = _context.Receipts.Include(r=>r.UserAdd).Include(r=>r.UserModifi).ToList();
             return View(ss);
         }
@@ -28,7 +28,7 @@ namespace shop.Controllers
 
         public ActionResult Create()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             Receipt item = new Receipt();
 
             ViewBag.CustomerList = GetCustomers().Concat(GetSuppliers());
@@ -42,8 +42,8 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Receipt rec)
         {
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             ViewBag.CustomerList = GetCustomers().Concat(GetSuppliers());
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
             if (ModelState.IsValid)
             {
                 try
@@ -110,7 +110,7 @@ namespace shop.Controllers
             { return new List<SelectListItem>(); }
         }
 
-        public bool AddJournals(Receipt rec)
+        private bool AddJournals(Receipt rec)
         {
             bool retVal = false;
 
@@ -161,7 +161,7 @@ namespace shop.Controllers
             return retVal;
         }
 
-        public string GetNewRENumber()
+        private string GetNewRENumber()
         {
 
             string ponumber = "";

@@ -30,6 +30,7 @@ namespace shop.Controllers
             if (existUser == null) return View(user);
             HttpContext.Session.SetString("UserName", user.UserName);
             HttpContext.Session.SetString("UserId", existUser.Id.ToString());
+            HttpContext.Session.SetString("UserIsAdmin", existUser.IsAdmin.ToString());
 
             if (existUser.IsAdmin.Value)
                 return RedirectToAction("Index", "Home");

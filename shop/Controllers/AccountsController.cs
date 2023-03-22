@@ -16,7 +16,7 @@ namespace shop.Controllers
         }
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin")!=true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             List<Customer> customer = _context.Customers.Include(c => c.Accounts).ThenInclude(j => j.Journals).ToList();
             foreach (Customer c in customer)
             {
@@ -49,7 +49,7 @@ namespace shop.Controllers
         // GET: Accounts/Details/5
         public ActionResult Details(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             Customer customer;
             try
             {
@@ -90,7 +90,7 @@ namespace shop.Controllers
 
         public ActionResult JournalDetails(int id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             Customer customer = _context.Customers.Where(c => c.Id == id).Include(c => c.Accounts).ThenInclude(j => j.Journals).SingleOrDefault();
 
             foreach (var A in customer.Accounts)
@@ -120,64 +120,5 @@ namespace shop.Controllers
 
         }
 
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Account account)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
-        // GET: Accounts/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Accounts/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Accounts/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Accounts/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

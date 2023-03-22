@@ -88,31 +88,35 @@
                                     <input type="password" asp-for="Password" class="form-control has-feedback-left" placeholder="****">
                                     <span asp-validation-for="Password" class="right text-danger"></span>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
+                                        </div>
+
+                                   @* @if (!Model.IsAdmin.Value)
+                                    {
+                                       
+                                    }*@
+                                    <select  asp-for="StateAcount" class="form-control has-feedback-left">
+                                            <option value=@null> حالة الحساب</option>
+                                            <option value="@false"> تعطيـــــل</option>
+                                            <option value="@true">تفعيـــــل</option>
+                                        </select>
+                                        <span asp-validation-for="StateAcount" class="right text-danger"></span>
+
                                     </div>
-
-
-                                    <select asp-for="StateAcount" class="form-control has-feedback-left">
-                                        <option value=@null> حالة الحساب</option>
-                                        <option value="@Boolean.FalseString"> تعطيـــــل</option>
-                                        <option value="@Boolean.TrueString">تفعيـــــل</option>
-                                    </select>
-                                    <span asp-validation-for="StateAcount" class="right text-danger"></span>
-
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
+                                        </div>
+                                        <select asp-for="IsAdmin" class="form-control has-feedback-left">
+                                            <option value=@null> admin</option>
+                                            <option value="@Boolean.FalseString"> تعطيـــــل</option>
+                                            <option value="@Boolean.TrueString">تفعيـــــل</option>
+                                        </select>
+                                        <span asp-validation-for="IsAdmin" class="right text-danger"></span>
                                     </div>
-                                    <select asp-for="IsAdmin" class="form-control has-feedback-left">
-                                        <option value=@null> admin</option>
-                                        <option value="@Boolean.FalseString"> تعطيـــــل</option>
-                                        <option value="@Boolean.TrueString">تفعيـــــل</option>
-                                    </select>
-                                    <span asp-validation-for="IsAdmin" class="right text-danger"></span>
-                                </div>
+                               
                             </div>
                             <div class="card-footer">
                                 <button type="submit" value="Edit" class="btn btn-info">حفــــــــظ</button>

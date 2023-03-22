@@ -22,7 +22,7 @@ namespace shop.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             Dashboard dashboard = new Dashboard();
             var details = ctx.InvoiceDetails.Include("ProductCodeNavigation").Include("Invoice").Where(m => m.Invoice!.CustomerId > 0);
             var result = details
@@ -53,7 +53,7 @@ namespace shop.Controllers
 
         public IActionResult Privacy()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             return View();
         }
 

@@ -21,7 +21,7 @@ namespace shop.Controllers
         // GET: Suppliers
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             var AllSuppliers = _context.Suppliers.Include(A => A.Accounts);
             return View(await AllSuppliers.ToListAsync());
         }
@@ -29,7 +29,7 @@ namespace shop.Controllers
         // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace shop.Controllers
         // GET: Suppliers/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Address")] Supplier supplier, bool State)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (ModelState.IsValid)
             {
                 try
@@ -98,7 +98,7 @@ namespace shop.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Suppliers == null)
             {
                 TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
@@ -125,7 +125,7 @@ namespace shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Phone,Email,Address")] Supplier supplier, bool State)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id != supplier.Id)
             {
                 TempData["Message"] = "  المورد غير موجود !!!!!!!! ";
@@ -170,7 +170,7 @@ namespace shop.Controllers
         // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("UserName") == null) return RedirectToAction("Index", "Login");
+            if (HttpContext.Session.GetString("UserIsAdmin") != true.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             var sup = await _context.Suppliers.FindAsync(id);
             if (sup != null)
             {
