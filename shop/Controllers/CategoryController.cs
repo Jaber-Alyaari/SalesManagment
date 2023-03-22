@@ -22,7 +22,7 @@ namespace shop.Controllers
             return View(ss);
         }
 
-    
+
         //[HttpGet]
         // GET: CategoryController/Create
         public ActionResult Create()
@@ -90,7 +90,7 @@ namespace shop.Controllers
 
         }
 
-       
+
 
 
         // GET: CategoryController/Delete/5

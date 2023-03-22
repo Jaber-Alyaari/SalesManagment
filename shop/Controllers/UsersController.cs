@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 using SalesManagerDBContext = shop.Models.SalesManagerDBContext;
@@ -88,9 +83,9 @@ namespace shop.Controllers
         }
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UserId") !=id.ToString()) return RedirectToAction("Index", "InvoiceOrder");
+            if (HttpContext.Session.GetString("UserId") != id.ToString()) return RedirectToAction("Index", "InvoiceOrder");
             if (id == null || _context.Users == null)
             {
                 TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";
@@ -99,7 +94,7 @@ namespace shop.Controllers
 
             }
 
-            var usr = await _context.Users.FindAsync(id);
+            var usr = _context.Users.Find(id);
             if (usr == null)
             {
                 TempData["Message"] = "  المستخدم غير موجود !!!!!!!! ";

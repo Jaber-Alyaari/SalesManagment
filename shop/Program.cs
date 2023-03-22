@@ -8,6 +8,7 @@ builder.Services.AddSession(options =>
     //options.IdleTimeout = TimeSpan.FromSeconds(10);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+
 });
 
 builder.Services.AddDbContext<SalesManagerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBcoon")));

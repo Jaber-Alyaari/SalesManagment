@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
 using shop.Models;
 
 namespace shop.Controllers
@@ -40,6 +37,8 @@ namespace shop.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("UserIsAdmin");
             return RedirectToAction("Index");
         }
     }

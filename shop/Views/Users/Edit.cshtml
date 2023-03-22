@@ -90,31 +90,52 @@
                                     <input type="password" asp-for="Password" class="form-control has-feedback-left" placeholder="****">
                                     <span asp-validation-for="Password" class="right text-danger"></span>
                                 </div>
-                                <label>حالة الحساب</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
+                                @if (Context.Session.GetString("UserIsAdmin") == true.ToString())
+                                {
+                                    <label>حالة الحساب</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
+                                        </div>
+                                        <select asp-for="StateAcount" class="form-control has-feedback-left">
+
+                                            <option value="@Boolean.FalseString"> تعطيـــــل</option>
+                                            <option value="@Boolean.TrueString">تفعيـــــل</option>
+                                        </select>
+                                        <span asp-validation-for="StateAcount" class="right text-danger"></span>
+
                                     </div>
-                                    <select asp-for="StateAcount" class="form-control has-feedback-left">
+                                    <label>is Admin</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
+                                        </div>
+                                        <select asp-for="IsAdmin" class="form-control has-feedback-left">
+
+                                            <option value="@Boolean.FalseString"> لا</option>
+                                            <option value="@Boolean.TrueString">نعم</option>
+                                        </select>
+                                        <span asp-validation-for="IsAdmin" class="right text-danger"></span>
+                                    </div>
+                                }
+                                else
+                                {
+
+
+                                    <select asp-for="StateAcount" class="form-control has-feedback-left" hidden>
 
                                         <option value="@Boolean.FalseString"> تعطيـــــل</option>
                                         <option value="@Boolean.TrueString">تفعيـــــل</option>
                                     </select>
-                                    <span asp-validation-for="StateAcount" class="right text-danger"></span>
 
-                                </div>
-                                <label>is Admin</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
-                                    </div>
-                                    <select asp-for="IsAdmin" class="form-control has-feedback-left">
+
+                                    <select asp-for="IsAdmin" class="form-control has-feedback-left" hidden>
 
                                         <option value="@Boolean.FalseString"> لا</option>
                                         <option value="@Boolean.TrueString">نعم</option>
                                     </select>
-                                    <span asp-validation-for="IsAdmin" class="right text-danger"></span>
-                                </div>
+
+                                }
                             </div>
                             <div class="card-footer">
                                 <button type="submit" value="Edit" class="btn btn-info">حفــــــــظ</button>
