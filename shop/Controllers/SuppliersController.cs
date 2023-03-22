@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 
@@ -74,7 +69,7 @@ namespace shop.Controllers
                     int reslt = 0;
                     int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
                     account.UserAdds = reslt;
-                    account.CreateDate=DateTime.Now;    
+                    account.CreateDate = DateTime.Now;
                     _context.Accounts.Add(account);
                     await _context.SaveChangesAsync();
                     TempData["Message"] = "  تمت اضافة   المورد   ";
@@ -146,7 +141,7 @@ namespace shop.Controllers
                     account = _context.Accounts.SingleOrDefault(A => A.SupplierId == supplier.Id);
                     if (account != null)
                     {
-                      
+
                         account.State = State;
                         _context.Accounts.Update(account);
                         await _context.SaveChangesAsync();
@@ -185,7 +180,7 @@ namespace shop.Controllers
 
                 catch
                 {
-                    TempData["Message"] = "   لم يتم الحذف !!!!!!!! ";
+                    TempData["Message"] = "لا يمكن حذف هذا المورد بسبب ارتباطه ببيانات اخرى";
                     TempData["MessageState"] = "0";
                 }
 

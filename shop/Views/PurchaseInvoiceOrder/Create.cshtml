@@ -1,10 +1,10 @@
 ﻿@model shop.Models.Invoice
 
 @{
-    Layout = "_InvoiceLayout";
- 
-        ViewData["Title"] = "انشاء فاتورة مشتريات ";
- 
+    //Layout = "_InvoiceLayout";
+    Layout = "_CashierLayout";
+    ViewData["Title"] = "انشاء فاتورة مشتريات ";
+
 }
 
 
@@ -31,19 +31,19 @@
                 </div>
 
 
-                    <div class="form-group col-2">
-                        <label asp-for="SupplierId" class="control-label"></label>
-                    </div>
-                    <div class="form-group col-3">
-                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierList"></select>
-                        <span asp-validation-for="SupplierId" class="text-danger"></span>
-                    </div>
+                <div class="form-group col-2">
+                    <label asp-for="SupplierId" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierList"></select>
+                    <span asp-validation-for="SupplierId" class="text-danger"></span>
+                </div>
 
-              
+
 
 
                 @* <div class="form-group col-2">
-                </div>*@
+                    </div>*@
 
                 <div class="form-group col-2">
                     <label asp-for="IsDebt" class="control-label"></label>
@@ -64,7 +64,7 @@
                     <label asp-for="Date" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 ">
-                    <input asp-for="Date"  class="form-control" readonly/>
+                    <input asp-for="Date" class="form-control" readonly />
                     <span asp-validation-for="Date" class="text-danger"></span>
                 </div>
 
@@ -104,7 +104,7 @@
                                     </td>
 
                                     <td>
-                                        <input  asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control">
+                                        <input asp-for="@Model.InvoiceDetails[i].ProductCode" type="text" class="form-control">
                                     </td>
 
                                     <td>
@@ -197,8 +197,8 @@
 
                 <div ID="HiddenDiv" style="visibility: hidden;">
                     @* <input asp-for="Date" class="form-control" />
-                    <select asp-for="pr" class="form-control"
-                    asp-items="ViewBag.P"></select>*@
+                        <select asp-for="pr" class="form-control"
+                        asp-items="ViewBag.P"></select>*@
 
 
                     <select id="dropdownUnitNames" class="form-control"

@@ -3,9 +3,10 @@
 
 
 @{
-    Layout = "_InvoiceLayout";
 
-        ViewData["Title"] = " فواتــــــــير المبيعات   ";
+    //Layout = "_InvoiceLayout";
+    Layout = "_CashierLayout";
+    ViewData["Title"] = " فواتــــــــير المبيعات   ";
 
 
     SortModel sortModel = (SortModel)ViewData["sortModel"];
@@ -22,10 +23,10 @@
     <div class="col-2 justify-content-end">
         <p>
 
-            <a asp-action="Create"  class="btn btn-success">فاتورة بيع جديدة</a>
-            
+            <a asp-action="Create" class="btn btn-success">فاتورة بيع جديدة</a>
 
-            
+
+
 
         </p>
     </div>
@@ -51,23 +52,23 @@
             <th>
 
                 <i class="@sortModel.GetColumn("PoNumber").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression" >
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("PoNumber").SortExpression">
                     P.No
                 </a>
             </th>
 
             <th>
                 <i class="@sortModel.GetColumn("Date").SortIcon" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("Date").SortExpression" >
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("Date").SortExpression">
                     @Html.DisplayNameFor(model => model.Date)
                 </a>
             </th>
 
 
             <th>
-        
-                        @Html.DisplayNameFor(model => model.Customer)
-            
+
+                @Html.DisplayNameFor(model => model.Customer)
+
             </th>
 
             <th>
@@ -78,92 +79,94 @@
             </th>
             <th>
                 الخصم
-@*                @Html.DisplayNameFor(model => model.DiscountPercent)
-*@            </th>
+                @*                @Html.DisplayNameFor(model => model.DiscountPercent)
+                *@
+            </th>
             <th>
                 العملة
-@*                @Html.DisplayNameFor(model => model.QuotationNo)
-*@            </th>
-           @* <th>
-                @Html.DisplayNameFor(model => model.QuotationDate)
+                @*                @Html.DisplayNameFor(model => model.QuotationNo)
+                *@
             </th>
+            @* <th>
+                    @Html.DisplayNameFor(model => model.QuotationDate)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Remarks)
-            </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
 
-            @foreach (var item in Model)
-            {
-                if (item.CustomerId == null)
-                    continue;
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PoNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Customer.Name)
+        @foreach (var item in Model)
+        {
+            if (item.CustomerId == null)
+                continue;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PoNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAdd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
+                    *@
+                </td>
+                <td>
+                    @*                    @Html.DisplayFor(modelItem => item.QuotationNo)
+                    *@
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.QuotationDate)
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserAdd)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Remarks)
-                    </td>
-                    <td>
-                        @*                    @Html.DisplayFor(modelItem => item.DiscountPercent)
-                *@
-                    </td>
-                    <td>
-                        @*                    @Html.DisplayFor(modelItem => item.QuotationNo)
-                *@
-                    </td>
-                    @*<td>
-            @Html.DisplayFor(modelItem => item.QuotationDate)
-            </td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>*@
+                <td>
 
-            <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-            </td>*@
-                    <td>
-
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.Id">
-                                <span class="btn btn-sm btn-outline-primary">
-                                    <i class="fa fa-edit" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.Id">
-                                <span class="btn btn-sm btn-outline-dark">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">
-                                <span class="btn btn-sm btn-outline-danger">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </div>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-dark">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <span class="btn btn-sm btn-outline-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
 
 
 
 
-                    </td>
-                </tr>
-          
+                </td>
+            </tr>
+
         }
     </tbody>
 </table>
 
 
- <div class="row">
+<div class="row">
     <div class="col-12">
         <partial name="_bottomBar" model="@pager" />
     </div>
@@ -178,4 +181,4 @@
     }
 }
 
-  
+

@@ -17,7 +17,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item active">تعديل منتج</li>
-                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Product">المنتجات</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Products">المنتجات</a></li>
                     <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 </ol>
             </div><!-- /.col -->
@@ -48,9 +48,9 @@
                     <div class="x_content">
                         <form class="form-horizontal" asp-action="Edit" id="demo-form2" data-parsley-validate>
                             <div class="card-body">
-                                <input asp-for="Code" type="hidden">
-                                <input asp-for="Id" type="hidden">
-
+                                <input asp-for="Code" value="@ViewBag.LastCode" type="hidden">
+                                <input asp-for="Id" value="@ViewBag.LastCode" type="hidden">
+                                <label>الصنف</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-medkit"></i></span>
@@ -58,6 +58,7 @@
                                     <select asp-for="CatId" class="form-control" asp-items="@ViewBag.CategoryList"> </select>
                                     <span asp-validation-for="CatId" class="right text-danger"></span>
                                 </div>
+                                <label>اسم المنتج</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-shopping-cart"></i></span>
@@ -66,6 +67,7 @@
                                     <span asp-validation-for="Name" class="right text-danger"></span>
 
                                 </div>
+                                <label>كمية المنتج</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-shopping-cart"></i></span>
@@ -73,6 +75,7 @@
                                     <input asp-for="Quantity" class="form-control has-feedback-left" placeholder="كمية المنتج">
                                     <span asp-validation-for="Quantity" class="right text-danger"></span>
                                 </div>
+                                <label>سعــــر المنتج</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
@@ -82,12 +85,13 @@
                                     <span asp-validation-for="Price" class="right text-danger"></span>
 
                                 </div>
+                                <label>وحدة المنتج</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
                                     </div>
                                     <input asp-for="Unit" class="form-control has-feedback-left" placeholder="وحدة المنتج">
-                                    <span asp-validation-for="Price" class="right text-danger"></span>
+                                    <span asp-validation-for="Unit" class="right text-danger"></span>
                                 </div>
                             </div>
                             <div class="card-footer">

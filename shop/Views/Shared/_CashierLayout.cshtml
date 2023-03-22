@@ -223,13 +223,31 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
 
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Home"><i class="nav-icon fa fa-chart-area"></i> <p>Dashboard</p></a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Category"><i class="nav-icon fa fa-list"></i> <p>الأصناف</p></a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Products"><i class="nav-icon fa fa-shopping-cart"></i> <p>المنتجات</p></a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Users"><i class="nav-icon fa fa-user"></i> <p>المستخدمين</p></a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="InvoiceOrder"><i class="nav-icon fa fa-file-invoice"></i><p>الفواتير</p> </a></li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-file-invoice"></i>
+                                <p>
+                                    الفواتير
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="PurchaseInvoiceOrder" asp-action="Index"><i class="nav-icon fa fa-building-o"></i>فاتورة شـــراء</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="InvoiceOrder" asp-action="Index"><i class="nav-icon fa fa-building-o"></i>فاتورة بيع</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Receipt"><i class="nav-icon fa fa-receipt"></i><p>السندات</p> </a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Suppliers"><i class="nav-icon fa fa-truck"></i> <p>الموردين</p></a></li>
                         <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Customers"><i class="nav-icon fa fa-shopping-bag"></i> <p>الزبائن</p></a></li>

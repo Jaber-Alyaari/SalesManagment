@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item active">إضافة مستخدم</li>
-                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="User">المستخدمين</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Users">المستخدمين</a></li>
                     <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 </ol>
             </div><!-- /.col -->
@@ -46,17 +46,16 @@
                     <div class="x_content">
                         <form class="form-horizontal" asp-action="Create" id="demo-form2" data-parsley-validate>
                             <div class="card-body">
-
+                                <label>الاسم الكامل</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-
-
                                     <input asp-for="Name" class="form-control has-feedback-left" placeholder="الاسم الكامل ">
                                     <span asp-validation-for="Name" class="right text-danger"></span>
 
                                 </div>
+                                <label>رقم الهاتف</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-fa-phone"></i></span>
@@ -65,6 +64,7 @@
                                     <span asp-validation-for="Phone" class="right text-danger"></span>
 
                                 </div>
+                                <label>الايميل</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -72,6 +72,7 @@
                                     <input asp-for="Email" class="form-control has-feedback-left" placeholder="الايميل">
                                     <span asp-validation-for="Email" class="right text-danger"></span>
                                 </div>
+                                <label>اسم المستخدم</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -79,6 +80,7 @@
                                     <input asp-for="UserName" class="form-control has-feedback-left" placeholder="اسم المستخدم">
                                     <span asp-validation-for="UserName" class="right text-danger"></span>
                                 </div>
+                                <label>الرمز</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user-lock"></i></span>
@@ -86,27 +88,29 @@
                                     <input type="password" asp-for="Password" class="form-control has-feedback-left" placeholder="****">
                                     <span asp-validation-for="Password" class="right text-danger"></span>
                                 </div>
+                                <label>حالة الحساب</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-fa-dollar"></i></span>
                                     </div>
-
-                                    <label > حالة الحساب</label>
                                     <select asp-for="StateAcount" class="form-control has-feedback-left">
-                                        <option value="@false"> تعطيـــــل</option>
-                                        <option value="@true">تفعيـــــل</option>
+
+                                        <option value="@Boolean.FalseString"> تعطيـــــل</option>
+                                        <option value="@Boolean.TrueString">تفعيـــــل</option>
                                     </select>
                                     <span asp-validation-for="StateAcount" class="right text-danger"></span>
 
                                 </div>
+                                <label>is Admin</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-balance-scale"></i></span>
                                     </div>
                                     <label>  مســؤل</label>
                                     <select asp-for="IsAdmin" class="form-control has-feedback-left">
-                                        <option value="@false"> تعطيـــــل</option>
-                                        <option value="@true">تفعيـــــل</option>
+
+                                        <option value="@Boolean.FalseString"> لا</option>
+                                        <option value="@Boolean.TrueString">نعم</option>
                                     </select>
                                     <span asp-validation-for="IsAdmin" class="right text-danger"></span>
                                 </div>
