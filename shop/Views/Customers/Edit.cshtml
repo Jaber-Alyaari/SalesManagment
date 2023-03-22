@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item active">تعديل زبون</li>
-                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Customer">الزبائن</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Customers">الزبائن</a></li>
                     <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 </ol>
             </div><!-- /.col -->
@@ -45,7 +45,7 @@
                     <div class="x_content">
                         <form class="form-horizontal" asp-action="Edit" id="demo-form2" data-parsley-validate>
                             <div class="card-body">
-
+                                <label>الاسم الكامل</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -56,14 +56,16 @@
                                     <span asp-validation-for="Name" class="right text-danger"></span>
 
                                 </div>
+                                <label>رقم الهاتف</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-fa-phone"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                     </div>
                                     <input asp-for="Phone" class="form-control has-feedback-left" placeholder="رقم الهاتف">
                                     <span asp-validation-for="Phone" class="right text-danger"></span>
 
                                 </div>
+                                <label>الايميل</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -71,6 +73,7 @@
                                     <input asp-for="Email" class="form-control has-feedback-left" placeholder="الايميل">
                                     <span asp-validation-for="Email" class="right text-danger"></span>
                                 </div>
+                                <label>العنوان</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-address-card"></i></span>

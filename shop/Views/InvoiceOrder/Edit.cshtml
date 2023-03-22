@@ -1,9 +1,9 @@
 ﻿@model shop.Models.Invoice
 
 @{
-    Layout = "_InvoiceLayout";
- 
-        ViewData["Title"] = "تعديل فاتورة مبيعات ";
+    //Layout = "_InvoiceLayout";
+    Layout = "_CashierLayout";
+    ViewData["Title"] = "تعديل فاتورة مبيعات ";
 }
 
 <div class="card" style="direction:rtl;text-align: right;">
@@ -33,18 +33,18 @@
 
 
 
-                    <div class="form-group col-2">
-                        <label asp-for="CustomerId" class="control-label"></label>
-                    </div>
-                    <div class="form-group col-3">
-                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerList"></select>
-                        <span asp-validation-for="CustomerId" class="text-danger"></span>
-                    </div>
-                
+                <div class="form-group col-2">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                </div>
+                <div class="form-group col-3">
+                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerList"></select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
+
 
 
                 @* <div class="form-group col-2">
-                </div>*@
+                    </div>*@
 
                 <div class="form-group col-2">
                     <label asp-for="IsDebt" class="control-label"></label>
@@ -62,7 +62,7 @@
 
 
                 <div class="form-group col-2 ">
-                    <label asp-for="ModifiDate" class="control-label" ></label>
+                    <label asp-for="ModifiDate" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 ">
                     <input asp-for="ModifiDate" class="form-control" />
@@ -198,8 +198,8 @@
 
                 <div ID="HiddenDiv" style="visibility: hidden;">
                     @* <input asp-for="Date" class="form-control" />
-                    <select asp-for="pr" class="form-control"
-                    asp-items="ViewBag.P"></select>*@
+                        <select asp-for="pr" class="form-control"
+                        asp-items="ViewBag.P"></select>*@
 
 
                     <select id="dropdownUnitNames" class="form-control"

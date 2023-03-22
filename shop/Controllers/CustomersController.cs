@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shop.Models;
 
@@ -71,7 +66,7 @@ namespace shop.Controllers
                     //to creat account for this customer
                     Account account = new Account();
                     int reslt = 0;
-                    int.TryParse( HttpContext.Session.GetString("UserId"),out reslt);
+                    int.TryParse(HttpContext.Session.GetString("UserId"), out reslt);
                     account.UserAdds = reslt;
                     account.CreateDate = DateTime.Now;
                     var _customerid = _context.Customers.Max(A => A.Id);
@@ -186,7 +181,7 @@ namespace shop.Controllers
 
                 catch
                 {
-                    TempData["Message"] = "   لم يتم الحذف !!!!!!!! ";
+                    TempData["Message"] = "لا يمكن حذف هذا الزبون بسبب ارتباطه ببيانات اخرى";
                     TempData["MessageState"] = "0";
                 }
 
