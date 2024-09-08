@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using shop.Extensions;
 using shop.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDistributedMemoryCache();
@@ -22,6 +23,12 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    Seeding seeding = new Seeding(scope.ServiceProvider);
+    seeding.SeedUsers();
 }
 app.UseStaticFiles();
 
